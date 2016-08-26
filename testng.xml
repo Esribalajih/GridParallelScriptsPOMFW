@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="com.esri.test.automation" parallel = "tests">
+  <test name="firefox tests">
+  <parameter name="browser" value="firefox" />
+      <classes>
+      <class name="com.esri.test.auto.testcases.TC01_SigninPage"/>
+    </classes>
+  
+  </test> <!-- Test -->
+ <!--  <test name="ie">
+  <parameter name="browser" value="ie" />
+      <classes>
+      <class name="imageSubmissionPortalTestcases.ImageSubmissionDropdown"/>
+    </classes>
+  
+  </test> Test -->
+  <!--  <test name="firefox">
+  <parameter name="browser" value="firefox" />
+      <classes>
+      <class name="imageSubmissionPortalTestcases.ImageSubmissionDropdown"/>
+    </classes>
+  
+  </test> --> <!-- Test -->
+  </suite> <!-- Suite -->

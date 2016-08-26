@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="1" total="1" passed="0">
+  <reporter-output>
+  </reporter-output>
+  <suite name="com.esri.test.automation" duration-ms="749" started-at="2016-08-26T10:13:08Z" finished-at="2016-08-26T10:13:09Z">
+    <groups>
+    </groups>
+    <test name="firefox tests" duration-ms="749" started-at="2016-08-26T10:13:08Z" finished-at="2016-08-26T10:13:09Z">
+      <class name="com.esri.test.auto.testcases.TC01_SigninPage">
+        <test-method status="PASS" signature="beforeSuite()[pri:0, instance:com.esri.test.auto.testcases.TC01_SigninPage@239963d8]" name="beforeSuite" is-config="true" duration-ms="297" started-at="2016-08-26T15:43:08Z" finished-at="2016-08-26T15:43:08Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeSuite -->
+        <test-method status="PASS" signature="startTestCase()[pri:0, instance:com.esri.test.auto.testcases.TC01_SigninPage@239963d8]" name="startTestCase" is-config="true" duration-ms="0" started-at="2016-08-26T15:43:08Z" finished-at="2016-08-26T15:43:08Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- startTestCase -->
+        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:com.esri.test.auto.testcases.TC01_SigninPage@239963d8]" name="beforeMethod" is-config="true" duration-ms="402" started-at="2016-08-26T15:43:09Z" finished-at="2016-08-26T15:43:09Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method status="FAIL" signature="loginforSuccess(java.lang.String, java.lang.String)[pri:0, instance:com.esri.test.auto.testcases.TC01_SigninPage@239963d8]" name="loginforSuccess" duration-ms="1" started-at="2016-08-26T15:43:09Z" data-provider="fetchdata" finished-at="2016-08-26T15:43:09Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[udhayasundar]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[udy$12345]]>
+              </value>
+            </param>
+          </params>
+          <exception class="java.lang.NullPointerException">
+            <full-stacktrace>
+              <![CDATA[java.lang.NullPointerException
+	at com.esri.test.auto.wrappers.GenericWrappers.VerifyTitle(GenericWrappers.java:222)
+	at com.esri.test.auto.pages.SigninPage.<init>(SigninPage.java:13)
+	at com.esri.test.auto.testcases.TC01_SigninPage.loginforSuccess(TC01_SigninPage.java:23)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:100)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:646)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:811)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1129)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:129)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:112)
+	at org.testng.TestRunner.privateRun(TestRunner.java:746)
+	at org.testng.TestRunner.run(TestRunner.java:600)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:366)
+	at org.testng.SuiteRunner.access$000(SuiteRunner.java:39)
+	at org.testng.SuiteRunner$SuiteWorker.run(SuiteRunner.java:400)
+	at org.testng.internal.thread.ThreadUtil$2.call(ThreadUtil.java:64)
+	at java.util.concurrent.FutureTask.run(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.NullPointerException -->
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- loginforSuccess -->
+        <test-method status="PASS" signature="afterMethod()[pri:0, instance:com.esri.test.auto.testcases.TC01_SigninPage@239963d8]" name="afterMethod" is-config="true" duration-ms="0" started-at="2016-08-26T15:43:09Z" finished-at="2016-08-26T15:43:09Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method status="FAIL" signature="afterSuite()[pri:0, instance:com.esri.test.auto.testcases.TC01_SigninPage@239963d8]" name="afterSuite" is-config="true" duration-ms="0" started-at="2016-08-26T15:43:09Z" finished-at="2016-08-26T15:43:09Z">
+          <exception class="java.lang.NullPointerException">
+            <full-stacktrace>
+              <![CDATA[java.lang.NullPointerException
+	at com.esri.test.auto.wrappers.GenericWrappers.quitBrowser(GenericWrappers.java:746)
+	at com.esri.test.auto.wrappers.ESRIWrappers.afterSuite(ESRIWrappers.java:47)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:100)
+	at org.testng.internal.Invoker.invokeConfigurationMethod(Invoker.java:515)
+	at org.testng.internal.Invoker.invokeConfigurations(Invoker.java:216)
+	at org.testng.internal.Invoker.invokeConfigurations(Invoker.java:143)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:336)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:268)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1264)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1189)
+	at org.testng.TestNG.runSuites(TestNG.java:1104)
+	at org.testng.TestNG.run(TestNG.java:1076)
+	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:126)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:152)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:57)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.NullPointerException -->
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterSuite -->
+      </class> <!-- com.esri.test.auto.testcases.TC01_SigninPage -->
+    </test> <!-- firefox tests -->
+  </suite> <!-- com.esri.test.automation -->
+</testng-results>
