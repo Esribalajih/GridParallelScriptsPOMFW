@@ -1,5 +1,12 @@
 package imageSubmissionPortalTestcases;
 
+import org.testng.annotations.Test;
+
+import com.esri.test.auto.utils.Reporter;
+import com.esri.test.auto.wrappers.GenericWrappers;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -7,56 +14,43 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 
-public class ImageSubmissionDropdown {
-	WebDriver driver;
-@BeforeTest
-	@Parameters("browser")
+public class ImageSubmissionDropdown extends GenericWrappers{
+	
+	protected String browserName;
+	//protected static String testCaseName;
+	//protected static String testDescription;
+	@BeforeSuite
+	 @Parameters("browser")
+	public void beforeSuite() throws FileNotFoundException, IOException {
+		Reporter.startResult();
+		//loadObjects();
+	 }
+		
+	 @BeforeClass
+	   public void beforeClass() {
+		// Reporter.startTestCase();
+		 invokeApp(browserName);
+	  }
+	/* public void startTestCase() {
+			 testCaseName="TC02 Image submission Portal Page (POM)";
+			 testDescription="This is the Image Submission portal";
+		}*/
 
-    public void setup(String browser) throws Exception{
-
-        if(browser.equalsIgnoreCase("firefox")){
-
-              driver = new FirefoxDriver();
-
-        }
-
-        else if(browser.equalsIgnoreCase("chrome")){
-
-            System.setProperty("webdriver.chrome.driver","D:/DEV/ESRI_TEST/com.esri.test.automation/lib/chromedriver.exe");
-            driver = new ChromeDriver();
-
-        }
-
-else if(browser.equalsIgnoreCase("ie")){
-
-            System.setProperty("webdriver.ie.driver","D:/DEV/ESRI_TEST/com.esri.test.automation/lib/IEDriverServer.exe");
-            driver = new InternetExplorerDriver();
-
-        }
-
-        else{
-
-            //If no browser passed throw exception
-
-            throw new Exception("Browser is not correct");
-        }
-            driver.manage().timeouts().implicitlyWait(10, TimeUnit.MILLISECONDS);
-    		driver.manage().window().maximize();
-        }
-
-       @Test(alwaysRun=true, threadPoolSize=3)
+	@Test(alwaysRun=true, threadPoolSize=3)
 	public void ImageSubmissionPortaltest() throws InterruptedException {
-		
-		
-		
 		try {
-			driver.get("http://www.esri.com/events/image-submissions#/home");
+			//driver.get("http://www.esri.com/events/image-submissions#/home");
 		} catch (Exception e) {
 			System.out.println("The exception occured"+e);
 		}
@@ -84,14 +78,13 @@ else if(browser.equalsIgnoreCase("ie")){
 		Thread.sleep(100);
 		driver.findElement(By.xpath("//*[@id='bodyColumnSingle']/div/div/div/div[2]/div/div[1]/h3"));
 		System.out.println("The title Matches");
-		
-
 	}
-@AfterTest
-public void quitBrowser() throws Throwable{
-	
-	
-	driver.quit();
+       
+       @AfterSuite
+       public void afterSuite() throws Throwable {
+         	Reporter.endResult();
+         	quitBrowser();
+
 	
 	
 }

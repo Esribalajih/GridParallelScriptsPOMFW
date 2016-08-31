@@ -12,6 +12,9 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Platform;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -25,12 +28,12 @@ import com.esri.test.auto.utils.Reporter;
  */
 public class GenericWrappers {
 	
-	protected static RemoteWebDriver driver;
+	public RemoteWebDriver driver;
 	protected static Properties prop;
 	public String sUrl,primaryWindowHandles,sHubUrl,sHubPort;
 	private String primaryWindowHandle;
 	private String ANY;
-	
+	//protected static WebDriver driver;
 	public GenericWrappers(){
 		Properties prop = new Properties();
 		try {
@@ -50,40 +53,63 @@ public class GenericWrappers {
 	/**This method is to Invoke the Browser
 	 * @author balajih
 	 * @param browser
+	 * 
 	 */
 	public void invokeApp(String browser){
 		boolean bReturn=false;
 		
-		DesiredCapabilities dc = new DesiredCapabilities();
-		dc.setBrowserName(browser);
-		dc.setPlatform(Platform.WINDOWS);
-		//dc.setVersion(ANY);
-		/*if (context.getCurrentXmlTest().getParameter("browser").equals("firefox")) { 
-			  DesiredCapabilities capability = DesiredCapabilities.firefox();  
-			        driver = new RemoteWebDriver(new URL("http://"+ipAddress+":4444/wd/hub"),capability);
-					driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-					driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		
+	
+		if (browser.equals("firefox")) { 
+			  try {
+				DesiredCapabilities dc = DesiredCapabilities.firefox();  
+				       // driver = new RemoteWebDriver(new URL("http://red-app-jen-p01.esri.com:4444/wd/hub"), dc);
+						driver = new RemoteWebDriver(new URL("https://"+ sHubUrl +":"+ sHubPort +"/wd/hub"),dc);
+						driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+						driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+			} catch (MalformedURLException e) {
+				
+				e.printStackTrace();
+			}
 					} 
-					else if (context.getCurrentXmlTest().getParameter("browser").equals("chrome")){   
-					DesiredCapabilities capability = DesiredCapabilities.chrome();
-					driver = new RemoteWebDriver(new URL("http://"+ipAddress+":4444/wd/hub"),capability);
-					driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-					driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+					else if (browser.equals("chrome")){   
+					DesiredCapabilities dc = DesiredCapabilities.chrome();
+					try {
+						//driver = new RemoteWebDriver(new URL("http://red-app-jen-p01.esri.com:4444/wd/hub"), dc);
+						driver = new RemoteWebDriver(new URL("https://"+ sHubUrl +":"+ sHubPort +"/wd/hub"),dc);
+						driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+						driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+					} catch (MalformedURLException e) {
+						
+						e.printStackTrace();
 					}
-					else if (context.getCurrentXmlTest().getParameter("browser").equals("IE")) {   
-					DesiredCapabilities capability = DesiredCapabilities.internetExplorer();
-					driver = new RemoteWebDriver(new URL("http://"+ipAddress+":4444/wd/hub"),capability);  
-			        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-					driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS); 
+					}
+					else if (browser.equals("ie")) {   
+					DesiredCapabilities dc = DesiredCapabilities.internetExplorer();
+					try {
+						//driver = new RemoteWebDriver(new URL("http://red-app-jen-p01.esri.com:4444/wd/hub"), dc);
+						driver = new RemoteWebDriver(new URL("https://"+ sHubUrl +":"+ sHubPort +"/wd/hub"),dc);
+						driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+						driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+					} catch (MalformedURLException e) {
+						
+						e.printStackTrace();
+					} 
 					}  
 					else {                       
 			        System.out.println("Not able to set Driver object");                
-			        } */
+			        } 
 			try {
-				driver = new RemoteWebDriver(new URL("https://"+ sHubUrl +":"+ sHubPort +"/wd/hub"),dc);
-				driver.manage().window().maximize();
-				driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-				driver.get(sUrl);
+				//WebDriver driver = new RemoteWebDriver(new URL("https://"+ sHubUrl +":"+ sHubPort +"/wd/hub"),dc);
+				//driver = new FirefoxDriver();
+				
+				
+				//System.setProperty("webdriver.chrome.driver", "D:/DEV/ESRI_TEST/com.esri.test.automation/lib/chromedriver.exe");
+				//driver = new ChromeDriver();
+			//	driver.manage().window().maximize();
+			//	driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+				//driver.get("https://accounts-stg.esri.com/");
+			//	driver.get(sUrl);
 				
 				primaryWindowHandle = driver.getWindowHandle();
 				
@@ -733,6 +759,65 @@ public class GenericWrappers {
 		}
 		return bReturn;
 	}
+	/**This method is used to switch the frame with id
+     * @author balajih
+     * @param data
+     * @return
+     * @throws Throwable
+     */
+    public boolean switchToFrameByID(String data) throws Throwable{
+        boolean bReturn = false;
+        try {
+driver.switchTo().frame(driver.findElement(By.id(data)));
+			Reporter.reportStep("Frame switched successfully", "PASS");
+                bReturn = true;
+        } catch (Exception e) {
+            Reporter.reportStep("Frame not switched successfully", "FAIL");
+        }
+        return bReturn;
+    }
+
+
+
+    /**This method is used to sleep for the given seconds
+     * @author balajih
+     * @param data
+     * @return
+     * @throws Throwable
+     */
+    public void waitForPageLoad(long seconds){
+    try {
+        Thread.sleep(seconds*1000);
+    } catch (Exception e) {
+    
+        e.printStackTrace();
+    }
+    }
+
+
+    /**This method is used to switch the frame with id
+     * @author balajih
+     * @param data
+     * @return
+     * @throws Throwable
+     */
+    public String switchToWindow() throws Throwable{
+        //boolean bReturn = false;
+        String currentWin = null;
+        try {
+                 currentWin = driver.getWindowHandle();
+                for(String newWindow : driver.getWindowHandles()){
+                    driver.switchTo().window(newWindow);
+                }
+            //bReturn = true;
+        } catch (Exception e) {
+            Reporter.reportStep("Winodw not switched successfully", "FAIL");
+        }
+        return currentWin;
+    }
+
+
+
 	/**This method is to quit the current Browser opened for testing
 	 * @author balajih
 	 * @throws Throwable
@@ -743,7 +828,7 @@ public class GenericWrappers {
 		driver.quit();
 		
 		} catch (Throwable e) {
-			Reporter.reportStep("The Browser" + driver.getCapabilities().getBrowserName()+ "could not be closed", "FAIL");
+			Reporter.reportStep("The Browser" + ((RemoteWebDriver) driver).getCapabilities().getBrowserName()+ " could not be closed", "FAIL");//Changed -  "" + driver.getCapabilities().getBrowserName()+ ""
 			e.printStackTrace();
 		}
 	}
