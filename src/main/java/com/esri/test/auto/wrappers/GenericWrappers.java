@@ -53,9 +53,10 @@ public class GenericWrappers {
 	/**This method is to Invoke the Browser
 	 * @author balajih
 	 * @param browser
+	 * @throws Throwable 
 	 * 
 	 */
-	public void invokeApp(String browser){
+	public void invokeApp(String browser) throws Throwable{
 		boolean bReturn=false;
 		
 		
@@ -67,9 +68,11 @@ public class GenericWrappers {
 						driver = new RemoteWebDriver(new URL("https://"+ sHubUrl +":"+ sHubPort +"/wd/hub"),dc);
 						driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
 						driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+						Reporter.reportStep("The Browser"+ browser +" launched Successfully", "PASS");
 			} catch (MalformedURLException e) {
 				
 				e.printStackTrace();
+				Reporter.reportStep("The Browser"+ browser +" could not be launched Successfully", "FAIL");
 			}
 					} 
 					else if (browser.equals("chrome")){   
@@ -79,9 +82,11 @@ public class GenericWrappers {
 						driver = new RemoteWebDriver(new URL("https://"+ sHubUrl +":"+ sHubPort +"/wd/hub"),dc);
 						driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
 						driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+						Reporter.reportStep("The Browser"+ browser +" launched Successfully", "PASS");
 					} catch (MalformedURLException e) {
 						
 						e.printStackTrace();
+						Reporter.reportStep("The Browser"+ browser +" could not be launched Successfully", "FAIL");
 					}
 					}
 					else if (browser.equals("ie")) {   
@@ -91,13 +96,16 @@ public class GenericWrappers {
 						driver = new RemoteWebDriver(new URL("https://"+ sHubUrl +":"+ sHubPort +"/wd/hub"),dc);
 						driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
 						driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+						Reporter.reportStep("The Browser"+ browser +" launched Successfully", "PASS");
 					} catch (MalformedURLException e) {
 						
 						e.printStackTrace();
+						Reporter.reportStep("The Browser"+ browser +" could not be launched Successfully", "FAIL");
 					} 
 					}  
 					else {                       
-			        System.out.println("Not able to set Driver object");                
+			        System.out.println("Not able to set Driver object");  
+			        Reporter.reportStep("The Browser"+ browser +" could not be launched Successfully", "FAIL");
 			        } 
 			try {
 				//WebDriver driver = new RemoteWebDriver(new URL("https://"+ sHubUrl +":"+ sHubPort +"/wd/hub"),dc);

@@ -12,8 +12,8 @@ import com.esri.test.auto.pages.SigninPage;
 public class TC01_SigninPage extends com.esri.test.auto.wrappers.ESRIWrappers{
 	 @BeforeClass
 	  public void startTestCase() {
-		 browserName="chrome";
-		 dataSheetName="TC01_Signin";
+		 
+		 dataSheetName="Signin";
 		 testCaseName="TC01 Signin (POM)";
 		 testDescription="Login to ESRI Application using POM";
 	  }

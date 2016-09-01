@@ -38,4 +38,38 @@ public class SigninPage extends ESRIWrappers{
 			clickById(prop.getProperty("Signin.Signinbtn.Id"));
 			return this;
 		}
+		// Click facebook Sign in button
+		public FacebookSigninPage clickFacebooklink() throws Throwable {
+			try {
+				switchToFrameByID(prop.getProperty("signin.loginFrame.Id"));
+				clickById(prop.getProperty("Signin.loginFacebook.Id"));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return new FacebookSigninPage();
+		}
+
+		// Click google Sign in button
+		public GoogleSigninPage clickGooglelink() throws Throwable {
+			try {
+				switchToFrameByID(prop.getProperty("signin.loginFrame.Id"));
+				clickById(prop.getProperty("Signin.loginGoogle.Id"));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return new GoogleSigninPage();
+		}
+		
+		public CreateAccountPage clickCreateAccount() throws Throwable{
+			try {
+				clickById(prop.getProperty("createAcc.menu.Id"));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return new CreateAccountPage();
+		}
+		
 }

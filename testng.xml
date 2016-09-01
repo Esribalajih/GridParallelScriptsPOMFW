@@ -7,4 +7,12 @@
       <class name="imageSubmissionPortalTestcases.ImageSubmissionDropdown"/>
     </classes>
      </test> <!-- ImageSubmissionPortal -->
+     <!-- <test name='FW-ISP'>
+    <parameter name="browser" value="firefox"/>
+    <classes>
+    <class name="com.esri.test.auto.testcases.TC02_ImageSubPortalPage1"/>
+    <class name="com.esri.test.auto.testcases.TC03_ImageSubPortalPermissionPage"/>
+    <class name="com.esri.test.auto.testcases.TC04_ImageSubPortalVerify"/>
+    </classes>
+    </test> -->
 </suite> <!-- Suite -->

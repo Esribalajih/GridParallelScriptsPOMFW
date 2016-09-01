@@ -14,7 +14,7 @@ import com.esri.test.auto.utils.Reporter;
 public class ESRIWrappers extends com.esri.test.auto.wrappers.GenericWrappers{
 	
 	protected String browserName;
-	protected String dataSheetName;
+	public String dataSheetName;
 	protected static String testCaseName;
 	protected static String testDescription;
 	
@@ -27,7 +27,11 @@ public class ESRIWrappers extends com.esri.test.auto.wrappers.GenericWrappers{
 	 @BeforeMethod
 	  public void beforeMethod() {
 		 Reporter.startTestCase();
-		 invokeApp(browserName);
+		 try {
+			invokeApp(browserName);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 	  }
 
    @DataProvider(name="fetchdata")

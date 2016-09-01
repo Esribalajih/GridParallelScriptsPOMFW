@@ -1,0 +1,283 @@
+[1mdiff --git a/data/TC01_Signin.xlsx b/data/TC01_Signin.xlsx[m
+[1mdeleted file mode 100644[m
+[1mindex 9638990..0000000[m
+Binary files a/data/TC01_Signin.xlsx and /dev/null differ
+[1mdiff --git a/data/TC02_ImageSubPortal.xlsx b/data/TC02_ImageSubPortal.xlsx[m
+[1mdeleted file mode 100644[m
+[1mindex 1930dd4..0000000[m
+Binary files a/data/TC02_ImageSubPortal.xlsx and /dev/null differ
+[1mdiff --git a/data/TC02_Signin_Facebook.xlsx b/data/TC02_Signin_Facebook.xlsx[m
+[1mdeleted file mode 100644[m
+[1mindex e5e8b4e..0000000[m
+Binary files a/data/TC02_Signin_Facebook.xlsx and /dev/null differ
+[1mdiff --git a/data/TC03_CreateAccountPage.xlsx b/data/TC03_CreateAccountPage.xlsx[m
+[1mdeleted file mode 100644[m
+[1mindex ff9dc73..0000000[m
+Binary files a/data/TC03_CreateAccountPage.xlsx and /dev/null differ
+[1mdiff --git a/data/TC03_Signin_Google.xlsx b/data/TC03_Signin_Google.xlsx[m
+[1mdeleted file mode 100644[m
+[1mindex c14f687..0000000[m
+Binary files a/data/TC03_Signin_Google.xlsx and /dev/null differ
+[1mdiff --git a/src/main/java/com/esri/test/auto/pages/GoogleSigninPage.java b/src/main/java/com/esri/test/auto/pages/GoogleSigninPage.java[m
+[1mdeleted file mode 100644[m
+[1mindex cacdfa4..0000000[m
+[1m--- a/src/main/java/com/esri/test/auto/pages/GoogleSigninPage.java[m
+[1m+++ /dev/null[m
+[36m@@ -1,74 +0,0 @@[m
+[31m-package com.esri.test.auto.pages;[m
+[31m-[m
+[31m-import com.esri.test.auto.utils.Reporter;[m
+[31m-import com.esri.test.auto.wrappers.ESRIWrappers;[m
+[31m-[m
+[31m-/**[m
+[31m- * This is the Sigin Page of ESRI Application[m
+[31m- * [m
+[31m- * @author balajih[m
+[31m- *[m
+[31m- */[m
+[31m-public class GoogleSigninPage extends ESRIWrappers {[m
+[31m-[m
+[31m-	public GoogleSigninPage() throws Throwable {[m
+[31m-		waitForPageLoad(5);[m
+[31m-		System.out.println("Sign in - Google Accounts");[m
+[31m-		if (!VerifyTitle("Sign in - Google Accounts")) {[m
+[31m-			Reporter.reportStep("This is not a login page", "FAIL");[m
+[31m-		}[m
+[31m-	}[m
+[31m-[m
+[31m-	// Enter the UserName[m
+[31m-	public GoogleSigninPage enterUserName(String userdata) throws Throwable {[m
+[31m-		waitForPageLoad(5);[m
+[31m-		try {[m
+[31m-			switchToWindow();[m
+[31m-			System.out.println("Window switched");[m
+[31m-			enterbyId(prop.getProperty("gleSignin.userName.id"), userdata);[m
+[31m-		} catch (Exception e) {[m
+[31m-			// TODO Auto-generated catch block[m
+[31m-			e.printStackTrace();[m
+[31m-		}[m
+[31m-		return this;[m
+[31m-	}[m
+[31m-[m
+[31m-	[m
+[31m-	// Enter the UserName[m
+[31m-		public GoogleSigninPage clickNextBtn() throws Throwable {[m
+[31m-			waitForPageLoad(5);[m
+[31m-			try {[m
+[31m-				clickById(prop.getProperty("gleSignin.nextBtn.id"));[m
+[31m-			} catch (Exception e) {[m
+[31m-				// TODO Auto-generated catch block[m
+[31m-				e.printStackTrace();[m
+[31m-			}[m
+[31m-			return this;[m
+[31m-		}[m
+[31m-	[m
+[31m-	// Enter the Password[m
+[31m-	public GoogleSigninPage enterPassword(String pwd) throws Throwable {[m
+[31m-		try {[m
+[31m-			enterbyId(prop.getProperty("gleSignin.password.id"), pwd);[m
+[31m-		} catch (Exception e) {[m
+[31m-			// TODO Auto-generated catch block[m
+[31m-			e.printStackTrace();[m
+[31m-		}[m
+[31m-		return this;[m
+[31m-	}[m
+[31m-[m
+[31m-	// Click Sign in button positive scenario[m
+[31m-	public HomePage clickSignInBtn() throws Throwable {[m
+[31m-		try {[m
+[31m-			clickById(prop.getProperty("gleSignin.signInBtn.id"));[m
+[31m-			} catch (Exception e) {[m
+[31m-			// TODO Auto-generated catch block[m
+[31m-			e.printStackTrace();[m
+[31m-		}[m
+[31m-		return new HomePage();[m
+[31m-	}[m
+[31m-[m
+[31m-	[m
+[31m-	[m
+[31m-	[m
+[31m-}[m
+[1mdiff --git a/src/main/java/com/esri/test/auto/pages/HomePage.java b/src/main/java/com/esri/test/auto/pages/HomePage.java[m
+[1mdeleted file mode 100644[m
+[1mindex da316d6..0000000[m
+[1m--- a/src/main/java/com/esri/test/auto/pages/HomePage.java[m
+[1m+++ /dev/null[m
+[36m@@ -1,11 +0,0 @@[m
+[31m-package com.esri.test.auto.pages;[m
+[31m-[m
+[31m-import com.esri.test.auto.wrappers.ESRIWrappers;[m
+[31m-[m
+[31m-/**[m
+[31m- * @author balajih[m
+[31m- *[m
+[31m- */[m
+[31m-public class HomePage extends ESRIWrappers {[m
+[31m-[m
+[31m-}[m
+[1mdiff --git a/src/main/java/com/esri/test/auto/pages/ImageSubPortalPermissionPage.java b/src/main/java/com/esri/test/auto/pages/ImageSubPortalPermissionPage.java[m
+[1mdeleted file mode 100644[m
+[1mindex 0535228..0000000[m
+[1m--- a/src/main/java/com/esri/test/auto/pages/ImageSubPortalPermissionPage.java[m
+[1m+++ /dev/null[m
+[36m@@ -1,37 +0,0 @@[m
+[31m-package com.esri.test.auto.pages;[m
+[31m-[m
+[31m-import com.esri.test.auto.utils.Reporter;[m
+[31m-import com.esri.test.auto.wrappers.ESRIWrappers;[m
+[31m-[m
+[31m-/**This is the Image submission portal permission page[m
+[31m- * @author balajih[m
+[31m- *[m
+[31m- */[m
+[31m-public class ImageSubPortalPermissionPage extends ESRIWrappers {[m
+[31m-	[m
+[31m-	public ImageSubPortalPermissionPage() throws Throwable {[m
+[31m-		if(!VerifyTitle("Copyright Permission and Release Form")){[m
+[31m-			Reporter.reportStep("This is not a Image Submission Permission Page", "FAIL");[m
+[31m-		}[m
+[31m-		[m
+[31m-	}[m
+[31m-		public ImageSubPortalPermissionPage verifyPermissiontitle(String pTitle)throws Throwable{[m
+[31m-			VerifyTextbyXpath(prop.getProperty("imagesub.VerifyPage2Title.xpath"),pTitle);[m
+[31m-			return this;[m
+[31m-		}[m
+[31m-		public ImageSubPortalPermissionPage clickAgreementchkbox() throws Throwable{[m
+[31m-			clickbyXpath(prop.getProperty("imagesub.CheckAgreement.xpath"));[m
+[31m-			return this;[m
+[31m-		}[m
+[31m-		[m
+[31m-		public ImageSubPortalVerify clickContinueBtn() throws Throwable{[m
+[31m-			clickbyXpath(prop.getProperty("imagesub.Continuebutton.xpath"));[m
+[31m-			return new ImageSubPortalVerify();[m
+[31m-		}[m
+[31m-		[m
+[31m-		public ImageSubPortalPermissionPage clickBackBtn() throws Throwable{[m
+[31m-			clickbyXpath(prop.getProperty("imagesub.Backbutton.xpath"));[m
+[31m-			return this;[m
+[31m-		}[m
+[31m-}[m
+[31m-[m
+[1mdiff --git a/src/main/java/com/esri/test/auto/pages/ImageSubPortalVerify.java b/src/main/java/com/esri/test/auto/pages/ImageSubPortalVerify.java[m
+[1mdeleted file mode 100644[m
+[1mindex 83b3433..0000000[m
+[1m--- a/src/main/java/com/esri/test/auto/pages/ImageSubPortalVerify.java[m
+[1m+++ /dev/null[m
+[36m@@ -1,24 +0,0 @@[m
+[31m-package com.esri.test.auto.pages;[m
+[31m-[m
+[31m-import com.esri.test.auto.utils.Reporter;[m
+[31m-import com.esri.test.auto.wrappers.ESRIWrappers;[m
+[31m-[m
+[31m-/**This is Image submission portal page to verify the submission[m
+[31m- * @author balajih[m
+[31m- *[m
+[31m- */[m
+[31m-public class ImageSubPortalVerify extends ESRIWrappers {[m
+[31m-	[m
+[31m-	public ImageSubPortalVerify() throws Throwable{[m
+[31m-		if(!VerifyTitle("Do any of the images include identifiable people?")){[m
+[31m-			Reporter.reportStep("This is not a Image submission Verification page", "FAIL");[m
+[31m-		}[m
+[31m-	}[m
+[31m-	[m
+[31m-	public ImageSubPortalVerify verifyImagesubPortalTitle (String p3Title) throws Throwable{[m
+[31m-		VerifyTextbyXpath(prop.getProperty("imagesub.verifyPage3Title.xpath"),p3Title);[m
+[31m-		return this;[m
+[31m-		[m
+[31m-	}[m
+[31m-[m
+[31m-}[m
+[1mdiff --git a/src/main/java/com/esri/test/auto/testcases/TC03_CreateAccountPage.java b/src/main/java/com/esri/test/auto/testcases/TC03_CreateAccountPage.java[m
+[1mdeleted file mode 100644[m
+[1mindex 2f11ec9..0000000[m
+[1m--- a/src/main/java/com/esri/test/auto/testcases/TC03_CreateAccountPage.java[m
+[1m+++ /dev/null[m
+[36m@@ -1,25 +0,0 @@[m
+[31m-package com.esri.test.auto.testcases;[m
+[31m-[m
+[31m-import org.testng.annotations.BeforeClass;[m
+[31m-import org.testng.annotations.Test;[m
+[31m-[m
+[31m-import com.esri.test.auto.wrappers.ESRIWrappers;[m
+[31m-[m
+[31m-/**[m
+[31m- * @author balajih[m
+[31m- *[m
+[31m- */[m
+[31m-public class TC03_CreateAccountPage extends ESRIWrappers{[m
+[31m-	[m
+[31m-	@BeforeClass[m
+[31m-	public void startTestCase(){[m
+[31m-		 dataSheetName="TC03_CreateAccountPage";[m
+[31m-		 testCaseName="TC03 Create Account (POM)";[m
+[31m-		 testDescription="Account Creation using POM";[m
+[31m-	}[m
+[31m-	@Test(dataProvider="fetchdata")[m
+[31m-	public void createaccount()[m
+[31m-	{[m
+[31m-		[m
+[31m-	}[m
+[31m-}[m
+[1mdiff --git a/src/main/java/com/esri/test/auto/utils/DataInputProvider.java b/src/main/java/com/esri/test/auto/utils/DataInputProvider.java[m
+[1mdeleted file mode 100644[m
+[1mindex f7fe3e1..0000000[m
+[1m--- a/src/main/java/com/esri/test/auto/utils/DataInputProvider.java[m
+[1m+++ /dev/null[m
+[36m@@ -1,56 +0,0 @@[m
+[31m-package com.esri.test.auto.utils;[m
+[31m-[m
+[31m-import java.io.File;[m
+[31m-import java.io.FileInputStream;[m
+[31m-import java.io.FileNotFoundException;[m
+[31m-import java.io.IOException;[m
+[31m-[m
+[31m-import org.apache.poi.xssf.usermodel.XSSFRow;[m
+[31m-import org.apache.poi.xssf.usermodel.XSSFSheet;[m
+[31m-import org.apache.poi.xssf.usermodel.XSSFWorkbook;[m
+[31m-[m
+[31m-/**This is to read the test data from the workbook[m
+[31m- * @author balajih[m
+[31m- *[m
+[31m- */[m
+[31m-public class DataInputProvider  extends com.esri.test.auto.wrappers.GenericWrappers{[m
+[31m-	[m
+[31m-	public static String[][] getSheet(String dataSheetName) throws IOException{[m
+[31m-		String[][] data=null;[m
+[31m-		[m
+[31m-		try {[m
+[31m-			FileInputStream fis = new FileInputStream(new File("D:/DEV/ESRI_TEST/com.esri.test.automation/data/"+dataSheetName+".xlsx"));[m
+[31m-			XSSFWorkbook workbook = new XSSFWorkbook(fis);[m
+[31m-			XSSFSheet sheet = workbook.getSheetAt(0);[m
+[31m-			int rowCount = sheet.getLastRowNum();[m
+[31m-			int columnCount = sheet.getRow(0).getLastCellNum();[m
+[31m-			data = new String[rowCount][columnCount];[m
+[31m-			try {[m
+[31m-				for (int i = 1; i<rowCount+1;i++){[m
+[31m-					XSSFRow row = sheet.getRow(i);[m
+[31m-					for (int j=0;j<columnCount;j++){[m
+[31m-						try {[m
+[31m-							String cellValue = "";[m
+[31m-							try {[m
+[31m-								cellValue = row.getCell(j).getStringCellValue();[m
+[31m-							} catch (NullPointerException e) {[m
+[31m-								e.printStackTrace();[m
+[31m-							}[m
+[31m-							data[i-1][j]=cellValue;[m
+[31m-						} catch (Exception e) {[m
+[31m-							e.printStackTrace();[m
+[31m-						}[m
+[31m-					}[m
+[31m-				}[m
+[31m-			} catch (Exception e) {[m
+[31m-				e.printStackTrace();[m
+[31m-			}[m
+[31m-			workbook.close();[m
+[31m-			fis.close();[m
+[31m-		} catch (FileNotFoundException e) {[m
+[31m-			e.printStackTrace();[m
+[31m-		}[m
+[31m-		return data;[m
+[31m-	}[m
+[31m-[m
+[31m-}[m
