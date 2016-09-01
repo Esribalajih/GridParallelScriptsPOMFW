@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite guice-stage="DEVELOPMENT" name="Failed suite [com.esri.test.automation]" parallel="tests">
-  <parameter name="browser" value="firefox"/>
-  <test name="firefox tests(failed)" parallel="tests">
-    <parameter name="browser" value="firefox"/>
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Suite]" parallel="tests">
+  <parameter name="browser" value="ie"/>
+  <test name="ImageSubmissionPortal(failed)" parallel="tests">
+    <parameter name="browser" value="ie"/>
     <classes>
-      <class name="com.esri.test.auto.testcases.TC01_SigninPage">
+      <class name="imageSubmissionPortalTestcases.ImageSubmissionDropdown">
         <methods>
-          <include name="startTestCase"/>
-          <include name="beforeMethod"/>
-          <include name="beforeSuite"/>
-          <include name="loginforSuccess" invocation-numbers="0"/>
-          <include name="afterMethod"/>
-          <include name="afterSuite"/>
+          <include name="ImageSubmissionPortaltest"/>
+          <include name="quitBrowser"/>
+          <include name="setup"/>
         </methods>
-      </class> <!-- com.esri.test.auto.testcases.TC01_SigninPage -->
+      </class> <!-- imageSubmissionPortalTestcases.ImageSubmissionDropdown -->
     </classes>
-  </test> <!-- firefox tests(failed) -->
-</suite> <!-- Failed suite [com.esri.test.automation] -->
+  </test> <!-- ImageSubmissionPortal(failed) -->
+</suite> <!-- Failed suite [Suite] -->

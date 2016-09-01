@@ -16,6 +16,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
@@ -28,7 +29,7 @@ import com.esri.test.auto.utils.Reporter;
  */
 public class GenericWrappers {
 	
-	public RemoteWebDriver driver;
+	public static WebDriver driver;
 	protected static Properties prop;
 	public String sUrl,primaryWindowHandles,sHubUrl,sHubPort;
 	private String primaryWindowHandle;
@@ -64,9 +65,10 @@ public class GenericWrappers {
 		if (browser.equals("firefox")) { 
 			  try {
 				DesiredCapabilities dc = DesiredCapabilities.firefox();  
+					dc.setCapability(CapabilityType.BROWSER_NAME, browser);
 				       // driver = new RemoteWebDriver(new URL("http://red-app-jen-p01.esri.com:4444/wd/hub"), dc);
 						driver = new RemoteWebDriver(new URL("https://"+ sHubUrl +":"+ sHubPort +"/wd/hub"),dc);
-						driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+					//	driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
 						driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 						Reporter.reportStep("The Browser"+ browser +" launched Successfully", "PASS");
 			} catch (MalformedURLException e) {
@@ -77,10 +79,11 @@ public class GenericWrappers {
 					} 
 					else if (browser.equals("chrome")){   
 					DesiredCapabilities dc = DesiredCapabilities.chrome();
+					dc.setCapability(CapabilityType.BROWSER_NAME, browser);
 					try {
 						//driver = new RemoteWebDriver(new URL("http://red-app-jen-p01.esri.com:4444/wd/hub"), dc);
 						driver = new RemoteWebDriver(new URL("https://"+ sHubUrl +":"+ sHubPort +"/wd/hub"),dc);
-						driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+					//	driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
 						driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 						Reporter.reportStep("The Browser"+ browser +" launched Successfully", "PASS");
 					} catch (MalformedURLException e) {
@@ -91,10 +94,11 @@ public class GenericWrappers {
 					}
 					else if (browser.equals("ie")) {   
 					DesiredCapabilities dc = DesiredCapabilities.internetExplorer();
+					dc.setCapability(CapabilityType.BROWSER_NAME, browser);
 					try {
 						//driver = new RemoteWebDriver(new URL("http://red-app-jen-p01.esri.com:4444/wd/hub"), dc);
 						driver = new RemoteWebDriver(new URL("https://"+ sHubUrl +":"+ sHubPort +"/wd/hub"),dc);
-						driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+					//	driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
 						driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 						Reporter.reportStep("The Browser"+ browser +" launched Successfully", "PASS");
 					} catch (MalformedURLException e) {
@@ -253,7 +257,7 @@ public class GenericWrappers {
 	 */
 	public boolean VerifyTitle(String title) throws Throwable {
 		boolean bReturn=false;
-		if(driver.getTitle().equalsIgnoreCase(title)){
+		if(driver.getTitle().trim().equalsIgnoreCase(title)){
 			try {
 				Reporter.reportStep("The title of the page"+title+" is matching successfully", "PASS");
 				bReturn=true;

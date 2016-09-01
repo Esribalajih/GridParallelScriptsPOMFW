@@ -5,8 +5,11 @@ package com.esri.test.auto.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import org.apache.commons.io.FileUtils;import org.openqa.selenium.OutputType;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -23,7 +26,7 @@ public class Reporter extends com.esri.test.auto.wrappers.ESRIWrappers {
 	
 	private static ExtentTest test;
 	private static ExtentReports extent;
-	private static WebDriver driver;
+//	private static WebDriver driver;
 	//private static String testCaseName;
 	//private static String testDescription;
 	
@@ -32,14 +35,15 @@ public class Reporter extends com.esri.test.auto.wrappers.ESRIWrappers {
 		 long number = (long) Math.floor(Math.random()* 900000000L) + 10000000L;
 		 
 		 try {
-			FileUtils.copyFile((((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE)), new File("./reports/images/"+number+".jpg"));
+			 File srcFile = (((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE));
+			FileUtils.copyFile(srcFile, new File("./reports/images/"+number+".jpg"));
 		} catch (WebDriverException e) {
 			e.printStackTrace();
 			
 			if(status.toUpperCase().equals("PASS")){
-				test.log(LogStatus.PASS, desc+test.addScreenCapture("./reports/images/"+number+".jpg"));
+				test.log(LogStatus.PASS, desc+test.addScreenCapture("./images/"+number+".jpg"));
 			}else if(status.toUpperCase().equals("FAIL")){
-				test.log(LogStatus.FAIL, desc+test.addScreenCapture("./reports/images/"+number+".jpg"));
+				test.log(LogStatus.FAIL, desc+test.addScreenCapture("./images/"+number+".jpg"));
 				throw new RuntimeException("FAILED");
 			}else if(status.toUpperCase().equals("INFO")){
 				test.log(LogStatus.INFO, desc);
@@ -51,7 +55,7 @@ public class Reporter extends com.esri.test.auto.wrappers.ESRIWrappers {
 		 
 		 public static void startResult(){
 			 extent = new ExtentReports("./reports/results.html",false);
-			 extent.loadConfig(new File("./extent-config.xml"));
+			// extent.loadConfig(new File("./extent-config.xml"));
 			 }
 		 
 		 public static void startTestCase(){
@@ -61,6 +65,7 @@ public class Reporter extends com.esri.test.auto.wrappers.ESRIWrappers {
 		 public static void endResult(){
 			 extent.endTest(test);
 			 extent.flush();
+			 extent.close();
 		 }
 		 
 }

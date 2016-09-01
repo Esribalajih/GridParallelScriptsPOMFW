@@ -14,7 +14,7 @@ import com.esri.test.auto.utils.Reporter;
 public class ESRIWrappers extends com.esri.test.auto.wrappers.GenericWrappers{
 	
 	protected String browserName;
-	public String dataSheetName;
+	protected String dataSheetName="ImageSubPortal";
 	protected static String testCaseName;
 	protected static String testDescription;
 	

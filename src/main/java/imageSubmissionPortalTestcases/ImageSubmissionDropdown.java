@@ -38,8 +38,8 @@ public class ImageSubmissionDropdown extends GenericWrappers{
 	 }
 		
 	 @BeforeClass
-	   public void beforeClass() {
-		// Reporter.startTestCase();
+	   public void beforeClass() throws Throwable {
+		Reporter.startTestCase();
 		 invokeApp(browserName);
 	  }
 	/* public void startTestCase() {
@@ -54,6 +54,7 @@ public class ImageSubmissionDropdown extends GenericWrappers{
 		} catch (Exception e) {
 			System.out.println("The exception occured"+e);
 		}
+		Thread.sleep(1000);
 		System.out.println("The Browser launched successfully");
 		driver.findElement(By.xpath("//*[@id='bodyColumnSingle']/div/div/div/div[2]/div/div[1]/div[1]/h1"));
 		System.out.println("The Title of the page verified successfully");
