@@ -14,7 +14,7 @@ import com.esri.test.auto.utils.Reporter;
 public class ESRIWrappers extends com.esri.test.auto.wrappers.GenericWrappers{
 	
 	protected String browserName;
-	protected String dataSheetName="ImageSubPortal";
+	protected String dataSheetName;
 	protected static String testCaseName;
 	protected static String testDescription;
 	
@@ -25,13 +25,9 @@ public class ESRIWrappers extends com.esri.test.auto.wrappers.GenericWrappers{
 	 }
 		
 	 @BeforeMethod
-	  public void beforeMethod() {
+	  public void beforeMethod() throws Throwable {
 		 Reporter.startTestCase();
-		 try {
-			invokeApp(browserName);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		 invokeApp(browserName);
 	  }
 
    @DataProvider(name="fetchdata")

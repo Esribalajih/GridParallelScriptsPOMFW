@@ -27,22 +27,49 @@ import org.testng.annotations.Test;
 
 public class ImageSubmissionDropdown extends GenericWrappers{
 	
-	protected String browserName;
+	//to test
+	WebDriver driver;
+	@BeforeTest
+		@Parameters("browser")
+
+	    public void setup(String browser) throws Exception{
+
+	        if(browser.equalsIgnoreCase("firefox")){
+	              driver = new FirefoxDriver();
+	        }
+	        else if(browser.equalsIgnoreCase("chrome")){
+	            System.setProperty("webdriver.chrome.driver","D:/DEV/ESRI_TEST/com.esri.test.automation/lib/chromedriver.exe");
+	            driver = new ChromeDriver();
+	        }
+	else if(browser.equalsIgnoreCase("ie")){
+	            System.setProperty("webdriver.ie.driver","D:/DEV/ESRI_TEST/com.esri.test.automation/lib/IEDriverServer.exe");
+	            driver = new InternetExplorerDriver();
+	        }
+	        else{
+	            //If no browser passed throw exception
+	            throw new Exception("Browser is not correct");
+	        }
+	            driver.manage().timeouts().implicitlyWait(10, TimeUnit.MILLISECONDS);
+	    		driver.manage().window().maximize();
+	        }
+//To test
+	
+	//protected String browserName;
 	//protected static String testCaseName;
 	//protected static String testDescription;
-	@BeforeSuite
-	 @Parameters("browser")
+	/*@BeforeSuite
 	public void beforeSuite() throws FileNotFoundException, IOException {
 		Reporter.startResult();
 		//loadObjects();
 	 }
 		
 	 @BeforeClass
+	 @Parameters("browser")
 	   public void beforeClass() throws Throwable {
-		Reporter.startTestCase();
+		// Reporter.startTestCase();
 		 invokeApp(browserName);
 	  }
-	/* public void startTestCase() {
+	 public void startTestCase() {
 			 testCaseName="TC02 Image submission Portal Page (POM)";
 			 testDescription="This is the Image Submission portal";
 		}*/
@@ -50,13 +77,13 @@ public class ImageSubmissionDropdown extends GenericWrappers{
 	@Test(alwaysRun=true, threadPoolSize=3)
 	public void ImageSubmissionPortaltest() throws InterruptedException {
 		try {
-			//driver.get("http://www.esri.com/events/image-submissions#/home");
+			driver.get("http://www.esri.com/events/image-submissions#/home");
+			Thread.sleep(10000);
 		} catch (Exception e) {
 			System.out.println("The exception occured"+e);
 		}
-		Thread.sleep(1000);
 		System.out.println("The Browser launched successfully");
-		driver.findElement(By.xpath("//*[@id='bodyColumnSingle']/div/div/div/div[2]/div/div[1]/div[1]/h1"));
+		driver.findElement(By.xpath("//div[@id='bodyColumnSingle']/div/div/div/div[2]/div/div[1]/div[1]/h1"));
 		System.out.println("The Title of the page verified successfully");
 		driver.findElement(By.xpath("//*[@id='bodyColumnSingle']/div/div/div/div[2]/div/div[2]/div/h2"));
 		System.out.println("The Title of the Section verified successfully");
@@ -64,7 +91,7 @@ public class ImageSubmissionDropdown extends GenericWrappers{
 		System.out.println("The Event got selected");
 		driver.findElement(By.xpath("//*[@id='bodyColumnSingle']/div/div/div/div[2]/div/div[2]/div/div[2]/label/span/div/label[1]/input")).click();
 		System.out.println("The Image radio button selected");
-		System.out.println("The folowing label checked - Are you a Federal Government Employee?");
+		System.out.println("The following label checked - Are you a Federal Government Employee?");
 		driver.findElement(By.xpath("//*[@id='bodyColumnSingle']/div/div/div/div[2]/div/div[2]/div/div[3]/label/span/div/label[2]/input")).click();
 		System.out.println("The No radio button selected");
 		driver.findElement(By.xpath(".//*[@id='bodyColumnSingle']/div/div/div/div[2]/div/div[2]/div/input")).click();
@@ -83,8 +110,9 @@ public class ImageSubmissionDropdown extends GenericWrappers{
        
        @AfterSuite
        public void afterSuite() throws Throwable {
-         	Reporter.endResult();
-         	quitBrowser();
+         	//Reporter.endResult();
+         	//quitBrowser();
+    	   driver.quit();
 
 	
 	

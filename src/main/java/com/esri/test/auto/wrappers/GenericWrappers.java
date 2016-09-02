@@ -59,13 +59,18 @@ public class GenericWrappers {
 	 */
 	public void invokeApp(String browser) throws Throwable{
 		boolean bReturn=false;
-		
-		
+		/*System.out.println("browser Name: " + browser);
+		DesiredCapabilities dc = new DesiredCapabilities();
+		 dc.setBrowserName(browser);
+		 dc.setCapability(CapabilityType.BROWSER_NAME, browser);
+		 dc.setPlatform(Platform.WIN8_1);*/
+		System.out.println("browser Name: " + browser);
 	
 		if (browser.equals("firefox")) { 
 			  try {
 				DesiredCapabilities dc = DesiredCapabilities.firefox();  
 					dc.setCapability(CapabilityType.BROWSER_NAME, browser);
+					System.out.println("browser Name: " + browser);
 				       // driver = new RemoteWebDriver(new URL("http://red-app-jen-p01.esri.com:4444/wd/hub"), dc);
 						driver = new RemoteWebDriver(new URL("https://"+ sHubUrl +":"+ sHubPort +"/wd/hub"),dc);
 					//	driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);

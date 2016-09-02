@@ -26,20 +26,18 @@ public class Reporter extends com.esri.test.auto.wrappers.ESRIWrappers {
 	
 	private static ExtentTest test;
 	private static ExtentReports extent;
-//	private static WebDriver driver;
 	//private static String testCaseName;
 	//private static String testDescription;
 	
 	public static void reportStep(String desc, String status) throws Throwable{
 		
 		 long number = (long) Math.floor(Math.random()* 900000000L) + 10000000L;
-		 
 		 try {
-			 File srcFile = (((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE));
+			 File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 			FileUtils.copyFile(srcFile, new File("./reports/images/"+number+".jpg"));
 		} catch (WebDriverException e) {
 			e.printStackTrace();
-			
+		}
 			if(status.toUpperCase().equals("PASS")){
 				test.log(LogStatus.PASS, desc+test.addScreenCapture("./images/"+number+".jpg"));
 			}else if(status.toUpperCase().equals("FAIL")){
@@ -49,17 +47,17 @@ public class Reporter extends com.esri.test.auto.wrappers.ESRIWrappers {
 				test.log(LogStatus.INFO, desc);
 			}
 			
-		} 
+		
 		 
 	}
 		 
 		 public static void startResult(){
-			 extent = new ExtentReports("./reports/results.html",false);
+			 extent = new ExtentReports("./reports/results.html",true);
 			// extent.loadConfig(new File("./extent-config.xml"));
 			 }
 		 
 		 public static void startTestCase(){
-			 test = extent.startTest(testCaseName, testDescription);
+			 test = extent.startTest(testCaseName);
 		 }
 		 
 		 public static void endResult(){
