@@ -26,8 +26,7 @@ public class Reporter extends com.esri.test.auto.wrappers.ESRIWrappers {
 	
 	private static ExtentTest test;
 	private static ExtentReports extent;
-	//private static String testCaseName;
-	//private static String testDescription;
+	
 	
 	public static void reportStep(String desc, String status) throws Throwable{
 		
@@ -42,13 +41,10 @@ public class Reporter extends com.esri.test.auto.wrappers.ESRIWrappers {
 				test.log(LogStatus.PASS, desc+test.addScreenCapture("./images/"+number+".jpg"));
 			}else if(status.toUpperCase().equals("FAIL")){
 				test.log(LogStatus.FAIL, desc+test.addScreenCapture("./images/"+number+".jpg"));
-				throw new RuntimeException("FAILED");
+				//throw new RuntimeException("FAILED");
 			}else if(status.toUpperCase().equals("INFO")){
 				test.log(LogStatus.INFO, desc);
 			}
-			
-		
-		 
 	}
 		 
 		 public static void startResult(){
@@ -62,6 +58,9 @@ public class Reporter extends com.esri.test.auto.wrappers.ESRIWrappers {
 		 
 		 public static void endResult(){
 			 extent.endTest(test);
+		}
+		 
+		 public static void endSuite(){
 			 extent.flush();
 			 extent.close();
 		 }

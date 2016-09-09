@@ -41,7 +41,7 @@ public class GenericWrappers {
 			prop.load(new FileInputStream(new File("./Config/config.properties")));
 			sHubUrl=prop.getProperty("HUB");
 			sHubPort=prop.getProperty("PORT");
-			sUrl=prop.getProperty("ÜRL");
+			sUrl=prop.getProperty("URL");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -131,13 +131,11 @@ public class GenericWrappers {
 				primaryWindowHandle = driver.getWindowHandle();
 				
 					Reporter.reportStep("The Browser"+ browser +" launched Successfully", "PASS");
-					bReturn=true;				
-
-					Reporter.reportStep("The Browser"+ browser +" could not be launched Successfully", "FAIL");
-				
-
-					bReturn=false;
+					bReturn=true;	
+					
 			} catch (MalformedURLException e) {
+				Reporter.reportStep("The Browser"+ browser +" could not be launched Successfully", "FAIL");
+				bReturn=false;
 				e.printStackTrace();
 			} catch (Throwable e) {
 				e.printStackTrace();
