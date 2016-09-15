@@ -1,71 +1,90 @@
-/**
- * 
- */
 package com.esri.test.auto.utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
-
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
-/**This program is to Capture Test Results along with Screenshots
- * @author balajih
- *
- */
-public class Reporter extends com.esri.test.auto.wrappers.ESRIWrappers {
+
+public abstract class Reporter{
+
+	public ExtentTest test;
+	public static ExtentReports extent;
+	public String testCaseName, testDescription, category;
 	
-	private static ExtentTest test;
-	private static ExtentReports extent;
-//	private static WebDriver driver;
-	//private static String testCaseName;
-	//private static String testDescription;
 	
-	public static void reportStep(String desc, String status) throws Throwable{
-		
-		 long number = (long) Math.floor(Math.random()* 900000000L) + 10000000L;
-		 
-		 try {
-			 File srcFile = (((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE));
-			FileUtils.copyFile(srcFile, new File("./reports/images/"+number+".jpg"));
+	/*public static void reportStep(String desc, String status) {
+
+
+		long number = (long) Math.floor(Math.random() * 900000000L) + 10000000L;
+		try {
+			FileUtils.copyFile(bw.getScreenshotAs(OutputType.FILE) , new File("./reports/images/"+number+".jpg"));
 		} catch (WebDriverException e) {
+			//			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			//			e.printStackTrace();
+		}
+
+		// Write if it is successful or failure or information
+		if(status.toUpperCase().equals("PASS")){
+			test.log(LogStatus.PASS, desc+test.
+					addScreenCapture("./../reports/images/"+number+".jpg"));
+		}else if(status.toUpperCase().equals("FAIL")){
+			test.log(LogStatus.FAIL, desc+test.addScreenCapture("./../reports/images/"+number+".jpg"));
+			throw new RuntimeException("FAILED");
+		}else if(status.toUpperCase().equals("INFO")){
+			test.log(LogStatus.INFO, desc);
+		}
+	}*/
+	public void reportStep(String desc, String status) {
+
+		long snapNumber = 100000l;
+		
+		try {
+			snapNumber= takeSnap();
+		} catch (Exception e) {
 			e.printStackTrace();
-			
-			if(status.toUpperCase().equals("PASS")){
-				test.log(LogStatus.PASS, desc+test.addScreenCapture("./images/"+number+".jpg"));
-			}else if(status.toUpperCase().equals("FAIL")){
-				test.log(LogStatus.FAIL, desc+test.addScreenCapture("./images/"+number+".jpg"));
-				throw new RuntimeException("FAILED");
-			}else if(status.toUpperCase().equals("INFO")){
-				test.log(LogStatus.INFO, desc);
-			}
-			
-		} 
-		 
+		}
+		System.out.println(desc);
+		// Write if it is successful or failure or information
+		if(status.toUpperCase().equals("PASS")){
+			test.log(LogStatus.PASS, desc+test.
+					addScreenCapture("./images/"+snapNumber+".png"));
+		}else if(status.toUpperCase().equals("FAIL")){
+			test.log(LogStatus.FAIL, desc+test.addScreenCapture("./images/"+snapNumber+".png"));
+			throw new RuntimeException("FAILED");
+		}else if(status.toUpperCase().equals("INFO")){
+			test.log(LogStatus.INFO, desc);
+		}
 	}
-		 
-		 public static void startResult(){
-			 extent = new ExtentReports("./reports/results.html",false);
-			// extent.loadConfig(new File("./extent-config.xml"));
-			 }
-		 
-		 public static void startTestCase(){
-			 test = extent.startTest(testCaseName, testDescription);
-		 }
-		 
-		 public static void endResult(){
-			 extent.endTest(test);
-			 extent.flush();
-			 extent.close();
-		 }
-		 
+
+	public abstract long takeSnap();
+
+	public ExtentReports startResult(){
+		extent = new ExtentReports("./reports/result.html", false);
+		extent.loadConfig(new File("./extent-config.xml"));
+		return extent;
+	}
+
+	public ExtentTest startTestCase(){
+		test = extent.startTest(testCaseName, testDescription);
+		return test;
+		
+	}
+
+	public void stopTest(){
+		extent.endTest(test);
+
+	}
+
+	public void endResult(){
+		extent.flush();
+	}
+
+
 }

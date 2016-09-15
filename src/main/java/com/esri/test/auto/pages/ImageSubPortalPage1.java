@@ -1,7 +1,15 @@
 package com.esri.test.auto.pages;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.Select;
+import java.util.List;
+
 import com.esri.test.auto.utils.Reporter;
 import com.esri.test.auto.wrappers.ESRIWrappers;
+import com.relevantcodes.extentreports.ExtentTest;
+
 
 /**This is the Image submission portal webpage1
  * @author balajih
@@ -9,9 +17,11 @@ import com.esri.test.auto.wrappers.ESRIWrappers;
  */
 public class ImageSubPortalPage1 extends ESRIWrappers {
 	
-	public ImageSubPortalPage1() throws Throwable {
-		if(!VerifyTitle("CALL FOR IMAGES")){
-			Reporter.reportStep("This is not a Image Submission Page", "FAIL");
+	public ImageSubPortalPage1(RemoteWebDriver driver, ExtentTest test){
+				this.driver=driver;
+				this.test=test;
+		if(!VerifyTitle("Image Submissions | Esri Events")){
+			reportStep("This is not a Image Submission Page", "FAIL");
 			
 		}
 	}
@@ -35,15 +45,21 @@ public class ImageSubPortalPage1 extends ESRIWrappers {
 		return this;
 	}
 	
+	public ImageSubPortalPage1 selectEventClick() throws Throwable{
+		clickbyXpath(prop.getProperty("imagesub.clickonSelectEvent.xpath"));
+		waitForPageLoad(3);
+		System.out.println("The Event got Clicked to select");
+		return this;
+	}
+	
 	public ImageSubPortalPage1 selectEvent(String sEvent) throws Throwable{
 		selectbyXpathWithText(prop.getProperty("imagesub.selectEventdropdown.xpath"),sEvent);
-		System.out.println("The Event got selected");
 		return this;
 	}
 	
 	public ImageSubPortalPage1 radioBtn1Label(String rLbl1) throws Throwable{
 		VerifyTextbyXpath(prop.getProperty("imagesub.Radiobuttonlabel1.xpath"),rLbl1);
-		System.out.println("The Title 'What type of files are you submitting?' verified successfully");
+//		System.out.println("The Title 'What type of files are you submitting?' verified successfully");
 		return this;
 	}
 	
@@ -80,6 +96,6 @@ public class ImageSubPortalPage1 extends ESRIWrappers {
 	public ImageSubPortalPermissionPage getStartedBtn() throws Throwable{
 		clickbyXpath(prop.getProperty("imagesub.Getstartedbutton.xpath"));
 		System.out.println("The GetStarted button clicked successfully");
-		return new ImageSubPortalPermissionPage();
+		return new ImageSubPortalPermissionPage(driver, test);
 	}
 }

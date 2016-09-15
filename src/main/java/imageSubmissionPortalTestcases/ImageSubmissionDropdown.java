@@ -31,15 +31,16 @@ public class ImageSubmissionDropdown extends GenericWrappers{
 	//protected static String testCaseName;
 	//protected static String testDescription;
 	@BeforeSuite
-	 @Parameters("browser")
+	// @Parameters("browser")
 	public void beforeSuite() throws FileNotFoundException, IOException {
 		Reporter.startResult();
 		//loadObjects();
 	 }
 		
 	 @BeforeClass
+	 @Parameters("browser")
 	   public void beforeClass() throws Throwable {
-		Reporter.startTestCase();
+		//Reporter.startTestCase();
 		 invokeApp(browserName);
 	  }
 	/* public void startTestCase() {
@@ -47,7 +48,7 @@ public class ImageSubmissionDropdown extends GenericWrappers{
 			 testDescription="This is the Image Submission portal";
 		}*/
 
-	@Test(alwaysRun=true, threadPoolSize=3)
+	@Test(alwaysRun=true)
 	public void ImageSubmissionPortaltest() throws InterruptedException {
 		try {
 			//driver.get("http://www.esri.com/events/image-submissions#/home");

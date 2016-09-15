@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Suite" parallel="tests">
-  <!-- <test name="ImageSubmissionPortal">
+  <test name="ImageSubmissionPortal">
   <parameter name="browser" value="firefox"/>
     <classes>
       <class name="imageSubmissionPortalTestcases.ImageSubmissionDropdown"/>
     </classes>
-    </test> --> <!-- ImageSubmissionPortal -->
-    <test name='FW-ISP'>
+    </test> <!-- ImageSubmissionPortal -->
+   <!--  <test name='FW-ISP'>
     <parameter name="browser" value="firefox"/>
     <classes>
     <class name="com.esri.test.auto.testcases.TC02_ImageSubPortalPage1"/>
     <class name="com.esri.test.auto.testcases.TC03_ImageSubPortalPermissionPage"/>
     <class name="com.esri.test.auto.testcases.TC04_ImageSubPortalVerify"/>
     </classes>
-    </test>
+    </test> -->
 </suite> <!-- Suite -->

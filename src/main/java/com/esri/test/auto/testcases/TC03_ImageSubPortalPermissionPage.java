@@ -21,7 +21,7 @@ public class TC03_ImageSubPortalPermissionPage extends ESRIWrappers {
 	
 	@Test(dataProvider="fetchdata")
 	public void imageSubmissionPortalPermission(String p2Title) throws Throwable{
-		new ImageSubPortalPermissionPage()
+		new ImageSubPortalPermissionPage(driver, test)
 		.verifyPermissiontitle(p2Title)
 		.clickAgreementchkbox()
 		.clickContinueBtn();

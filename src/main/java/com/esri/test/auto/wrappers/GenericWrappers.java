@@ -1,5 +1,9 @@
 package com.esri.test.auto.wrappers;
 
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,14 +13,16 @@ import java.net.URL;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Platform;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
@@ -27,119 +33,66 @@ import com.esri.test.auto.utils.Reporter;
  * @author balajih
  *
  */
-public class GenericWrappers {
-	
-	public static WebDriver driver;
+public class GenericWrappers extends Reporter{
+
+	protected RemoteWebDriver driver;
 	protected static Properties prop;
 	public String sUrl,primaryWindowHandles,sHubUrl,sHubPort;
 	private String primaryWindowHandle;
 	private String ANY;
-	//protected static WebDriver driver;
+
 	public GenericWrappers(){
 		Properties prop = new Properties();
 		try {
 			prop.load(new FileInputStream(new File("./Config/config.properties")));
 			sHubUrl=prop.getProperty("HUB");
 			sHubPort=prop.getProperty("PORT");
-			sUrl=prop.getProperty("ÜRL");
+			sUrl=prop.getProperty("URL");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	
+
+
 	/**This method is to Invoke the Browser
 	 * @author balajih
 	 * @param browser
-	 * @throws Throwable 
-	 * 
 	 */
-	public void invokeApp(String browser) throws Throwable{
+	public void invokeApp(String browser){
 		boolean bReturn=false;
-		
-		
-	
-		if (browser.equals("firefox")) { 
-			  try {
-				DesiredCapabilities dc = DesiredCapabilities.firefox();  
-					dc.setCapability(CapabilityType.BROWSER_NAME, browser);
-				       // driver = new RemoteWebDriver(new URL("http://red-app-jen-p01.esri.com:4444/wd/hub"), dc);
-						driver = new RemoteWebDriver(new URL("https://"+ sHubUrl +":"+ sHubPort +"/wd/hub"),dc);
-					//	driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-						driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-						Reporter.reportStep("The Browser"+ browser +" launched Successfully", "PASS");
-			} catch (MalformedURLException e) {
-				
-				e.printStackTrace();
-				Reporter.reportStep("The Browser"+ browser +" could not be launched Successfully", "FAIL");
-			}
-					} 
-					else if (browser.equals("chrome")){   
-					DesiredCapabilities dc = DesiredCapabilities.chrome();
-					dc.setCapability(CapabilityType.BROWSER_NAME, browser);
-					try {
-						//driver = new RemoteWebDriver(new URL("http://red-app-jen-p01.esri.com:4444/wd/hub"), dc);
-						driver = new RemoteWebDriver(new URL("https://"+ sHubUrl +":"+ sHubPort +"/wd/hub"),dc);
-					//	driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-						driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-						Reporter.reportStep("The Browser"+ browser +" launched Successfully", "PASS");
-					} catch (MalformedURLException e) {
-						
-						e.printStackTrace();
-						Reporter.reportStep("The Browser"+ browser +" could not be launched Successfully", "FAIL");
-					}
-					}
-					else if (browser.equals("ie")) {   
-					DesiredCapabilities dc = DesiredCapabilities.internetExplorer();
-					dc.setCapability(CapabilityType.BROWSER_NAME, browser);
-					try {
-						//driver = new RemoteWebDriver(new URL("http://red-app-jen-p01.esri.com:4444/wd/hub"), dc);
-						driver = new RemoteWebDriver(new URL("https://"+ sHubUrl +":"+ sHubPort +"/wd/hub"),dc);
-					//	driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-						driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-						Reporter.reportStep("The Browser"+ browser +" launched Successfully", "PASS");
-					} catch (MalformedURLException e) {
-						
-						e.printStackTrace();
-						Reporter.reportStep("The Browser"+ browser +" could not be launched Successfully", "FAIL");
-					} 
-					}  
-					else {                       
-			        System.out.println("Not able to set Driver object");  
-			        Reporter.reportStep("The Browser"+ browser +" could not be launched Successfully", "FAIL");
-			        } 
+
+		DesiredCapabilities dc = new DesiredCapabilities();
+		dc.setBrowserName(browser);
+		dc.setPlatform(Platform.WINDOWS);
+		//dc.setVersion(ANY);
+
+		try {
+			driver = new RemoteWebDriver(new URL("http://"+ sHubUrl +":"+ sHubPort +"/wd/hub"),dc);
+			driver.manage().window().maximize();
+			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+			driver.get(sUrl);
+
+			primaryWindowHandle = driver.getWindowHandle();
+
 			try {
-				//WebDriver driver = new RemoteWebDriver(new URL("https://"+ sHubUrl +":"+ sHubPort +"/wd/hub"),dc);
-				//driver = new FirefoxDriver();
-				
-				
-				//System.setProperty("webdriver.chrome.driver", "D:/DEV/ESRI_TEST/com.esri.test.automation/lib/chromedriver.exe");
-				//driver = new ChromeDriver();
-			//	driver.manage().window().maximize();
-			//	driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-				//driver.get("https://accounts-stg.esri.com/");
-			//	driver.get(sUrl);
-				
-				primaryWindowHandle = driver.getWindowHandle();
-				
-					Reporter.reportStep("The Browser"+ browser +" launched Successfully", "PASS");
-					bReturn=true;				
-
-					Reporter.reportStep("The Browser"+ browser +" could not be launched Successfully", "FAIL");
-				
-
-					bReturn=false;
-			} catch (MalformedURLException e) {
+				reportStep("The Browser"+ browser +" launched Successfully", "PASS");
+				bReturn=true;
+			} catch (Exception e) {
 				e.printStackTrace();
-			} catch (Throwable e) {
-				e.printStackTrace();
+				reportStep("The Browser"+ browser +" could not be launched Successfully", "FAIL");
+				bReturn=false;
 			}
-	
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (Throwable e) {
+			e.printStackTrace();
 		}
-	
+
+	}
+
 	/**This Method is to load Objects from the Object Property file
 	 * @author balajih
 	 * @throws FileNotFoundException
@@ -147,9 +100,9 @@ public class GenericWrappers {
 	 */
 	public void loadObjects() throws FileNotFoundException, IOException{
 		prop =new Properties();
-		prop.load(new FileInputStream(new File("D:/DEV/ESRI_TEST/com.esri.test.automation/src/test/resources/object.properties")));
+		prop.load(new FileInputStream(new File("D:/Working_on_LT/Working_on_LT/com.esri.test.automation/src/test/resources/object.properties")));
 	}
-	
+
 	/**This method will enter the value as text field using Id attribute to locate
 	 * @author Balajih & udayasundar
 	 * @param idValue
@@ -162,14 +115,14 @@ public class GenericWrappers {
 		try{
 			driver.findElement(By.id(idValue)).clear();
 			driver.findElement(By.id(idValue)).sendKeys(data);
-				Reporter.reportStep("The data"+ data +" is entered successfully in the field:" + idValue, "PASS");
-				bReturn = true;
-			} catch (Exception e) {
-				Reporter.reportStep("The data"+ data +" is not entered successfully in the field:" + idValue, "FAIL");
-			}
+			reportStep("The data"+ data +" is entered successfully in the field:" + idValue, "PASS");
+			bReturn = true;
+		} catch (Exception e) {
+			reportStep("The data"+ data +" is not entered successfully in the field:" + idValue, "FAIL");
+		}
 		return bReturn;
 	}
-	
+
 	/**This method will enter the value as text field using Name attribute to locate
 	 * @author Balajih & udayasundar
 	 * @param idValue
@@ -182,14 +135,14 @@ public class GenericWrappers {
 		try {
 			driver.findElement(By.name(nameValue)).clear();
 			driver.findElement(By.name(nameValue)).sendKeys(data);
-			Reporter.reportStep("The data"+ data +" is entered successfully in the field:" + nameValue, "PASS");
+			reportStep("The data"+ data +" is entered successfully in the field:" + nameValue, "PASS");
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The data"+ data +" is not entered successfully in the field:" + nameValue, "FAIL");
+			reportStep("The data"+ data +" is not entered successfully in the field:" + nameValue, "FAIL");
 		}
 		return bReturn;
 	}
-	
+
 	/**This method will enter the value as text field using ClassName attribute to locate
 	 * @author Balajih & udayasundar
 	 * @param idValue
@@ -202,10 +155,10 @@ public class GenericWrappers {
 		try {
 			driver.findElement(By.className(cnameValue)).clear();
 			driver.findElement(By.className(cnameValue)).sendKeys(data);
-			Reporter.reportStep("The data"+ data +" is entered successfully in the field:" + cnameValue, "PASS");
+			reportStep("The data"+ data +" is entered successfully in the field:" + cnameValue, "PASS");
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The data"+ data +" is not entered successfully in the field:" + cnameValue, "FAIL");
+			reportStep("The data"+ data +" is not entered successfully in the field:" + cnameValue, "FAIL");
 		}
 		return bReturn;
 	}
@@ -221,14 +174,14 @@ public class GenericWrappers {
 		try {
 			driver.findElement(By.cssSelector(cssValue)).clear();
 			driver.findElement(By.cssSelector(cssValue)).sendKeys(data);
-			Reporter.reportStep("The data"+ data +" is entered successfully in the field:" + cssValue, "PASS");
+			reportStep("The data"+ data +" is entered successfully in the field:" + cssValue, "PASS");
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The data"+ data +" is not entered successfully in the field:" + cssValue, "FAIL");
+			reportStep("The data"+ data +" is not entered successfully in the field:" + cssValue, "FAIL");
 		}
 		return bReturn;
 	}
-	
+
 	/**This method will enter the value as text field using Xpath attribute to locate
 	 * @author Balajih & udayasundar
 	 * @param xpathValue
@@ -241,35 +194,36 @@ public class GenericWrappers {
 		try {
 			driver.findElement(By.xpath(xpathValue)).clear();
 			driver.findElement(By.xpath(xpathValue)).sendKeys(data);
-			Reporter.reportStep("The data"+ data +" is entered successfully in the field:" + xpathValue, "PASS");
+			reportStep("The data"+ data +" is entered successfully in the field:" + xpathValue, "PASS");
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The data"+ data +" is not entered successfully in the field:" + xpathValue, "FAIL");
+			reportStep("The data"+ data +" is not entered successfully in the field:" + xpathValue, "FAIL");
 		}
 		return bReturn;
 	}
-	
+
 	/**This method will verify the fetched title is matching or not.
 	 * @author balajih
 	 * @param title
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean VerifyTitle(String title) throws Throwable {
+	public boolean VerifyTitle(String title){
 		boolean bReturn=false;
-		if(driver.getTitle().trim().equalsIgnoreCase(title)){
+		System.out.println(driver.getTitle());
+		if(driver.getTitle().equalsIgnoreCase(title)){
 			try {
-				Reporter.reportStep("The title of the page"+title+" is matching successfully", "PASS");
+				reportStep("The title of the page"+ title+" is matching successfully", "PASS");
 				bReturn=true;
-				
+
 			} catch (Exception e) {
-				Reporter.reportStep("The title of the page"+title+" is not matching successfully", "FAIL");
+				reportStep("The title of the page"+ title+" is not matching successfully", "FAIL");
 				bReturn=false;
 			}
 		}
 		return bReturn;
 	}
-	
+
 	/**This method will verify the entered value in text field using Id attribute to locate
 	 * @author balajih
 	 * @param idValue
@@ -281,15 +235,15 @@ public class GenericWrappers {
 		boolean bReturn = false;
 		try {
 			if(driver.findElement(By.id(idValue)).getText().equalsIgnoreCase(data)){
-				Reporter.reportStep("The data"+ data +" is entered successfully in the field:" + idValue, "PASS");
+				reportStep("The data"+ data +" is entered successfully in the field:" + idValue, "PASS");
 				bReturn = true;
 			}
 		} catch (Exception e) {
-			Reporter.reportStep("The data"+ data +" is not entered successfully in the field:" + idValue, "FAIL");
+			reportStep("The data"+ data +" is not entered successfully in the field:" + idValue, "FAIL");
 		}	
 		return bReturn;
 	}
-	
+
 	/**This method will verify the entered value in text field using Name attribute to locate
 	 * @author balajih
 	 * @param nameValue
@@ -301,15 +255,15 @@ public class GenericWrappers {
 		boolean bReturn = false;
 		try {
 			if(driver.findElement(By.name(nameValue)).getText().equalsIgnoreCase(data)){
-				Reporter.reportStep("The data"+ data +" is entered successfully in the field:" + nameValue, "PASS");
+				reportStep("The data"+ data +" is entered successfully in the field:" + nameValue, "PASS");
 				bReturn = true;
 			}
 		} catch (Exception e) {
-			Reporter.reportStep("The data"+ data +" is not entered successfully in the field:" + nameValue, "FAIL");
+			reportStep("The data"+ data +" is not entered successfully in the field:" + nameValue, "FAIL");
 		}	
 		return bReturn;
 	}
-	
+
 	/**This method will verify the entered value in text field using Class Name attribute to locate
 	 * @author balajih
 	 * @param cnameValue
@@ -321,12 +275,12 @@ public class GenericWrappers {
 		boolean bReturn = false;
 		try {
 			if(driver.findElement(By.className(cnameValue)).getText().equalsIgnoreCase(data)){
-				Reporter.reportStep("The data"+ data +" is entered successfully in the field:" + cnameValue, "PASS");
+				reportStep("The data"+ data +" is entered successfully in the field:" + cnameValue, "PASS");
 				bReturn = true;
 			}
 		} catch (Exception e) {
-			Reporter.reportStep("The data"+data +" is not entered successfully in the field:" + cnameValue, "FAIL");
-					
+			reportStep("The data"+ data +" is not entered successfully in the field:" + cnameValue, "FAIL");
+
 		}	
 		return bReturn;
 	}
@@ -341,12 +295,12 @@ public class GenericWrappers {
 		boolean bReturn = false;
 		try {
 			if(driver.findElement(By.cssSelector(cssValue)).getText().equalsIgnoreCase(data)){
-				Reporter.reportStep("The data"+ data +" is entered successfully in the field:" + cssValue, "PASS");
+				reportStep("The data"+ data +" is entered successfully in the field:" + cssValue, "PASS");
 				bReturn = true;
 			}
 		} catch (Exception e) {
-			Reporter.reportStep("The data"+data +" is not entered successfully in the field:" + cssValue, "FAIL");
-					
+			reportStep("The data"+ data +" is not entered successfully in the field:" + cssValue, "FAIL");
+
 		}	
 		return bReturn;
 	}
@@ -360,12 +314,15 @@ public class GenericWrappers {
 	public boolean VerifyTextbyXpath(String xpathValue,String data) throws Throwable{
 		boolean bReturn = false;
 		try {
-			if(driver.findElement(By.xpath(xpathValue)).getText().equalsIgnoreCase(data)){
-				Reporter.reportStep("The data"+ data +" is entered successfully in the field:" + xpathValue, "PASS");
+			String text=driver.findElement(By.xpath(xpathValue)).getText();
+			System.out.println(driver.findElement(By.xpath(xpathValue)).getText());
+			if(data.trim().contains(text.trim())){
+				reportStep("The data"+ data +" is entered successfully in the field:" + xpathValue, "PASS");
 				bReturn = true;
 			}
+			else reportStep("The data"+ data +" is not entered successfully in the field:" + xpathValue, "FAIL");
 		} catch (Exception e) {
-			Reporter.reportStep("The data"+data +" is not entered successfully in the field:" + xpathValue, "FAIL");
+			reportStep("The data"+ data +" is not entered successfully in the field:" + xpathValue, "FAIL");
 		}	
 		return bReturn;
 	}
@@ -378,15 +335,15 @@ public class GenericWrappers {
 	public boolean clickById(String idValue) throws Throwable{
 		boolean bReturn = false;
 		try {
-				driver.findElement(By.id(idValue)).click();
-				Reporter.reportStep("The button "+ idValue+" is clicked successfuly", "PASS");
-				bReturn = true;
+			driver.findElement(By.id(idValue)).click();
+			reportStep("The button "+ idValue +" is clicked successfuly", "PASS");
+			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The button "+ idValue+" is not clicked successfuly", "FAIL");
+			reportStep("The button "+ idValue +" is not clicked successfuly", "FAIL");
 		}	
 		return bReturn;
 	}
-	
+
 	/**This method will check the click of the buttons or links using the Name attribute to locate
 	 * @author balajih
 	 * @param nameValue
@@ -396,15 +353,15 @@ public class GenericWrappers {
 	public boolean clickByName(String nameValue) throws Throwable{
 		boolean bReturn = false;
 		try {
-				driver.findElement(By.name(nameValue)).click();
-				Reporter.reportStep("The button"+ nameValue+" is clicked successfuly", "PASS");
-				bReturn = true;
+			driver.findElement(By.name(nameValue)).click();
+			reportStep("The button"+ nameValue +" is clicked successfuly", "PASS");
+			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The button"+ nameValue+" is not clicked successfuly", "FAIL");
+			reportStep("The button"+ nameValue +" is not clicked successfuly", "FAIL");
 		}	
 		return bReturn;
 	}
-	
+
 	/**This method will check the click of the buttons or links using the Class Name attribute to locate
 	 * @author balajih
 	 * @param cnameValue
@@ -414,11 +371,11 @@ public class GenericWrappers {
 	public boolean clickbyClassName(String cnameValue) throws Throwable{
 		boolean bReturn = false;
 		try {
-				driver.findElement(By.className(cnameValue)).click();
-				Reporter.reportStep("The button"+ cnameValue+" is clicked successfuly", "PASS");
-				bReturn = true;
+			driver.findElement(By.className(cnameValue)).click();
+			reportStep("The button"+ cnameValue +" is clicked successfuly", "PASS");
+			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The button"+ cnameValue+" is not clicked successfuly", "FAIL");
+			reportStep("The button"+ cnameValue +" is not clicked successfuly", "FAIL");
 		}	
 		return bReturn;
 	}
@@ -431,11 +388,11 @@ public class GenericWrappers {
 	public boolean clickbyCssSelector(String cssValue) throws Throwable{
 		boolean bReturn = false;
 		try {
-				driver.findElement(By.cssSelector(cssValue)).click();
-				Reporter.reportStep("The button"+ cssValue+" is clicked successfuly", "PASS");
-				bReturn = true;
+			driver.findElement(By.cssSelector(cssValue)).click();
+			reportStep("The button"+ cssValue +" is clicked successfuly", "PASS");
+			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The button"+ cssValue+" is not clicked successfuly", "FAIL");
+			reportStep("The button"+ cssValue +" is not clicked successfuly", "FAIL");
 		}	
 		return bReturn;
 	}
@@ -448,11 +405,11 @@ public class GenericWrappers {
 	public boolean clickbyXpath(String xpathValue) throws Throwable{
 		boolean bReturn = false;
 		try {
-				driver.findElement(By.xpath(xpathValue)).click();
-				Reporter.reportStep("The button"+ xpathValue+" is clicked successfuly", "PASS");
-				bReturn = true;
+			driver.findElement(By.xpath(xpathValue)).click();
+			reportStep("The button"+ xpathValue +" is clicked successfuly", "PASS");
+			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The button"+ xpathValue+" is not clicked successfuly", "FAIL");
+			reportStep("The button"+ xpathValue +" is not clicked successfuly", "FAIL");
 		}	
 		return bReturn;
 	}
@@ -465,15 +422,15 @@ public class GenericWrappers {
 	public boolean clickbyLinkText(String linkTextValue) throws Throwable{
 		boolean bReturn = false;
 		try {
-				driver.findElement(By.linkText(linkTextValue)).click();
-				Reporter.reportStep("The element"+ linkTextValue+" is clicked successfuly", "PASS");
-				bReturn = true;
+			driver.findElement(By.linkText(linkTextValue)).click();
+			reportStep("The element"+ linkTextValue +" is clicked successfuly", "PASS");
+			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The element"+ linkTextValue+" is not clicked successfuly", "FAIL");
+			reportStep("The element"+ linkTextValue +" is not clicked successfuly", "FAIL");
 		}	
 		return bReturn;
 	}
-	
+
 	/**This method will check the click of the partial link text attribute to locate
 	 * @author balajih
 	 * @param partLinkTextValue
@@ -483,11 +440,11 @@ public class GenericWrappers {
 	public boolean clickbyPartialLinkText(String partLinkTextValue) throws Throwable{
 		boolean bReturn = false;
 		try {
-				driver.findElement(By.partialLinkText(partLinkTextValue)).click();
-				Reporter.reportStep("The element"+ partLinkTextValue+" is clicked successfuly", "PASS");
-				bReturn = true;
+			driver.findElement(By.partialLinkText(partLinkTextValue)).click();
+			reportStep("The element"+ partLinkTextValue +" is clicked successfuly", "PASS");
+			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The element"+ partLinkTextValue+" is not clicked successfuly", "FAIL");
+			reportStep("The element"+ partLinkTextValue +" is not clicked successfuly", "FAIL");
 		}	
 		return bReturn;
 	}
@@ -503,48 +460,48 @@ public class GenericWrappers {
 		try {
 			Select dropdown = new Select(driver.findElement(By.id(idValue)));
 			dropdown.selectByValue(data);
-			Reporter.reportStep("The element with "+ idValue+" is selected with value"+ data+" successfuly", "PASS");
+			reportStep("The element with "+ idValue +"is selected with value"+ data+" successfuly", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The value "+ data+" is not selected", "FAIL");
+			reportStep("The value "+ data +"is not selected", "FAIL");
 		}
 		return bReturn;
 	}
-		/**This method is used to fetch the data from dropdown using select by Name attribute to locate
-		 * @author balajih
-		 * @param nameValue
-		 * @param data
-		 * @return
-		 * @throws Throwable
-		 */
+	/**This method is used to fetch the data from dropdown using select by Name attribute to locate
+	 * @author balajih
+	 * @param nameValue
+	 * @param data
+	 * @return
+	 * @throws Throwable
+	 */
 	public boolean selectByNameWithValue(String nameValue, String data) throws Throwable {
 		boolean bReturn = false;
 		try {
 			Select dropdown = new Select(driver.findElement(By.name(nameValue)));
 			dropdown.selectByValue(data);
-			Reporter.reportStep("The element with "+ nameValue+" is selected with value"+ data+" successfuly", "PASS");
+			reportStep("The element with "+ nameValue +"is selected with value"+ data+" successfuly", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The value "+ data+" is not selected", "FAIL");
+			reportStep("The value "+ data +"is not selected", "FAIL");
 		}
 		return bReturn;
 	}
-		/**This method is used to fetch the data from dropdown using select by Class Name attribute to locate
-		 * @author balajih
-		 * @param cnameValue
-		 * @param data
-		 * @return
-		 * @throws Throwable
-		 */
+	/**This method is used to fetch the data from dropdown using select by Class Name attribute to locate
+	 * @author balajih
+	 * @param cnameValue
+	 * @param data
+	 * @return
+	 * @throws Throwable
+	 */
 	public boolean selectbyClassNamewithValue(String cnameValue, String data) throws Throwable {
 		boolean bReturn = false;
 		try {
 			Select dropdown = new Select(driver.findElement(By.className(cnameValue)));
 			dropdown.selectByValue(data);
-			Reporter.reportStep("The element with "+ cnameValue+" is selected with value"+ data+" successfuly", "PASS");
+			reportStep("The element with "+ cnameValue +" is selected with value"+ data+" successfuly", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The value "+ data+" is not selected", "FAIL");
+			reportStep("The value "+ data +" is not selected", "FAIL");
 		}
 		return bReturn;
 	}
@@ -560,10 +517,10 @@ public class GenericWrappers {
 		try {
 			Select dropdown = new Select(driver.findElement(By.cssSelector(cssValue)));
 			dropdown.selectByValue(data);
-			Reporter.reportStep("The element with "+ cssValue+" is selected with value"+ data+" successfuly", "PASS");
+			reportStep("The element with "+ cssValue +" is selected with value"+ data+" successfuly", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The value "+ data+" is not selected", "FAIL");
+			reportStep("The value "+ data +" is not selected", "FAIL");
 		}
 		return bReturn;
 	}
@@ -579,10 +536,10 @@ public class GenericWrappers {
 		try {
 			Select dropdown = new Select(driver.findElement(By.xpath(xpathValue)));
 			dropdown.selectByValue(data);
-			Reporter.reportStep("The element with "+ xpathValue+" is selected with value"+ data+" successfuly", "PASS");
+			reportStep("The element with "+ xpathValue +" is selected with value"+ data+" successfuly", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The value "+ data+" is not selected", "FAIL");
+			reportStep("The value "+ data +" is not selected", "FAIL");
 		}
 		return bReturn;
 	}		
@@ -598,10 +555,10 @@ public class GenericWrappers {
 		try {
 			Select dropdown = new Select(driver.findElement(By.id(idValue)));
 			dropdown.selectByVisibleText(data);
-			Reporter.reportStep("The element with "+ idValue+" is selected with value"+ data+" successfuly", "PASS");
+			reportStep("The element with "+ idValue +" is selected with value"+ data+" successfuly", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The value "+ data+" is not selected", "FAIL");
+			reportStep("The value "+ data +" is not selected", "FAIL");
 		}
 		return bReturn;
 	}
@@ -617,10 +574,10 @@ public class GenericWrappers {
 		try {
 			Select dropdown = new Select(driver.findElement(By.name(nameValue)));
 			dropdown.selectByVisibleText(data);
-			Reporter.reportStep("The element with "+ nameValue+" is selected with value"+ data+" successfuly", "PASS");
+			reportStep("The element with "+ nameValue +" is selected with value"+ data+" successfuly", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The value "+ data+" is not selected", "FAIL");
+			reportStep("The value "+ data +" is not selected", "FAIL");
 		}
 		return bReturn;
 	}
@@ -636,10 +593,10 @@ public class GenericWrappers {
 		try {
 			Select dropdown = new Select(driver.findElement(By.className(cnameValue)));
 			dropdown.selectByVisibleText(data);
-			Reporter.reportStep("The element with "+ cnameValue+" is selected with value"+ data+" successfuly", "PASS");
+			reportStep("The element with "+ cnameValue +" is selected with value"+ data+" successfuly", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The value "+ data+" is not selected", "FAIL");
+			reportStep("The value "+ data +" is not selected", "FAIL");
 		}
 		return bReturn;
 	}
@@ -655,10 +612,10 @@ public class GenericWrappers {
 		try {
 			Select dropdown = new Select(driver.findElement(By.cssSelector(cssValue)));
 			dropdown.selectByVisibleText(data);
-			Reporter.reportStep("The element with "+ cssValue+" is selected with value"+ data+" successfuly", "PASS");
+			reportStep("The element with "+ cssValue +" is selected with value"+ data+" successfuly", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The value "+ data+" is not selected", "FAIL");
+			reportStep("The value "+ data +" is not selected", "FAIL");
 		}
 		return bReturn;
 	}
@@ -674,10 +631,10 @@ public class GenericWrappers {
 		try {
 			Select dropdown = new Select(driver.findElement(By.xpath(xpathValue)));
 			dropdown.selectByVisibleText(data);
-			Reporter.reportStep("The element with "+ xpathValue+" is selected with value"+ data+" successfuly", "PASS");
+			reportStep("The element with "+ xpathValue +" is selected with value"+ data+" successfuly", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The value "+ data+" is not selected", "FAIL");
+			reportStep("The value "+ data +" is not selected", "FAIL");
 		}
 		return bReturn;
 	}
@@ -691,10 +648,10 @@ public class GenericWrappers {
 		try {
 			Alert alert = driver.switchTo().alert();
 			alert.accept();
-			Reporter.reportStep("The Alert ok button is clicked successfuly", "PASS");
+			reportStep("The Alert ok button is clicked successfuly", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The Alert ok button has not been clicked", "FAIL");
+			reportStep("The Alert ok button has not been clicked", "FAIL");
 		}
 		return bReturn;
 	}
@@ -708,10 +665,10 @@ public class GenericWrappers {
 		try {
 			Alert alert = driver.switchTo().alert();
 			alert.dismiss();
-			Reporter.reportStep("The Alert Cancel button is clicked successfuly", "PASS");
+			reportStep("The Alert Cancel button is clicked successfuly", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The Alert Cancel button has not been clicked", "FAIL");
+			reportStep("The Alert Cancel button has not been clicked", "FAIL");
 		}
 		return bReturn;
 	}
@@ -726,10 +683,10 @@ public class GenericWrappers {
 		try {
 			Alert alert = driver.switchTo().alert();
 			alert.sendKeys(data);
-			Reporter.reportStep("The value in the Alert box"+data+" has been entered successfuly", "PASS");
+			reportStep("The value in the Alert box"+ data +" has been entered successfuly", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The value in the Alert box"+data+" has not been entered successfuly", "FAIL");
+			reportStep("The value in the Alert box"+ data +" has not been entered successfuly", "FAIL");
 		}
 		return bReturn;
 	}
@@ -744,15 +701,15 @@ public class GenericWrappers {
 		try {
 			Alert alert = driver.switchTo().alert();
 			if(alert.getText().equalsIgnoreCase(data)){
-				Reporter.reportStep("The text in the Alert box"+data+" has been verified successfuly", "PASS");
+				reportStep("The text in the Alert box"+ data +" has been verified successfuly", "PASS");
 				bReturn = true;
 			}
 		} catch (Exception e) {
-			Reporter.reportStep("The text in the Alert box"+data+" has not been verified successfuly", "FAIL");
+			reportStep("The text in the Alert box"+ data +" has not been verified successfuly", "FAIL");
 		}	
 		return bReturn;
 	}
-	
+
 	/**This method is used to Mouse hover on the element using ID element.
 	 * @author balajih
 	 * @param idValue
@@ -763,86 +720,311 @@ public class GenericWrappers {
 		boolean bReturn=false;
 		new Actions(driver).moveToElement(driver.findElement(By.id(idValue))).build().perform();
 		try {
-			Reporter.reportStep("The mouse hover to the"+idValue+" element is successful", "PASS");
+			reportStep("The mouse hover to the"+ idValue +" element is successful", "PASS");
 			bReturn = true;
-			
+
 		} catch (Throwable e) {
-			Reporter.reportStep("The mouse hover to the"+idValue+" element is not successful", "FAIL");
+			reportStep("The mouse hover to the"+ idValue +" element is not successful", "FAIL");
 		}
 		return bReturn;
 	}
-	/**This method is used to switch the frame with id
+
+	/**
+     * This method is used to switch the frame with id
+     *
+     * @author balajih & Udhay
+     * @param data
+     * @return
+     * @throws Throwable
+     */
+	public boolean switchToFrameByID(String data) throws Throwable {
+		boolean bReturn = false;
+		try {
+			driver.switchTo().frame(driver.findElement(By.id(data)));
+			bReturn = true;
+		} catch (Exception e) {
+			reportStep("Frame not switched successfully", "FAIL");
+		}
+		return bReturn;
+	}
+
+    /**
+     * This method is used to sleep for the given seconds
+     *
      * @author balajih
      * @param data
      * @return
      * @throws Throwable
      */
-    public boolean switchToFrameByID(String data) throws Throwable{
-        boolean bReturn = false;
+    public void waitForPageLoad(long seconds) {
         try {
-driver.switchTo().frame(driver.findElement(By.id(data)));
-			Reporter.reportStep("Frame switched successfully", "PASS");
-                bReturn = true;
+            Thread.sleep(seconds * 1000);
         } catch (Exception e) {
-            Reporter.reportStep("Frame not switched successfully", "FAIL");
+            e.printStackTrace();
         }
-        return bReturn;
     }
 
-
-
-    /**This method is used to sleep for the given seconds
+    /**
+     * This method is used to switch the frame with id
+     *
      * @author balajih
      * @param data
      * @return
      * @throws Throwable
      */
-    public void waitForPageLoad(long seconds){
-    try {
-        Thread.sleep(seconds*1000);
-    } catch (Exception e) {
-    
-        e.printStackTrace();
-    }
-    }
-
-
-    /**This method is used to switch the frame with id
-     * @author balajih
-     * @param data
-     * @return
-     * @throws Throwable
-     */
-    public String switchToWindow() throws Throwable{
-        //boolean bReturn = false;
+    public String switchToWindow() throws Throwable {
+        // boolean bReturn = false;
         String currentWin = null;
         try {
-                 currentWin = driver.getWindowHandle();
-                for(String newWindow : driver.getWindowHandles()){
-                    driver.switchTo().window(newWindow);
-                }
-            //bReturn = true;
+            currentWin = driver.getWindowHandle();
+            for (String newWindow : driver.getWindowHandles()) {
+                driver.switchTo().window(newWindow);
+            }
+            // bReturn = true;
         } catch (Exception e) {
-            Reporter.reportStep("Winodw not switched successfully", "FAIL");
+            reportStep("Winodw not switched successfully", "FAIL");
         }
         return currentWin;
     }
 
+    /**
+     * This method is used to open a new URL
+     *
+     * @author balajih
+     * @param data
+     * @return
+     * @throws Throwable
+     */
+    public boolean openbrowser(String URL) throws Throwable {
+        boolean bReturn = false;
+        try {
+            driver.get(URL);
+            waitForPageLoad(10);
+            bReturn = true;
+        } catch (Exception e) {
+            reportStep(URL+" : not launched successfully", "FAIL");
+        }
+        return bReturn;
+    }
 
+    /**
+     * This method will verify the fetched title is matching or not.
+     *
+     * @author balajih
+     * @param title
+     * @return
+     * @throws Throwable
+     */
+    public boolean VerifyTitleEndsWith(String title) throws Throwable {
+        boolean bReturn = false;
+        if (driver.getTitle().trim().endsWith(title)) {
+            try {
+                reportStep("The title of the page" + title + " is matching successfully", "PASS");
+                bReturn = true;
+
+            } catch (Exception e) {
+                reportStep("The title of the page" + title + " is not matching successfully", "FAIL");
+                bReturn = false;
+            }
+        }
+        return bReturn;
+    }
+
+    /**
+     * This method will enter the value keyboard buttons
+     *
+     * @author Balajih & udayasundar
+     * @param idValue
+     * @param data
+     * @return
+     * @throws Throwable
+     */
+    public boolean enterkeysbyClassName(String cnameValue) throws Throwable {
+    	boolean bReturn = false;
+    	try {
+    		driver.findElement(By.className(cnameValue)).sendKeys(Keys.ENTER);
+    		// reportStep("The data "+ data +" is entered successfully
+    		// in the field:" + cnameValue, "PASS");
+    		bReturn = true;
+    	} catch (Exception e) {
+    		// reportStep("The data "+ data +" is not entered
+    		// successfully in the field:" + cnameValue, "FAIL");
+    	}
+    	return bReturn;
+    }
+
+    public void enterBrowseruNamePwd(String uName, String pwd) {
+        try{
+        //wait - increase this wait period if required
+        waitForPageLoad(5);
+
+        //create robot for keyboard operations
+        Robot rb = new Robot();
+
+        //Enter user name by ctrl-v
+        StringSelection username = new StringSelection(uName);
+Toolkit.getDefaultToolkit().getSystemClipboard().setContents(username, null);
+        rb.keyPress(KeyEvent.VK_CONTROL);
+        rb.keyPress(KeyEvent.VK_V);
+        rb.keyRelease(KeyEvent.VK_V);
+        rb.keyRelease(KeyEvent.VK_CONTROL);
+
+        //tab to password entry field
+        rb.keyPress(KeyEvent.VK_TAB);
+        rb.keyRelease(KeyEvent.VK_TAB);
+        waitForPageLoad(2);
+
+        //Enter password by ctrl-v
+        StringSelection passwd = new StringSelection(pwd);
+Toolkit.getDefaultToolkit().getSystemClipboard().setContents(passwd, null);
+        rb.keyPress(KeyEvent.VK_CONTROL);
+        rb.keyPress(KeyEvent.VK_V);
+        rb.keyRelease(KeyEvent.VK_V);
+        rb.keyRelease(KeyEvent.VK_CONTROL);
+
+        //press enter
+        rb.keyPress(KeyEvent.VK_ENTER);
+        rb.keyRelease(KeyEvent.VK_ENTER);
+
+        //wait
+        waitForPageLoad(2);
+
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * This method will enter the value keyboard buttons
+     *
+     * @author Balajih & udayasundar
+     * @param idValue
+     * @param data
+     * @return
+     * @throws Throwable
+     */
+    public String verifyTablecellValuebyXpath(String xpathValue, int rowNum, int colNum) throws Throwable {
+        String value = null;
+        try {
+            value = driver.findElement(By.xpath(xpathValue+"/tr["+rowNum+"]/td["+colNum+"]")).getText();
+        } catch (Exception e) {
+        }
+        return value;
+    }
+
+    public int getTableRowcountbyXpath(String xpathValue) throws Throwable {
+        int rowCount=0;
+        try {
+            rowCount = (int) driver.findElements(By.xpath(xpathValue+"/tr")).size();
+        } catch (Exception e) {
+        }
+        return rowCount;
+    }
+
+    public int getTableColcountbyXpath(String xpathValue) throws Throwable {
+        int colCount=0;
+        try {
+            colCount = (int) driver.findElements(By.xpath(xpathValue+"/tr[1]/td")).size();
+        } catch (Exception e) {
+        }
+        return colCount;
+    }
+
+    /*public WebDriver getdriver(){
+            driver = (WebDriver)rdriver.get();
+        return driver;
+    }*/
+
+    //To kill browser drivers
+    public void killAllDrivers() {
+        try {
+            Process p =
+                Runtime.getRuntime().exec("taskkill /F /IM IEDriverServer.exe");
+            try {
+                p.waitFor();
+                Thread.sleep(3000);
+            } catch (InterruptedException e2) {
+                e2.printStackTrace();
+            }
+            p = Runtime.getRuntime().exec("taskkill /F /IM chromedriver.exe*");
+            try {
+                p.waitFor();
+                Thread.sleep(3000);
+            } catch (InterruptedException e1) {
+
+                e1.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+/**This method is to clear Cache & Cookies in a browser
+ * @author balajih & Udhaysundar
+ * @param browserName
+ * @param capabilities
+ */
+    //
+    public void clearCookies(String browserName, DesiredCapabilities capabilities){
+if(browserName.equalsIgnoreCase("firefox")||browserName.equalsIgnoreCase("ff")){
+            driver.manage().deleteAllCookies();
+        }
+        else if(browserName.equalsIgnoreCase("IE")||browserName.equalsIgnoreCase("internetexplorer")){
+            capabilities = DesiredCapabilities.internetExplorer();
+capabilities.setCapability(InternetExplorerDriver.IE_ENSURE_CLEAN_SESSION, true);
+        }
+        else if(browserName.equalsIgnoreCase("chrome")||browserName.equalsIgnoreCase("ch")){
+            driver.manage().deleteAllCookies();
+        }
+    }
+    
+/**This method is to Switch to Default Content from nested windows
+ * @author balajih & Udhaysundar
+ * @return
+ */
+    public boolean switchToDefaultContent(){
+        boolean bReturn = false;
+        try{
+            driver.switchTo().defaultContent();
+            bReturn = true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bReturn;
+    }
 
 	/**This method is to quit the current Browser opened for testing
 	 * @author balajih
 	 * @throws Throwable
 	 */
 	public void quitBrowser() throws Throwable{
-	
+
 		try {
-		driver.quit();
-		
+			driver.quit();
+
 		} catch (Throwable e) {
-			Reporter.reportStep("The Browser" + ((RemoteWebDriver) driver).getCapabilities().getBrowserName()+ " could not be closed", "FAIL");//Changed -  "" + driver.getCapabilities().getBrowserName()+ ""
+			//reportStep("The Browser" + driver.getCapabilities().getBrowserName()+ "could not be closed", "FAIL");
 			e.printStackTrace();
 		}
 	}
-
+public long takeSnap() {
+	 long number = (long) Math.floor(Math.random()* 900000000L) + 100000000L;
+	 
+	
+		 try {
+			File srcFile = driver.getScreenshotAs(OutputType.FILE);
+			 FileUtils.copyFile(srcFile, new File("./reports/images/"+number+".png"));
+		} catch (WebDriverException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	return number;
+		 
+	
+}
 }

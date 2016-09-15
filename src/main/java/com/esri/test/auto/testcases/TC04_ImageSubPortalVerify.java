@@ -24,7 +24,7 @@ public class TC04_ImageSubPortalVerify extends ESRIWrappers {
 	
 	@Test(dataProvider="fetchdata")
 	public void imageSubmissionPortalVerify(String p3Title) throws Throwable{
-		new ImageSubPortalVerify()
+		new ImageSubPortalVerify(driver, test)
 		.verifyImagesubPortalTitle(p3Title);
 	}
 

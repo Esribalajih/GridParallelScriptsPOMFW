@@ -2,52 +2,67 @@ package com.esri.test.auto.wrappers;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
+
 import com.esri.test.auto.utils.DataInputProvider;
 import com.esri.test.auto.utils.Reporter;
+import com.relevantcodes.extentreports.ExtentTest;
 
-public class ESRIWrappers extends com.esri.test.auto.wrappers.GenericWrappers{
+
+
+public class ESRIWrappers extends GenericWrappers{
 	
 	protected String browserName;
-	protected String dataSheetName="ImageSubPortal";
-	protected static String testCaseName;
-	protected static String testDescription;
+
+	protected String dataSheetName;
+/*	protected static String testCaseName;
+	protected static String testDescription;*/
 	
 	@BeforeSuite
 	public void beforeSuite() throws FileNotFoundException, IOException {
-		Reporter.startResult();
+		startResult();
 		loadObjects();
-	 }
-		
-	 @BeforeMethod
-	  public void beforeMethod() {
-		 Reporter.startTestCase();
-		 try {
-			invokeApp(browserName);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
 	  }
+	@Parameters("browser")
+	 @BeforeMethod
+	 	  public void beforeMethod(String browserName) {
+		 startTestCase();
+		 invokeApp(browserName);
+	  }
+
+
 
    @DataProvider(name="fetchdata")
   public Object[][] getdata() throws Throwable {
-	 // System.out.println(DataInputProvider.getSheet(dataSheetName));
-   return DataInputProvider.getSheet(dataSheetName);
+	  return DataInputProvider.getSheet(dataSheetName);
+    
   }
  
-  @AfterMethod
-  public void afterMethod() {
-	  
+   
+  @AfterClass(alwaysRun=true)
+  public void afterMethod() throws Throwable {
+	
+	  endResult();
+	  quitBrowser();
   }
-
-    @AfterSuite
+  	
+  @AfterMethod(alwaysRun=true)
+  public void afterClass() throws Throwable {
+	
+	  stopTest();
+	  quitBrowser();
+  }
+/*    @AfterSuite
   public void afterSuite() throws Throwable {
-    	Reporter.endResult();
-    	quitBrowser();
+    	Reporter.endSuite();
+    	
   }
+*/
 }
