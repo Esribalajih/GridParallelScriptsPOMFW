@@ -1,33 +1,35 @@
 package com.esri.test.auto.pages;
 
-import com.esri.test.auto.utils.Reporter;
 import com.esri.test.auto.wrappers.ESRIWrappers;
 
 /**
- * This is the Sigin Page of ESRI Application
+ * This is the Facebook Signin Page of IAM Application
  * 
- * @author balajih
+ * @author udhayasundar
  *
  */
 public class FacebookSigninPage extends ESRIWrappers {
 
 	public FacebookSigninPage() throws Throwable {
-		waitForPageLoad(5);
-		System.out.println("Log in to Facebook | Facebook");
-		if (!VerifyTitle("Log in to Facebook | Facebook")) {
-			Reporter.reportStep("This is not a login page", "FAIL");
-		}
+		waitForPageLoad(10);
+		switchToWindow();
+		/*
+		 * if (VerifyTitle("Log in to Facebook | Facebook")||VerifyTitle(
+		 * "Log into Facebook | Facebook")) { Reporter.reportStep(
+		 * "Log into Facebook | Facebook - login page", "PASS"); } else{
+		 * Reporter.reportStep("This is not a login page", "FAIL"); }
+		 */
+		System.out.println("Log into Facebook | Facebook");
 	}
 
 	// Enter the UserName
 	public FacebookSigninPage enterUserName(String userdata) throws Throwable {
 		waitForPageLoad(5);
 		try {
-			switchToWindow();
+			// switchToWindow();
 			System.out.println("Window switched");
 			enterbyId(prop.getProperty("fbSignin.userName.id"), userdata);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return this;
@@ -38,24 +40,19 @@ public class FacebookSigninPage extends ESRIWrappers {
 		try {
 			enterbyId(prop.getProperty("fbSignin.password.id"), pwd);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return this;
 	}
 
-	// Click Sign in button positive scenario
+	// Click Sign in button
 	public HomePage clickLoginBtn() throws Throwable {
 		try {
 			clickByName(prop.getProperty("fbSignin.loginBtn.name"));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return new HomePage();
 	}
 
-	
-	
-	
 }

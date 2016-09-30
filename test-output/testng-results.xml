@@ -2,12 +2,12 @@
 <testng-results skipped="0" failed="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Suite" duration-ms="26564" started-at="2016-09-07T11:13:16Z" finished-at="2016-09-07T11:13:42Z">
+  <suite name="Suite" duration-ms="23592" started-at="2016-09-12T12:39:14Z" finished-at="2016-09-12T12:39:37Z">
     <groups>
     </groups>
-    <test name="ImageSubmissionPortal" duration-ms="26564" started-at="2016-09-07T11:13:16Z" finished-at="2016-09-07T11:13:42Z">
+    <test name="ImageSubmissionPortal" duration-ms="23592" started-at="2016-09-12T12:39:14Z" finished-at="2016-09-12T12:39:37Z">
       <class name="imageSubmissionPortalTestcases.ImageSubmissionDropdown">
-        <test-method status="PASS" signature="setup(java.lang.String)[pri:0, instance:imageSubmissionPortalTestcases.ImageSubmissionDropdown@5383967b]" name="setup" is-config="true" duration-ms="4333" started-at="2016-09-07T16:43:16Z" finished-at="2016-09-07T16:43:20Z">
+        <test-method status="PASS" signature="setup(java.lang.String)[pri:0, instance:imageSubmissionPortalTestcases.ImageSubmissionDropdown@5383967b]" name="setup" is-config="true" duration-ms="3638" started-at="2016-09-12T18:09:14Z" finished-at="2016-09-12T18:09:17Z">
           <params>
             <param index="0">
               <value>
@@ -18,11 +18,11 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method status="PASS" signature="ImageSubmissionPortaltest()[pri:0, instance:imageSubmissionPortalTestcases.ImageSubmissionDropdown@5383967b]" name="ImageSubmissionPortaltest" duration-ms="22218" started-at="2016-09-07T16:43:20Z" finished-at="2016-09-07T16:43:42Z">
+        <test-method status="PASS" signature="ImageSubmissionPortaltest()[pri:0, instance:imageSubmissionPortalTestcases.ImageSubmissionDropdown@5383967b]" name="ImageSubmissionPortaltest" duration-ms="19938" started-at="2016-09-12T18:09:17Z" finished-at="2016-09-12T18:09:37Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- ImageSubmissionPortaltest -->
-        <test-method status="PASS" signature="afterSuite()[pri:0, instance:imageSubmissionPortalTestcases.ImageSubmissionDropdown@5383967b]" name="afterSuite" is-config="true" duration-ms="361" started-at="2016-09-07T16:43:42Z" finished-at="2016-09-07T16:43:43Z">
+        <test-method status="PASS" signature="afterSuite()[pri:0, instance:imageSubmissionPortalTestcases.ImageSubmissionDropdown@5383967b]" name="afterSuite" is-config="true" duration-ms="419" started-at="2016-09-12T18:09:37Z" finished-at="2016-09-12T18:09:38Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- afterSuite -->
