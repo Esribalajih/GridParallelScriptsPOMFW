@@ -1,29 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite guice-stage="DEVELOPMENT" name="Failed suite [Suite]" parallel="tests">
-  <parameter name="browser" value="firefox"/>
-  <test name="FW-ISP(failed)" parallel="tests">
-    <parameter name="browser" value="firefox"/>
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
+  <test name="Default test(failed)">
     <classes>
-      <class name="com.esri.test.auto.testcases.TC03_ImageSubPortalPermissionPage">
+      <class name="com.esri.test.auto.testcases.Sample1">
         <methods>
-          <include name="beforeMethod"/>
-          <include name="beforeClass"/>
-          <include name="imageSubmissionPortalPermission"/>
-        </methods>
-      </class> <!-- com.esri.test.auto.testcases.TC03_ImageSubPortalPermissionPage -->
-      <class name="com.esri.test.auto.testcases.TC02_ImageSubPortalPage1">
-        <methods>
-          <include name="startTestCase"/>
           <include name="beforeSuite"/>
-          <include name="imageSubmissionPortal"/>
+          <include name="search"/>
         </methods>
-      </class> <!-- com.esri.test.auto.testcases.TC02_ImageSubPortalPage1 -->
-      <class name="com.esri.test.auto.testcases.TC04_ImageSubPortalVerify">
-        <methods>
-          <include name="imageSubmissionPortalVerify"/>
-        </methods>
-      </class> <!-- com.esri.test.auto.testcases.TC04_ImageSubPortalVerify -->
+      </class> <!-- com.esri.test.auto.testcases.Sample1 -->
     </classes>
-  </test> <!-- FW-ISP(failed) -->
-</suite> <!-- Failed suite [Suite] -->
+  </test> <!-- Default test(failed) -->
+</suite> <!-- Failed suite [Default suite] -->

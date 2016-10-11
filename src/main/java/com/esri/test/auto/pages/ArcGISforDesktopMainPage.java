@@ -15,47 +15,58 @@ public class ArcGISforDesktopMainPage extends ESRIWrappers{
 	}
 	
 	public ArcGISforDesktopMainPage clickMainTab() throws Throwable{
-		clickbyXpath(prop.getProperty("arcGISDesktopPage.subMenuMainlink.xpath"));
+		clickByXpath(prop.getProperty("arcGISDesktopPage.subMenuMainlink.xpath"));
 		return this;
 	}
 	
 	public ArcGISforDesktopMainPage verifyMainHeader(String mainHdr) throws Throwable{
-		VerifyTextbyXpath(prop.getProperty("arcGISDesktopPage.mainHeader.xpath"), mainHdr);
+		VerifyTextByXpath(prop.getProperty("arcGISDesktopPage.mainHeader.xpath"), mainHdr);
 		return this;
 	}
 	
 	public ArcGISforDesktopMainPage verifyMainTopic2(String Mtopic2) throws Throwable{
-		VerifyTextbyXpath(prop.getProperty("arcGISDesktopPage.MTopic2.xpath"), Mtopic2);
+		VerifyTextByXpath(prop.getProperty("arcGISDesktopPage.MTopic2.xpath"), Mtopic2);
 		return this;
 	}
 	
 	public ArcGISforDesktopMainPage verifyMainTopic3(String Mtopic3) throws Throwable{
-		VerifyTextbyXpath(prop.getProperty("arcGISDesktopPage.MTopic3.xpath"),Mtopic3);
+		VerifyTextByXpath(prop.getProperty("arcGISDesktopPage.MTopic3.xpath"),Mtopic3);
 		return this;
 	}
 	
 	public ArcGISforDesktopMainPage verifyMainTopic4(String Mtopic4) throws Throwable{
-		VerifyTextbyXpath(prop.getProperty("arcGISDesktopPage.MTopic4.xpath"), Mtopic4);
+		VerifyTextByXpath(prop.getProperty("arcGISDesktopPage.MTopic4.xpath"), Mtopic4);
 		return this;
 	}
 	
 	public ArcGISforDesktopMainPage verifyMainTopic5(String Mtopic5) throws Throwable{
-		VerifyTextbyXpath(prop.getProperty("arcGISDesktopPage.MTopic5.xpath"), Mtopic5);
+		VerifyTextByXpath(prop.getProperty("arcGISDesktopPage.MTopic5.xpath"), Mtopic5);
 		return this;
 	}
 	
 	public ArcGISforDesktopMainPage verifyMainTopic6(String Mtopic6) throws Throwable{
-		VerifyTextbyXpath(prop.getProperty("arcGISDesktopPage.MTopic6.xpath"), Mtopic6);
+		VerifyTextByXpath(prop.getProperty("arcGISDesktopPage.MTopic6.xpath"), Mtopic6);
 		return this;
 	}
 	
 	public ArcGISforDesktopFreeTrialPage clickFreeTrialLink() throws Throwable{
-		clickbyXpath(prop.getProperty("arcGISDesktopPage.FreeTrial.xpath"));
+		clickByXpath(prop.getProperty("arcGISDesktopPage.FreeTrial.xpath"));
 		return new ArcGISforDesktopFreeTrialPage();
 	}
 	
 	public ArcGISforDesktopFeaturesPage clickFeaturesTab() throws Throwable {
-		clickbyXpath(prop.getProperty("arcGISDesktopPage.subMenuFeatureslink.xpath"));
+		clickByXpath(prop.getProperty("arcGISDesktopPage.subMenuFeatureslink.xpath"));
 		return new ArcGISforDesktopFeaturesPage();
 	}
+	
+	public ArcGISforDesktopPricingPage clickPricingTab() throws Throwable{
+		clickByXpath(prop.getProperty(""));
+		return new ArcGISforDesktopPricingPage();
+	}
+	
+	public ArcGISforDesktopSysRePage clickDesktopSysReTab() throws Throwable{
+		clickByXpath(prop.getProperty(""));
+		return new ArcGISforDesktopSysRePage();
+	}
+	
 }

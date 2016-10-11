@@ -34,15 +34,11 @@ public class ESRIWrappers extends GenericWrappers{
 		invokeApp(browserName);
 	}
 
-
-
 	@DataProvider(name="fetchdata")
 	public Object[][] getdata() throws Throwable {
 		return DataInputProvider.getSheet(dataSheetName);
-
 	}
-
-
+	
 	@AfterMethod
 	public void afterMethod() throws Throwable {
 		Reporter.endResult();

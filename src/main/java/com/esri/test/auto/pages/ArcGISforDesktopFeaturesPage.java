@@ -15,77 +15,77 @@ public class ArcGISforDesktopFeaturesPage extends ESRIWrappers{
 	}
 	
 	public ArcGISforDesktopFeaturesPage clickFeaturesTab() throws Throwable{
-		clickbyXpath(prop.getProperty("arcGISDesktopPage.subMenuFeatureslink.xpath"));
+		clickByXpath(prop.getProperty("arcGISDesktopPage.subMenuFeatureslink.xpath"));
 		return this;
 	}
 	
 	public ArcGISforDesktopFeaturesPage verifyFeaturesHdr(String FHdr) throws Throwable{
-		VerifyTextbyXpath(prop.getProperty("arcGISDesktopPage.featuresHeader.xpath"), FHdr);
+		VerifyTextByXpath(prop.getProperty("arcGISDesktopPage.featuresHeader.xpath"), FHdr);
 		return this;
 	}
 	
 	public ArcGISforDesktopFeaturesPage verifyFeaturesTopic2(String FTopic2) throws Throwable{
-		VerifyTextbyXpath(prop.getProperty("arcGISDesktopPage.FTopic2.xpath"), FTopic2);
+		VerifyTextByXpath(prop.getProperty("arcGISDesktopPage.FTopic2.xpath"), FTopic2);
 		return this;
 	}
 	
 	public ArcGISforDesktopFeaturesPage verifyFeaturesTopic3(String FTopic3) throws Throwable{
-		VerifyTextbyXpath(prop.getProperty("arcGISDesktopPage.FTopic3.xpath"), FTopic3);
+		VerifyTextByXpath(prop.getProperty("arcGISDesktopPage.FTopic3.xpath"), FTopic3);
 		return this;
 	}
 	
 	public ArcGISforDesktopFeaturesPage verifyFeaturesKeyHdr(String KeyFHdr) throws Throwable{
-		VerifyTextbyXpath(prop.getProperty("arcGISDesktopPage.KeyFHdr.xpath"), KeyFHdr);
+		VerifyTextByXpath(prop.getProperty("arcGISDesktopPage.KeyFHdr.xpath"), KeyFHdr);
 		return this;
 	}
 	
 	public ArcGISforDesktopFeaturesPage verifyFeaturesKeyTopic1(String KeyTopic1) throws Throwable{
-		VerifyTextbyXpath(prop.getProperty("arcGISDesktopPage.KeyFTopic1.xpath"), KeyTopic1);
+		VerifyTextByXpath(prop.getProperty("arcGISDesktopPage.KeyFTopic1.xpath"), KeyTopic1);
 		return this;
 	}
 	
 	public ArcGISforDesktopFeaturesPage verifyFeaturesKeyTopic2(String KeyTopic2) throws Throwable{
-		VerifyTextbyXpath(prop.getProperty("arcGISDesktopPage.KeyFTopic1.xpath"), KeyTopic2);
+		VerifyTextByXpath(prop.getProperty("arcGISDesktopPage.KeyFTopic2.xpath"), KeyTopic2);
 		return this;
 	}
 	
 	public ArcGISforDesktopFeaturesPage verifyFeaturesKeyTopic3(String KeyTopic3) throws Throwable{
-		VerifyTextbyXpath(prop.getProperty("arcGISDesktopPage.KeyFTopic1.xpath"), KeyTopic3);
+		VerifyTextByXpath(prop.getProperty("arcGISDesktopPage.KeyFTopic3.xpath"), KeyTopic3);
 		return this;
 	}
 	
 	public ArcGISforDesktopFeaturesPage verifyFeaturesKeyTopic4(String KeyTopic4) throws Throwable{
-		VerifyTextbyXpath(prop.getProperty("arcGISDesktopPage.KeyFTopic1.xpath"), KeyTopic4);
+		VerifyTextByXpath(prop.getProperty("arcGISDesktopPage.KeyFTopic4.xpath"), KeyTopic4);
 		return this;
 	}
 	
 	public ArcGISforDesktopFeaturesPage verifyFeaturesKeyTopic5(String KeyTopic5) throws Throwable{
-		VerifyTextbyXpath(prop.getProperty("arcGISDesktopPage.KeyFTopic1.xpath"), KeyTopic5);
+		VerifyTextByXpath(prop.getProperty("arcGISDesktopPage.KeyFTopic5.xpath"), KeyTopic5);
 		return this;
 	}
 	
 	public ArcGISforDesktopFeaturesPage verifyFeaturesKeyTopic6(String KeyTopic6) throws Throwable{
-		VerifyTextbyXpath(prop.getProperty("arcGISDesktopPage.KeyFTopic1.xpath"), KeyTopic6);
+		VerifyTextByXpath(prop.getProperty("arcGISDesktopPage.KeyFTopic6.xpath"), KeyTopic6);
 		return this;
 	}
 	
 	public ArcGISforDesktopFeaturesPage verifyFeaturesKeyTopic7(String KeyTopic7) throws Throwable{
-		VerifyTextbyXpath(prop.getProperty("arcGISDesktopPage.KeyFTopic1.xpath"), KeyTopic7);
+		VerifyTextByXpath(prop.getProperty("arcGISDesktopPage.KeyFTopic7.xpath"), KeyTopic7);
 		return this;
 	}
 	
 	public ArcGISforDesktopFeaturesPage verifyFeaturesKeyTopic8(String KeyTopic8) throws Throwable{
-		VerifyTextbyXpath(prop.getProperty("arcGISDesktopPage.KeyFTopic1.xpath"), KeyTopic8);
+		VerifyTextByXpath(prop.getProperty("arcGISDesktopPage.KeyFTopic8.xpath"), KeyTopic8);
 		return this;
 	}
 	
 	public ArcGISforDesktopFeaturesPage verifyFeaturesMoreDetailsLink(String FmdLink) throws Throwable{
-		VerifyTextbyXpath(prop.getProperty("arcGISDesktopPage.MDLink.xpath"), FmdLink);
+		VerifyTextByXpath(prop.getProperty("arcGISDesktopPage.MDLink.xpath"), FmdLink);
 		return this;
 	}
 	
 	public WhatsNewArcGISPage clickFeaturesMoreDetailsLink() throws Throwable{
-		clickbyXpath(prop.getProperty("arcGISDesktopPage.MDLink.xpath"));
+		clickByXpath(prop.getProperty("arcGISDesktopPage.MDLink.xpath"));
 		return new WhatsNewArcGISPage();
 	}
 

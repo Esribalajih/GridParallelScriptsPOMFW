@@ -7,5 +7,7 @@ import com.esri.test.auto.wrappers.ESRIWrappers;
  *
  */
 public class ArcGISforDesktopFreeTrialPage extends ESRIWrappers{
+	
+	
 
 }

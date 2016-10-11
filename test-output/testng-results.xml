@@ -1,32 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" total="1" passed="1">
+<testng-results skipped="1" failed="0" total="1" passed="0">
   <reporter-output>
   </reporter-output>
-  <suite name="Suite" duration-ms="23592" started-at="2016-09-12T12:39:14Z" finished-at="2016-09-12T12:39:37Z">
+  <suite name="Default suite" duration-ms="22" started-at="2016-10-11T13:08:18Z" finished-at="2016-10-11T13:08:18Z">
     <groups>
     </groups>
-    <test name="ImageSubmissionPortal" duration-ms="23592" started-at="2016-09-12T12:39:14Z" finished-at="2016-09-12T12:39:37Z">
-      <class name="imageSubmissionPortalTestcases.ImageSubmissionDropdown">
-        <test-method status="PASS" signature="setup(java.lang.String)[pri:0, instance:imageSubmissionPortalTestcases.ImageSubmissionDropdown@5383967b]" name="setup" is-config="true" duration-ms="3638" started-at="2016-09-12T18:09:14Z" finished-at="2016-09-12T18:09:17Z">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[firefox]]>
-              </value>
-            </param>
-          </params>
+    <test name="Default test" duration-ms="22" started-at="2016-10-11T13:08:18Z" finished-at="2016-10-11T13:08:18Z">
+      <class name="com.esri.test.auto.testcases.Sample1">
+        <test-method status="PASS" signature="beforeSuite()[pri:0, instance:com.esri.test.auto.testcases.Sample1@57536d79]" name="beforeSuite" is-config="true" duration-ms="172" started-at="2016-10-11T18:38:18Z" finished-at="2016-10-11T18:38:18Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- setup -->
-        <test-method status="PASS" signature="ImageSubmissionPortaltest()[pri:0, instance:imageSubmissionPortalTestcases.ImageSubmissionDropdown@5383967b]" name="ImageSubmissionPortaltest" duration-ms="19938" started-at="2016-09-12T18:09:17Z" finished-at="2016-09-12T18:09:37Z">
+        </test-method> <!-- beforeSuite -->
+        <test-method status="FAIL" signature="beforeMethod(java.lang.String)[pri:0, instance:com.esri.test.auto.testcases.Sample1@57536d79]" name="beforeMethod" is-config="true" duration-ms="0" started-at="2016-10-11T18:38:18Z" finished-at="2016-10-11T18:38:18Z">
+          <exception class="org.testng.TestNGException">
+            <message>
+              <![CDATA[
+Parameter 'browser' is required by @Configuration on method beforeMethod but has not been marked @Optional or defined
+in C:\Users\balajih\AppData\Local\Temp\testng-eclipse--1489803977\testng-customsuite.xml]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[org.testng.TestNGException: 
+Parameter 'browser' is required by @Configuration on method beforeMethod but has not been marked @Optional or defined
+in C:\Users\balajih\AppData\Local\Temp\testng-eclipse--1489803977\testng-customsuite.xml
+	at org.testng.internal.Parameters.createParameters(Parameters.java:156)
+	at org.testng.internal.Parameters.createParameters(Parameters.java:363)
+	at org.testng.internal.Parameters.createConfigurationParameters(Parameters.java:86)
+	at org.testng.internal.Invoker.invokeConfigurations(Invoker.java:202)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:590)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:811)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1129)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:129)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:112)
+	at org.testng.TestRunner.privateRun(TestRunner.java:746)
+	at org.testng.TestRunner.run(TestRunner.java:600)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:366)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:361)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:319)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:268)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1264)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1189)
+	at org.testng.TestNG.runSuites(TestNG.java:1104)
+	at org.testng.TestNG.run(TestNG.java:1076)
+	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:126)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:152)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:57)
+]]>
+            </full-stacktrace>
+          </exception> <!-- org.testng.TestNGException -->
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- ImageSubmissionPortaltest -->
-        <test-method status="PASS" signature="afterSuite()[pri:0, instance:imageSubmissionPortalTestcases.ImageSubmissionDropdown@5383967b]" name="afterSuite" is-config="true" duration-ms="419" started-at="2016-09-12T18:09:37Z" finished-at="2016-09-12T18:09:38Z">
+        </test-method> <!-- beforeMethod -->
+        <test-method status="SKIP" signature="search()[pri:0, instance:com.esri.test.auto.testcases.Sample1@57536d79]" name="search" duration-ms="1" started-at="2016-10-11T18:38:18Z" finished-at="2016-10-11T18:38:18Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- search -->
+        <test-method status="SKIP" signature="afterMethod()[pri:0, instance:com.esri.test.auto.testcases.Sample1@57536d79]" name="afterMethod" is-config="true" duration-ms="0" started-at="2016-10-11T18:38:18Z" finished-at="2016-10-11T18:38:18Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method status="SKIP" signature="afterSuite()[pri:0, instance:com.esri.test.auto.testcases.Sample1@57536d79]" name="afterSuite" is-config="true" duration-ms="0" started-at="2016-10-11T18:38:18Z" finished-at="2016-10-11T18:38:18Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- afterSuite -->
-      </class> <!-- imageSubmissionPortalTestcases.ImageSubmissionDropdown -->
-    </test> <!-- ImageSubmissionPortal -->
-  </suite> <!-- Suite -->
+      </class> <!-- com.esri.test.auto.testcases.Sample1 -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
 </testng-results>

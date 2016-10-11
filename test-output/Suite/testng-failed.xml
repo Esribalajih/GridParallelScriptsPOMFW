@@ -1,29 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite guice-stage="DEVELOPMENT" name="Failed suite [Suite]" parallel="tests">
-  <parameter name="browser" value="firefox"/>
-  <test name="FW-ISP(failed)" parallel="tests">
+<suite thread-count="2" guice-stage="DEVELOPMENT" name="Failed suite [Suite]" parallel="classes" data-provider-thread-count="5">
+  <parameter name="browser" value="internet explorer"/>
+  <test name="ImageSubmissionPortal_Firefox(failed)" parallel="classes">
     <parameter name="browser" value="firefox"/>
     <classes>
-      <class name="com.esri.test.auto.testcases.TC03_ImageSubPortalPermissionPage">
-        <methods>
-          <include name="beforeMethod"/>
-          <include name="beforeClass"/>
-          <include name="imageSubmissionPortalPermission"/>
-        </methods>
-      </class> <!-- com.esri.test.auto.testcases.TC03_ImageSubPortalPermissionPage -->
-      <class name="com.esri.test.auto.testcases.TC02_ImageSubPortalPage1">
+      <class name="com.esri.test.auto.testcases.Sample1">
         <methods>
           <include name="startTestCase"/>
-          <include name="beforeSuite"/>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
           <include name="imageSubmissionPortal"/>
         </methods>
-      </class> <!-- com.esri.test.auto.testcases.TC02_ImageSubPortalPage1 -->
-      <class name="com.esri.test.auto.testcases.TC04_ImageSubPortalVerify">
+      </class> <!-- com.esri.test.auto.testcases.Sample1 -->
+      <class name="com.esri.test.auto.testcases.ImageSubPortalPage_TC01">
         <methods>
-          <include name="imageSubmissionPortalVerify"/>
+          <include name="beforeSuite"/>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="imageSubmissionPortal"/>
+          <include name="afterSuite"/>
         </methods>
-      </class> <!-- com.esri.test.auto.testcases.TC04_ImageSubPortalVerify -->
+      </class> <!-- com.esri.test.auto.testcases.ImageSubPortalPage_TC01 -->
     </classes>
-  </test> <!-- FW-ISP(failed) -->
+  </test> <!-- ImageSubmissionPortal_Firefox(failed) -->
+  <test name="ImageSubmissionPortal_Chrome(failed)" parallel="classes">
+    <parameter name="browser" value="chrome"/>
+    <classes>
+      <class name="com.esri.test.auto.testcases.Sample1">
+        <methods>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="imageSubmissionPortal"/>
+        </methods>
+      </class> <!-- com.esri.test.auto.testcases.Sample1 -->
+      <class name="com.esri.test.auto.testcases.ImageSubPortalPage_TC01">
+        <methods>
+          <include name="beforeSuite"/>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="imageSubmissionPortal"/>
+          <include name="afterSuite"/>
+        </methods>
+      </class> <!-- com.esri.test.auto.testcases.ImageSubPortalPage_TC01 -->
+    </classes>
+  </test> <!-- ImageSubmissionPortal_Chrome(failed) -->
+  <test name="ImageSubmissionPortal_InternetExplorer(failed)" parallel="classes">
+    <parameter name="browser" value="internet explorer"/>
+    <classes>
+      <class name="com.esri.test.auto.testcases.Sample1">
+        <methods>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="imageSubmissionPortal"/>
+        </methods>
+      </class> <!-- com.esri.test.auto.testcases.Sample1 -->
+      <class name="com.esri.test.auto.testcases.ImageSubPortalPage_TC01">
+        <methods>
+          <include name="beforeSuite"/>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="imageSubmissionPortal"/>
+          <include name="afterSuite"/>
+        </methods>
+      </class> <!-- com.esri.test.auto.testcases.ImageSubPortalPage_TC01 -->
+    </classes>
+  </test> <!-- ImageSubmissionPortal_InternetExplorer(failed) -->
 </suite> <!-- Failed suite [Suite] -->

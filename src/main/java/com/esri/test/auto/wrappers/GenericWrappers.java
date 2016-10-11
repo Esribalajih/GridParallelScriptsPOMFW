@@ -17,6 +17,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -34,14 +35,14 @@ import com.esri.test.auto.utils.Reporter;
  * @author balajih
  *
  */
-public class GenericWrappers {
+public class GenericWrappers implements WrappersInterface{
 
 	protected static RemoteWebDriver driver;
 	protected static Properties prop;
 	public String sUrl,primaryWindowHandles,sHubUrl,sHubPort;
 	private String primaryWindowHandle;
 	private String ANY;
-	/**This Contructor is used to load the configuration properties for Selenium Grid 2.0 
+	/**This Constructor is used to load the configuration properties for Selenium Grid 2.0 
 	 * 
 	 */
 	public GenericWrappers(){
@@ -62,11 +63,10 @@ public class GenericWrappers {
 
 	/**This method is to Invoke the Browser
 	 * @author balajih
-	 * @param browser
-	 * @throws Throwable 
+	 * @param browser - name of the webelement
 	 * 
 	 */
-	public void invokeApp(String browser) throws Throwable{
+	public void invokeApp(String browser){
 		boolean bReturn=false;
 
 		DesiredCapabilities dc = new DesiredCapabilities();
@@ -103,25 +103,33 @@ public class GenericWrappers {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public void loadObjects() throws FileNotFoundException, IOException{
+	public void loadObjects() {
 		prop =new Properties();
-		prop.load(new FileInputStream(new File("./src/test/resources/object.properties")));
+		try {
+			prop.load(new FileInputStream(new File("./src/test/resources/object.properties")));
+		} catch (FileNotFoundException e) {
+				e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**This method will enter the value as text field using Id attribute to locate
 	 * @author Balajih & udayasundar
-	 * @param idValue
-	 * @param data
+	 * @param idValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable 
 	 */
-	public boolean enterbyId(String idValue,String data) throws Throwable {
+	public boolean enterById(String idValue,String data) throws Throwable{
 		boolean bReturn = false;
 		try{
 			driver.findElement(By.id(idValue)).clear();
 			driver.findElement(By.id(idValue)).sendKeys(data);
 			Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
 			bReturn = true;
+		} catch (NoSuchElementException e) {
+			Reporter.reportStep("The data "+ data +" couldn't be entered successfully.", "FAIL");
 		} catch (Exception e) {
 			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
 		}
@@ -130,19 +138,21 @@ public class GenericWrappers {
 
 	/**This method will enter the value as text field using Name attribute to locate
 	 * @author Balajih & udayasundar
-	 * @param idValue
-	 * @param data
+	 * @param nameValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable 
 	 */
-	public boolean enterbyName(String nameValue,String data) throws Throwable{
+	public boolean enterByName(String nameValue,String data) throws Throwable{
 		boolean bReturn = false;
 		try {
 			driver.findElement(By.name(nameValue)).clear();
 			driver.findElement(By.name(nameValue)).sendKeys(data);
 			Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
 			bReturn = true;
-		} catch (Exception e) {
+		}  catch (NoSuchElementException e){
+			Reporter.reportStep("The data "+ data +" couldn't be entered successfully.", "FAIL");
+		}  catch (Exception e) {
 			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
 		}
 		return bReturn;
@@ -150,37 +160,41 @@ public class GenericWrappers {
 
 	/**This method will enter the value as text field using ClassName attribute to locate
 	 * @author Balajih & udayasundar
-	 * @param idValue
-	 * @param data
+	 * @param cnameValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable 
 	 */
-	public boolean enterbyClassName(String cnameValue,String data) throws Throwable{
+	public boolean enterByClassName(String cnameValue,String data) throws Throwable{
 		boolean bReturn = false;
 		try {
 			driver.findElement(By.className(cnameValue)).clear();
 			driver.findElement(By.className(cnameValue)).sendKeys(data);
 			Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
 			bReturn = true;
+		}  catch (NoSuchElementException e){
+			Reporter.reportStep("The data "+ data +" couldn't be entered successfully.", "FAIL");
 		} catch (Exception e) {
 			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
 		}
 		return bReturn;
 	}
 	/**This method will enter the value as text field using CssSelector attribute to locate
-	 * @author Balajih & udayasundar
-	 * @param cssValue
-	 * @param data
+	 * @author Balajih
+	 * @param cssValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean enterbyCssSelector(String cssValue,String data) throws Throwable{
+	public boolean enterByCssSelector(String cssValue,String data) throws Throwable{
 		boolean bReturn = false;
 		try {
 			driver.findElement(By.cssSelector(cssValue)).clear();
 			driver.findElement(By.cssSelector(cssValue)).sendKeys(data);
 			Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
 			bReturn = true;
+		} catch (NoSuchElementException e){
+			Reporter.reportStep("The data "+ data +" couldn't be entered successfully.", "FAIL");
 		} catch (Exception e) {
 			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
 		}
@@ -189,18 +203,42 @@ public class GenericWrappers {
 
 	/**This method will enter the value as text field using Xpath attribute to locate
 	 * @author Balajih & udayasundar
-	 * @param xpathValue
-	 * @param data
+	 * @param xpathValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable 
 	 */
-	public boolean enterbyXpath(String xpathValue,String data) throws Throwable{
+	public boolean enterByXpath(String xpathValue,String data) throws Throwable{
 		boolean bReturn = false;
 		try {
 			driver.findElement(By.xpath(xpathValue)).clear();
 			driver.findElement(By.xpath(xpathValue)).sendKeys(data);
 			Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
 			bReturn = true;
+		} catch (NoSuchElementException e){
+			Reporter.reportStep("The data "+ data +" couldn't be entered successfully.", "FAIL");
+		} catch (Exception e) {
+			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
+		}
+		return bReturn;
+	}
+	
+	/**This method will enter the value as text field using tagname attribute to locate
+	 * @author Balajih 
+	 * @param tagValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable 
+	 */
+	public boolean enterByTagname(String tagValue,String data) throws Throwable{
+		boolean bReturn = false;
+		try {
+			driver.findElement(By.tagName(tagValue)).clear();
+			driver.findElement(By.tagName(tagValue)).sendKeys(data);
+			Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
+			bReturn = true;
+		} catch (NoSuchElementException e){
+			Reporter.reportStep("The data "+ data +" couldn't be entered successfully.", "FAIL");
 		} catch (Exception e) {
 			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
 		}
@@ -209,7 +247,7 @@ public class GenericWrappers {
 
 	/**This method will verify the fetched title is matching or not.
 	 * @author balajih
-	 * @param title
+	 * @param title - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -230,18 +268,20 @@ public class GenericWrappers {
 
 	/**This method will verify the entered value in text field using Id attribute to locate
 	 * @author balajih
-	 * @param idValue
-	 * @param data
+	 * @param idValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable 
 	 */
-	public boolean VerifyTextbyId(String idValue,String data) throws Throwable{
+	public boolean VerifyTextById(String idValue,String data) throws Throwable{
 		boolean bReturn = false;
 		try {
 			if(driver.findElement(By.id(idValue)).getText().equalsIgnoreCase(data)){
 				Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
 				bReturn = true;
 			}
+		}  catch (NoSuchElementException e){
+			Reporter.reportStep("The data "+ data +" is not available to verify.", "FAIL");
 		} catch (Exception e) {
 			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
 		}	
@@ -250,12 +290,12 @@ public class GenericWrappers {
 
 	/**This method will verify the entered value in text field using Name attribute to locate
 	 * @author balajih
-	 * @param nameValue
-	 * @param data
+	 * @param nameValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable 
 	 */
-	public boolean VerifyTextbyName(String nameValue,String data) throws Throwable{
+	public boolean VerifyTextByName(String nameValue,String data) throws Throwable{
 		boolean bReturn = false;
 		try {
 			if(driver.findElement(By.name(nameValue)).getText().equalsIgnoreCase(data)){
@@ -270,12 +310,12 @@ public class GenericWrappers {
 
 	/**This method will verify the entered value in text field using Class Name attribute to locate
 	 * @author balajih
-	 * @param cnameValue
-	 * @param data
+	 * @param cnameValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable 
 	 */
-	public boolean VerifyTextbyClassName(String cnameValue,String data) throws Throwable{
+	public boolean VerifyTextByClassName(String cnameValue,String data) throws Throwable{
 		boolean bReturn = false;
 		try {
 			if(driver.findElement(By.className(cnameValue)).getText().equalsIgnoreCase(data)){
@@ -288,14 +328,15 @@ public class GenericWrappers {
 		}	
 		return bReturn;
 	}
+	
 	/**This method will verify the entered value in text field using CSS Selector attribute to locate
 	 * @author balajih
-	 * @param cssValue
-	 * @param data
+	 * @param cssValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable 
 	 */
-	public boolean VerifyTextbyCssSelector(String cssValue,String data) throws Throwable{
+	public boolean VerifyTextByCssSelector(String cssValue,String data) throws Throwable{
 		boolean bReturn = false;
 		try {
 			if(driver.findElement(By.cssSelector(cssValue)).getText().equalsIgnoreCase(data)){
@@ -308,14 +349,15 @@ public class GenericWrappers {
 		}	
 		return bReturn;
 	}
+	
 	/**This method will verify the entered value in text field using Xpath Value attribute to locate
 	 * @author balajih
-	 * @param xpathValue
-	 * @param data
+	 * @param xpathValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean VerifyTextbyXpath(String xpathValue,String data) throws Throwable{
+	public boolean VerifyTextByXpath(String xpathValue,String data) throws Throwable{
 		boolean bReturn = false;
 		try {
 			if(driver.findElement(By.xpath(xpathValue)).getText().equalsIgnoreCase(data)){
@@ -328,132 +370,212 @@ public class GenericWrappers {
 		}	
 		return bReturn;
 	}
+	
+	/**This method will verify the entered value in text field using tagName attribute to locate
+	 * @author balajih
+	 * @param tagValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean VerifyTextBytagName(String tagValue,String data) throws Throwable{
+		boolean bReturn = false;
+		try {
+			if(driver.findElement(By.tagName(tagValue)).getText().equalsIgnoreCase(data)){
+				Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
+				bReturn = true;
+			}
+			else Reporter.reportStep("The data "+ data +" which is not matching correctly.", "FAIL");
+		} catch (Exception e) {
+			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
+		}	
+		return bReturn;
+	}	
+	
 	/**This method will check the click of the buttons or links using the Id attribute to locate
 	 * @author balajih
-	 * @param idValue
+	 * @param idValue - name of the webelement
 	 * @return
 	 * @throws Throwable 
 	 */
 	public boolean clickById(String idValue) throws Throwable{
 		boolean bReturn = false;
 		try {
-			Reporter.reportStep("The button is clicked successfuly", "PASS");
+			Reporter.reportStep("The Button is clicked successfully", "PASS");
 			driver.findElement(By.id(idValue)).click();
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The button is not clicked successfuly", "FAIL");
+			Reporter.reportStep("The Button is not clicked successfully", "FAIL");
 		}	
 		return bReturn;
 	}
 
 	/**This method will check the click of the buttons or links using the Name attribute to locate
 	 * @author balajih
-	 * @param nameValue
+	 * @param nameValue - name of the webelement
 	 * @return
 	 * @throws Throwable 
 	 */
 	public boolean clickByName(String nameValue) throws Throwable{
 		boolean bReturn = false;
 		try {
-			Reporter.reportStep("The button is clicked successfuly", "PASS");
+			Reporter.reportStep("The Button is clicked successfully", "PASS");
 			driver.findElement(By.name(nameValue)).click();
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The button is not clicked successfuly", "FAIL");
+			Reporter.reportStep("The Button is not clicked successfully", "FAIL");
 		}	
 		return bReturn;
 	}
 
 	/**This method will check the click of the buttons or links using the Class Name attribute to locate
 	 * @author balajih
-	 * @param cnameValue
+	 * @param cnameValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean clickbyClassName(String cnameValue) throws Throwable{
+	public boolean clickByClassName(String cnameValue) throws Throwable{
 		boolean bReturn = false;
 		try {
-			Reporter.reportStep("The button is clicked successfuly", "PASS");
+			Reporter.reportStep("The Button is clicked successfully", "PASS");
 			driver.findElement(By.className(cnameValue)).click();
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The button is not clicked successfuly", "FAIL");
+			Reporter.reportStep("The Button is not clicked successfully", "FAIL");
 		}	
 		return bReturn;
 	}
+	
 	/**This method will check the click of the buttons or links using the CSS Selector attribute to locate
 	 * @author balajih
-	 * @param cssValue
+	 * @param cssValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean clickbyCssSelector(String cssValue) throws Throwable{
+	public boolean clickByCssSelector(String cssValue) throws Throwable{
 		boolean bReturn = false;
 		try {
-			Reporter.reportStep("The button is clicked successfuly", "PASS");
+			Reporter.reportStep("The Button is clicked successfully", "PASS");
 			driver.findElement(By.cssSelector(cssValue)).click();
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The button is not clicked successfuly", "FAIL");
+			Reporter.reportStep("The Button is not clicked successfully", "FAIL");
 		}	
 		return bReturn;
 	}
+	
 	/**This method will check the click of the buttons or links using the Xpath attribute to locate
 	 * @author balajih
-	 * @param xpathValue
+	 * @param xpathValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean clickbyXpath(String xpathValue) throws Throwable{
+	public boolean clickByXpath(String xpathValue) throws Throwable{
 		boolean bReturn = false;
 		try {
-			Reporter.reportStep("The button is clicked successfuly", "PASS");
+			Reporter.reportStep("The Button is clicked successfully", "PASS");
 			driver.findElement(By.xpath(xpathValue)).click();
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The button is not clicked successfuly", "FAIL");
+			Reporter.reportStep("The Button is not clicked successfully", "FAIL");
 		}	
 		return bReturn;
 	}
+	
 	/**This method will check the click of the link text attribute to locate
 	 * @author balajih
-	 * @param linkTextValue
+	 * @param linkTextValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean clickbyLinkText(String linkTextValue) throws Throwable{
+	public boolean clickByLinkText(String linkTextValue) throws Throwable{
 		boolean bReturn = false;
 		try {
 			driver.findElement(By.linkText(linkTextValue)).click();
-			Reporter.reportStep("The Link is clicked successfuly", "PASS");
+			Reporter.reportStep("The Link is clicked successfully", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The Link is not clicked successfuly", "FAIL");
+			Reporter.reportStep("The Link is not clicked successfully", "FAIL");
 		}	
 		return bReturn;
 	}
 
 	/**This method will check the click of the partial link text attribute to locate
 	 * @author balajih
-	 * @param partLinkTextValue
+	 * @param partLinkTextValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean clickbyPartialLinkText(String partLinkTextValue) throws Throwable{
+	public boolean clickByPartialLinkText(String partLinkTextValue) throws Throwable{
 		boolean bReturn = false;
 		try {
 			driver.findElement(By.partialLinkText(partLinkTextValue)).click();
-			Reporter.reportStep("The Link is clicked successfuly", "PASS");
+			Reporter.reportStep("The Link is clicked successfully", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The Link is not clicked successfuly", "FAIL");
+			Reporter.reportStep("The Link is not clicked successfully", "FAIL");
 		}	
 		return bReturn;
 	}
-	/**This method is used to fetch the data from dropdown using select by Id attribute to locate
+	
+	/**This method will check the click of the partial link text attribute to locate
 	 * @author balajih
-	 * @param idValue
-	 * @param data
+	 * @param tagNameValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean clickBytagName(String tagNameValue) throws Throwable{
+		boolean bReturn = false;
+		try {
+			driver.findElement(By.tagName(tagNameValue)).click();
+			Reporter.reportStep("The Link is clicked successfully", "PASS");
+			bReturn = true;
+		} catch (Exception e) {
+			Reporter.reportStep("The Link is not clicked successfully", "FAIL");
+		}	
+		return bReturn;
+	}
+	
+	/**This method will check the click of the check box using the Xpath attribute to locate
+	 * @author balajih
+	 * @param xpathValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean clickChkBoxByXpath(String xpathValue) throws Throwable{
+		boolean bReturn = false;
+		try {
+			Reporter.reportStep("The Checkbox is clicked successfully", "PASS");
+			driver.findElement(By.xpath(xpathValue)).click();
+			bReturn = true;
+		} catch (Exception e) {
+			Reporter.reportStep("The Checkbox is not clicked successfully", "FAIL");
+		}	
+		return bReturn;
+	}
+	
+	/**This method will check the click of the check box using the Xpath attribute to locate
+	 * @author balajih
+	 * @param xpathValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean clickRadioBtnByXpath(String xpathValue) throws Throwable{
+		boolean bReturn = false;
+		try {
+			Reporter.reportStep("The Radio Button is clicked successfully", "PASS");
+			driver.findElement(By.xpath(xpathValue)).click();
+			bReturn = true;
+		} catch (Exception e) {
+			Reporter.reportStep("The Radio Button is not clicked successfully", "FAIL");
+		}	
+		return bReturn;
+	}
+	
+	/**This method is used to fetch the data from dropdown using select By Id attribute to locate
+	 * @author balajih
+	 * @param idValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable 
 	 */
@@ -462,17 +584,18 @@ public class GenericWrappers {
 		try {
 			Select dropdown = new Select(driver.findElement(By.id(idValue)));
 			dropdown.selectByValue(data);
-			Reporter.reportStep("The element is selected with value"+ data+" successfuly", "PASS");
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
 			Reporter.reportStep("The value "+ data +"is not selected", "FAIL");
 		}
 		return bReturn;
 	}
-	/**This method is used to fetch the data from dropdown using select by Name attribute to locate
+	
+	/**This method is used to fetch the data from dropdown using select By Name attribute to locate
 	 * @author balajih
-	 * @param nameValue
-	 * @param data
+	 * @param nameValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -481,74 +604,78 @@ public class GenericWrappers {
 		try {
 			Select dropdown = new Select(driver.findElement(By.name(nameValue)));
 			dropdown.selectByValue(data);
-			Reporter.reportStep("The element is selected with value"+ data+" successfuly", "PASS");
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
 			Reporter.reportStep("The value "+ data +"is not selected", "FAIL");
 		}
 		return bReturn;
 	}
-	/**This method is used to fetch the data from dropdown using select by Class Name attribute to locate
+	
+	/**This method is used to fetch the data from dropdown using select By Class Name attribute to locate
 	 * @author balajih
-	 * @param cnameValue
-	 * @param data
+	 * @param cnameValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean selectbyClassNamewithValue(String cnameValue, String data) throws Throwable {
+	public boolean selectByClassNamewithValue(String cnameValue, String data) throws Throwable {
 		boolean bReturn = false;
 		try {
 			Select dropdown = new Select(driver.findElement(By.className(cnameValue)));
 			dropdown.selectByValue(data);
-			Reporter.reportStep("The element is selected with value"+ data+" successfuly", "PASS");
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
 			Reporter.reportStep("The value "+ data +" is not selected", "FAIL");
 		}
 		return bReturn;
 	}
-	/**This method is used to fetch the data from dropdown using select by CSS Selector attribute to locate
+	
+	/**This method is used to fetch the data from dropdown using select By CSS Selector attribute to locate
 	 * @author balajih
-	 * @param idValue
-	 * @param data
+	 * @param idValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable 
 	 */
-	public boolean selectbyCssSelectorWithValue(String cssValue, String data) throws Throwable {
+	public boolean selectByCssSelectorWithValue(String cssValue, String data) throws Throwable {
 		boolean bReturn = false;
 		try {
 			Select dropdown = new Select(driver.findElement(By.cssSelector(cssValue)));
 			dropdown.selectByValue(data);
-			Reporter.reportStep("The element is selected with value"+ data+" successfuly", "PASS");
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
 			Reporter.reportStep("The value "+ data +" is not selected", "FAIL");
 		}
 		return bReturn;
 	}
-	/**This method is used to fetch the data from dropdown using select by Xpath attribute to locate
+	
+	/**This method is used to fetch the data from dropdown using select By Xpath attribute to locate
 	 * @author balajih
-	 * @param xpathValue
-	 * @param data
+	 * @param xpathValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean selectbyXpathWithValue(String xpathValue, String data) throws Throwable {
+	public boolean selectByXpathWithValue(String xpathValue, String data) throws Throwable {
 		boolean bReturn = false;
 		try {
 			Select dropdown = new Select(driver.findElement(By.xpath(xpathValue)));
 			dropdown.selectByValue(data);
-			Reporter.reportStep("The element is selected with value"+ data+" successfuly", "PASS");
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
 			Reporter.reportStep("The value "+ data +" is not selected", "FAIL");
 		}
 		return bReturn;
-	}		
-	/**This method is used to fetch the data from dropdown using select by visible text with Id attribute to locate
+	}	
+	
+	/**This method is used to fetch the data from dropdown using select By visible text with Id attribute to locate
 	 * @author balajih
-	 * @param idValue
-	 * @param data
+	 * @param idValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -557,17 +684,18 @@ public class GenericWrappers {
 		try {
 			Select dropdown = new Select(driver.findElement(By.id(idValue)));
 			dropdown.selectByVisibleText(data);
-			Reporter.reportStep("The element is selected with value"+ data+" successfuly", "PASS");
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
 			Reporter.reportStep("The value "+ data +" is not selected", "FAIL");
 		}
 		return bReturn;
 	}
-	/**This method is used to fetch the data from dropdown using select by visible text with Name attribute to locate
+	
+	/**This method is used to fetch the data from dropdown using select By visible text with Name attribute to locate
 	 * @author balajih
-	 * @param nameValue
-	 * @param data
+	 * @param nameValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -576,70 +704,94 @@ public class GenericWrappers {
 		try {
 			Select dropdown = new Select(driver.findElement(By.name(nameValue)));
 			dropdown.selectByVisibleText(data);
-			Reporter.reportStep("The element is selected with value"+ data+" successfuly", "PASS");
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
 			Reporter.reportStep("The value "+ data +" is not selected", "FAIL");
 		}
 		return bReturn;
 	}
-	/**This method is used to fetch the data from dropdown using select by visible text with Class Name attribute to locate
+	
+	/**This method is used to fetch the data from dropdown using select By visible text with Class Name attribute to locate
 	 * @author balajih
-	 * @param cnameValue
-	 * @param data
+	 * @param cnameValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean selectbyClassNamewithText(String cnameValue, String data) throws Throwable {
+	public boolean selectByClassNamewithText(String cnameValue, String data) throws Throwable {
 		boolean bReturn = false;
 		try {
 			Select dropdown = new Select(driver.findElement(By.className(cnameValue)));
 			dropdown.selectByVisibleText(data);
-			Reporter.reportStep("The element is selected with value"+ data+" successfuly", "PASS");
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
 			Reporter.reportStep("The value "+ data +" is not selected", "FAIL");
 		}
 		return bReturn;
 	}
-	/**This method is used to fetch the data from dropdown using select by visible text with CSS Selector attribute to locate
+	
+	/**This method is used to fetch the data from dropdown using select By visible text with CSS Selector attribute to locate
 	 * @author balajih
-	 * @param cssValue
-	 * @param data
+	 * @param cssValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean selectbyCssSelectorWithText(String cssValue, String data) throws Throwable {
+	public boolean selectByCssSelectorWithText(String cssValue, String data) throws Throwable {
 		boolean bReturn = false;
 		try {
 			Select dropdown = new Select(driver.findElement(By.cssSelector(cssValue)));
 			dropdown.selectByVisibleText(data);
-			Reporter.reportStep("The element is selected with value"+ data+" successfuly", "PASS");
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
 			Reporter.reportStep("The value "+ data +" is not selected", "FAIL");
 		}
 		return bReturn;
 	}
-	/**This method is used to fetch the data from dropdown using select by visible text with Xpath attribute to locate
+	
+	/**This method is used to fetch the data from dropdown using select By visible text with Xpath attribute to locate
 	 * @author balajih
-	 * @param idValue
-	 * @param data
+	 * @param idValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable 
 	 */
-	public boolean selectbyXpathWithText(String xpathValue, String data) throws Throwable {
+	public boolean selectByXpathWithText(String xpathValue, String data) throws Throwable {
 		boolean bReturn = false;
 		try {
 			Select dropdown = new Select(driver.findElement(By.xpath(xpathValue)));
 			dropdown.selectByVisibleText(data);
-			Reporter.reportStep("The element is selected with value"+ data+" successfuly", "PASS");
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
 			Reporter.reportStep("The value "+ data +" is not selected", "FAIL");
 		}
 		return bReturn;
 	}
+	
+	/**This method is used to fetch the data from dropdown using select By visible text with tagName attribute to locate
+	 * @author balajih
+	 * @param tagNameValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable 
+	 */
+	public boolean selectBytagName(String tagNameValue, String data) throws Throwable {
+		boolean bReturn = false;
+		try {
+			Select dropdown = new Select(driver.findElement(By.tagName(tagNameValue)));
+			dropdown.selectByVisibleText(data);
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
+			bReturn = true;
+		} catch (Exception e) {
+			Reporter.reportStep("The value "+ data +" is not selected", "FAIL");
+		}
+		return bReturn;
+	}
+	
 	/**This method is used to click OK button in Alert box
 	 * @author balajih
 	 * @return
@@ -650,13 +802,14 @@ public class GenericWrappers {
 		try {
 			Alert alert = driver.switchTo().alert();
 			alert.accept();
-			Reporter.reportStep("The Alert ok button is clicked successfuly", "PASS");
+			Reporter.reportStep("The Alert ok button is clicked successfully", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
 			Reporter.reportStep("The Alert ok button has not been clicked", "FAIL");
 		}
 		return bReturn;
 	}
+	
 	/**This method is used to click CANCEL button in Alert box
 	 * @author balajih
 	 * @return
@@ -667,16 +820,17 @@ public class GenericWrappers {
 		try {
 			Alert alert = driver.switchTo().alert();
 			alert.dismiss();
-			Reporter.reportStep("The Alert Cancel button is clicked successfuly", "PASS");
+			Reporter.reportStep("The Alert Cancel button is clicked successfully", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
 			Reporter.reportStep("The Alert Cancel button has not been clicked", "FAIL");
 		}
 		return bReturn;
 	}
+	
 	/**This method is used to enter the value in the Alert box
 	 * @author balajih
-	 * @param data
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -685,16 +839,17 @@ public class GenericWrappers {
 		try {
 			Alert alert = driver.switchTo().alert();
 			alert.sendKeys(data);
-			Reporter.reportStep("The value in the Alert box "+ data +" has been entered successfuly", "PASS");
+			Reporter.reportStep("The value in the Alert box "+ data +" has been entered successfully", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
-			Reporter.reportStep("The value in the Alert box "+ data +" has not been entered successfuly", "FAIL");
+			Reporter.reportStep("The value in the Alert box "+ data +" has not been entered successfully", "FAIL");
 		}
 		return bReturn;
 	}
+	
 	/**This method is used to verify the text in the Alert box
 	 * @author balajih
-	 * @param data
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -703,18 +858,18 @@ public class GenericWrappers {
 		try {
 			Alert alert = driver.switchTo().alert();
 			if(alert.getText().equalsIgnoreCase(data)){
-				Reporter.reportStep("The text in the Alert box "+ data +" has been verified successfuly", "PASS");
+				Reporter.reportStep("The text in the Alert box "+ data +" has been verified successfully", "PASS");
 				bReturn = true;
 			}
 		} catch (Exception e) {
-			Reporter.reportStep("The text in the Alert box "+ data +" has not been verified successfuly", "FAIL");
+			Reporter.reportStep("The text in the Alert box "+ data +" has not been verified successfully", "FAIL");
 		}	
 		return bReturn;
 	}
 
 	/**This method is used to Mouse hover on the element using ID element.
 	 * @author balajih
-	 * @param idValue
+	 * @param idValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -735,7 +890,7 @@ public class GenericWrappers {
 	 * This method is used to switch the frame with id
 	 *
 	 * @author balajih & Udhay
-	 * @param data
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -750,12 +905,67 @@ public class GenericWrappers {
 		}
 		return bReturn;
 	}
+	
+	/**
+	 * This method is used to switch the frame with name
+	 *
+	 * @author balajih 
+	 * @param data - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean switchToFrameByName(String data) throws Throwable{
+		boolean bReturn = false;
+		try {
+			driver.switchTo().frame(driver.findElement(By.name(data)));
+			Reporter.reportStep("Frame switched successfully", "PASS");
+			bReturn = true;
+		} catch (Exception e) {
+			Reporter.reportStep("Frame not switched successfully", "FAIL");
+		}
+		return bReturn;
+	}
+	
+	/**
+	 * This method is used to switch the frame with index value
+	 * 
+	 * @author Udhayasundar
+	 * @param indexValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean switchToFrameByIndex(int indexValue) throws Throwable {
+		boolean bReturn = false;
+		try {
+			driver.switchTo().frame(indexValue);
+			bReturn = true;
+		} catch (Exception e) {
+			Reporter.reportStep("Frame not switched successfully", "FAIL");
+		}
+		return bReturn;
+	}
+	
+	/**This method is to Switch to Default Content from nested windows
+	 * @author balajih
+	 * @return
+	 */
+	public boolean switchToDefaultContent(){
+		boolean bReturn = false;
+		try{
+			driver.switchTo().defaultContent();
+			bReturn = true;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bReturn;
+	}
 
 	/**
 	 * This method is used to sleep for the given seconds
 	 *
 	 * @author balajih
-	 * @param data
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -771,7 +981,7 @@ public class GenericWrappers {
 	 * This method is used to switch the frame with id
 	 *
 	 * @author balajih
-	 * @param data
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -793,7 +1003,7 @@ public class GenericWrappers {
 	/**
 	 * This method is used to open a new URL
 	 * @author balajih
-	 * @param data
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -813,7 +1023,7 @@ public class GenericWrappers {
 	 * This method will verify the fetched title is matching or not using the partial title.
 	 *
 	 * @author balajih
-	 * @param title
+	 * @param title - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -835,12 +1045,12 @@ public class GenericWrappers {
 	/**
 	 * This method will enter the value using ClassName attribute in I/O device
 	 * @author Balajih & udayasundar
-	 * @param cnameValue
-	 * @param data
+	 * @param cnameValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean enterkeysbyClassName(String cnameValue, String data) throws Throwable {
+	public boolean enterkeysByClassName(String cnameValue, String data) throws Throwable {
 		boolean bReturn = false;
 		try {
 			driver.findElement(By.className(cnameValue)).sendKeys(Keys.ENTER);
@@ -855,12 +1065,12 @@ public class GenericWrappers {
 	/**
 	 * This method will enter the value using Xpath attribute in I/O device
 	 * @author Balajih
-	 * @param xpathValue
-	 * @param data
+	 * @param xpathValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean enterkeysbyXpath(String xpathValue, String data) throws Throwable {
+	public boolean enterkeysByXpath(String xpathValue, String data) throws Throwable {
 		boolean bReturn = false;
 		try {
 			driver.findElement(By.className(xpathValue)).sendKeys(Keys.ENTER);
@@ -875,12 +1085,12 @@ public class GenericWrappers {
 	/**
 	 * This method will enter the value using ID attribute in I/O device
 	 * @author Balajih
-	 * @param idValue
-	 * @param data
+	 * @param idValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean enterkeysbyID(String idValue, String data) throws Throwable {
+	public boolean enterkeysByID(String idValue, String data) throws Throwable {
 		boolean bReturn = false;
 		try {
 			driver.findElement(By.className(idValue)).sendKeys(Keys.ENTER);
@@ -891,12 +1101,13 @@ public class GenericWrappers {
 		}
 		return bReturn;
 	}
+	
 	/**
-	 * This method will enter the value by handling Browser Authentication using I/O device
+	 * This method will enter the value By handling Browser Authentication using I/O device
 	 *
 	 * @author Balajih & udayasundar
-	 * @param idValue
-	 * @param data
+	 * @param uName - The Data to be sent to the WebElement
+	 * @param pwd - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -908,7 +1119,7 @@ public class GenericWrappers {
 			//create robot for keyboard operations
 			Robot rb = new Robot();
 
-			//Enter user name by ctrl-v
+			//Enter user name By ctrl-v
 			StringSelection username = new StringSelection(uName);
 			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(username, null);
 			rb.keyPress(KeyEvent.VK_CONTROL);
@@ -921,7 +1132,7 @@ public class GenericWrappers {
 			rb.keyRelease(KeyEvent.VK_TAB);
 			waitForPageLoad(2);
 
-			//Enter password by ctrl-v
+			//Enter password By ctrl-v
 			StringSelection passwd = new StringSelection(pwd);
 			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(passwd, null);
 			rb.keyPress(KeyEvent.VK_CONTROL);
@@ -945,13 +1156,13 @@ public class GenericWrappers {
 	/**
 	 * This method will verify the Web Table using Xpath
 	 * @author balajih
-	 * @param xpathValue
-	 * @param rowNum
-	 * @param colNum
+	 * @param xpathValue - name of the webelement
+	 * @param rowNum - The Data to be sent to the WebElement
+	 * @param colNum - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
-	public String verifyTablecellValuebyXpath(String xpathValue, int rowNum, int colNum) throws Throwable {
+	public String verifyTablecellValueByXpath(String xpathValue, int rowNum, int colNum) throws Throwable {
 		String value = null;
 		try {
 			value = driver.findElement(By.xpath(xpathValue+"/tr["+rowNum+"]/td["+colNum+"]")).getText();
@@ -959,8 +1170,14 @@ public class GenericWrappers {
 		}
 		return value;
 	}
-
-	public int getTableRowcountbyXpath(String xpathValue) throws Throwable {
+	
+	/**This Method will fetch the Table row Count by Xpath WebElement
+	 * 
+	 * @param xpathValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public int getTableRowcountByXpath(String xpathValue) throws Throwable {
 		int rowCount=0;
 		try {
 			rowCount = (int) driver.findElements(By.xpath(xpathValue+"/tr")).size();
@@ -969,7 +1186,7 @@ public class GenericWrappers {
 		return rowCount;
 	}
 
-	public int getTableColcountbyXpath(String xpathValue) throws Throwable {
+	public int getTableColcountByXpath(String xpathValue) throws Throwable {
 		int colCount=0;
 		try {
 			colCount = (int) driver.findElements(By.xpath(xpathValue+"/tr[1]/td")).size();
@@ -977,11 +1194,6 @@ public class GenericWrappers {
 		}
 		return colCount;
 	}
-
-	/*public WebDriver getdriver(){
-            driver = (WebDriver)rdriver.get();
-        return driver;
-    }*/
 
 	/**This Method is used to Kill the Browser drivers from task manager
 	 * @author balajih
@@ -1011,7 +1223,7 @@ public class GenericWrappers {
 
 	/**This method is to clear Cache & Cookies in a browser
 	 * @author balajih & Udhaysundar
-	 * @param browserName
+	 * @param browserName - name of the webelement
 	 * @param capabilities
 	 */
 	//
@@ -1027,13 +1239,13 @@ public class GenericWrappers {
 			driver.manage().deleteAllCookies();
 		}
 	}
+	
 	/**
 	 * This method will Upload the File from windows into Browser.
 	 * @author Mohamed
-	 * @param location
+	 * @param location - The Data to be sent to the WebElement
 	 * @param 
 	 * @return
-
 	 */
 	public void uploadFile(String location) throws Throwable{
 		try{
@@ -1053,29 +1265,12 @@ public class GenericWrappers {
 			ex.printStackTrace();
 		}
 	}
-	/**This method is to Switch to Default Content from nested windows
-	 * @author balajih & Udhaysundar
-	 * @return
-	 */
-	public boolean switchToDefaultContent(){
-		boolean bReturn = false;
-		try{
-			driver.switchTo().defaultContent();
-			bReturn = true;
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		return bReturn;
-	}
-
-
-
+	
 	/**
 	 * This method is used to Mouse hover on the element using xpath element.
 	 * 
 	 * @author Udhayasundar
-	 * @param xpathValue
+	 * @param xpathValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1096,7 +1291,7 @@ public class GenericWrappers {
 	 * This method is used to Mouse hover on the element using CSS element.
 	 * 
 	 * @author Udhayasundar
-	 * @param cssValue
+	 * @param cssValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1117,7 +1312,7 @@ public class GenericWrappers {
 	 * This method is used to Mouse hover on the element using class name element.
 	 * 
 	 * @author Udhayasundar
-	 * @param classNameValue
+	 * @param classNameValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1138,7 +1333,7 @@ public class GenericWrappers {
 	 * This method is used to Mouse hover on the element using name element.
 	 * 
 	 * @author Udhayasundar
-	 * @param nameValue
+	 * @param nameValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1159,7 +1354,7 @@ public class GenericWrappers {
 	 * This method is used to Mouse hover on the element using LinkText element.
 	 * 
 	 * @author Udhayasundar
-	 * @param linkTextValue
+	 * @param linkTextValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1180,7 +1375,7 @@ public class GenericWrappers {
 	 * This method is used to Mouse hover on the element using Partial Link Text element.
 	 * 
 	 * @author Udhayasundar
-	 * @param pLinkTextValue
+	 * @param pLinkTextValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1199,12 +1394,11 @@ public class GenericWrappers {
 
 
 	/**
-	 * This method is used to fetch the data from dropdown using select by Id
-	 * attribute to locate
-	 * 
+	 * This method is used to fetch the data from dropdown using select By Id
+	 * attribute to locate 
 	 * @author Udhayasundar
-	 * @param idValue
-	 * @param data
+	 * @param idValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1213,7 +1407,7 @@ public class GenericWrappers {
 		try {
 			Select dropdown = new Select(driver.findElement(By.id(idValue)));
 			dropdown.selectByIndex(data);
-			Reporter.reportStep("The element with " + idValue + " is selected with value" + data + " successfuly",
+			Reporter.reportStep("The element with " + idValue + " is selected with value" + data + " successfully",
 					"PASS");
 			bReturn = true;
 		} catch (Exception e) {
@@ -1224,10 +1418,10 @@ public class GenericWrappers {
 
 
 	/**
-	 * This method is used to click the element by mouse hover using ID element.
+	 * This method is used to click the element By mouse hover using ID element.
 	 * 
 	 * @author Udhayasundar
-	 * @param idValue
+	 * @param idValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1246,10 +1440,10 @@ public class GenericWrappers {
 
 
 	/**
-	 * This method is used to click the element by mouse hover using className element.
+	 * This method is used to click the element By mouse hover using className element.
 	 * 
 	 * @author Udhayasundar
-	 * @param classNameValue
+	 * @param classNameValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1267,10 +1461,10 @@ public class GenericWrappers {
 	}
 
 	/**
-	 * This method is used to click the element by mouse hover using ID element.
+	 * This method is used to click the element By mouse hover using ID element.
 	 * 
-	 * @author Udhayasundar
-	 * @param idValue
+	 * @author Udhayasundar 
+	 * @param idValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1288,10 +1482,10 @@ public class GenericWrappers {
 	}
 
 	/**
-	 * This method is used to click the element by mouse hover using className element.
+	 * This method is used to click the element By mouse hover using className element.
 	 * 
 	 * @author Udhayasundar
-	 * @param classNameValue
+	 * @param classNameValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1310,14 +1504,14 @@ public class GenericWrappers {
 
 
 	/**
-	 * This method is used to context click the element by mouse hover using ID element.
+	 * This method is used to context click the element By mouse hover using ID element.
 	 * 
 	 * @author Udhayasundar
-	 * @param idValue
+	 * @param idValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean mouseCnxttClickById(String idValue) throws Throwable {
+	public boolean mouseCntxtClickById(String idValue) throws Throwable {
 		boolean bReturn = false;
 		try {
 			new Actions(driver).moveToElement(driver.findElement(By.id(idValue))).contextClick();
@@ -1331,14 +1525,14 @@ public class GenericWrappers {
 	}
 
 	/**
-	 * This method is used to context click the element by mouse hover using ClassName element.
+	 * This method is used to context click the element By mouse hover using ClassName element.
 	 * 
 	 * @author Udhayasundar
-	 * @param classNameValue
+	 * @param classNameValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean mouseCnxttClickByClass(String classNameValue) throws Throwable {
+	public boolean mouseCntxtClickByClass(String classNameValue) throws Throwable {
 		boolean bReturn = false;
 		try {
 			new Actions(driver).moveToElement(driver.findElement(By.className(classNameValue))).contextClick();
@@ -1352,10 +1546,10 @@ public class GenericWrappers {
 	}
 
 	/**
-	 * This method is used to context click the element by mouse hover using id element.
+	 * This method is used to context click the element By mouse hover using id element.
 	 * 
 	 * @author Udhayasundar
-	 * @param idValue
+	 * @param idValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1374,10 +1568,10 @@ public class GenericWrappers {
 
 
 	/**
-	 * This method is used to context click the element by mouse hover using class element.
+	 * This method is used to context click the element By mouse hover using class element.
 	 * 
 	 * @author Udhayasundar
-	 * @param classNameValue
+	 * @param classNameValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1396,10 +1590,10 @@ public class GenericWrappers {
 
 
 	/**
-	 * This method is used to double click the element by mouse hover using id element.
+	 * This method is used to double click the element By mouse hover using id element.
 	 * 
 	 * @author Udhayasundar
-	 * @param idValue
+	 * @param idValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1418,10 +1612,10 @@ public class GenericWrappers {
 
 
 	/**
-	 * This method is used to double click the element by mouse hover using class name element.
+	 * This method is used to double click the element By mouse hover using class name element.
 	 * 
 	 * @author Udhayasundar
-	 * @param classNameValue
+	 * @param classNameValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1440,10 +1634,10 @@ public class GenericWrappers {
 
 
 	/**
-	 * This method is used to double click the element by mouse hover using id element.
+	 * This method is used to double click the element By mouse hover using id element.
 	 * 
 	 * @author Udhayasundar
-	 * @param idValue
+	 * @param idValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1461,10 +1655,10 @@ public class GenericWrappers {
 	}
 
 	/**
-	 * This method is used to double click the element by mouse hover using class name element.
+	 * This method is used to double click the element By mouse hover using class name element.
 	 * 
 	 * @author Udhayasundar
-	 * @param classNameValue
+	 * @param classNameValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1484,10 +1678,10 @@ public class GenericWrappers {
 
 
 	/**
-	 * This method is used to drag and drop the element by Mouse hover using ID element.
+	 * This method is used to drag and drop the element By Mouse hover using ID element.
 	 * 
 	 * @author Udhayasundar
-	 * @param idValue
+	 * @param idValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1506,10 +1700,10 @@ public class GenericWrappers {
 
 
 	/**
-	 * This method is used to drag and drop the element by Mouse hover using classname element.
+	 * This method is used to drag and drop the element By Mouse hover using classname element.
 	 * 
 	 * @author Udhayasundar
-	 * @param idValue
+	 * @param idValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1528,10 +1722,10 @@ public class GenericWrappers {
 
 
 	/**
-	 * This method is used to send the keys by Mouse hover on the element using ID element.
+	 * This method is used to send the keys By Mouse hover on the element using ID element.
 	 * 
 	 * @author Udhayasundar
-	 * @param idValue
+	 * @param idValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1549,10 +1743,10 @@ public class GenericWrappers {
 	}
 
 	/**
-	 * This method is used to send the keys by Mouse hover on the element using className element.
+	 * This method is used to send the keys By Mouse hover on the element using className element.
 	 * 
 	 * @author Udhayasundar
-	 * @param classNameValue
+	 * @param classNameValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1570,10 +1764,10 @@ public class GenericWrappers {
 	}
 
 	/**
-	 * This method is used to send the keys by Mouse hover on the element using ID element.
+	 * This method is used to send the keys By Mouse hover on the element using ID element.
 	 * 
 	 * @author Udhayasundar
-	 * @param idValue
+	 * @param idValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1591,10 +1785,10 @@ public class GenericWrappers {
 	}
 
 	/**
-	 * This method is used to send the keys by Mouse hover on the element using className element.
+	 * This method is used to send the keys By Mouse hover on the element using className element.
 	 * 
 	 * @author Udhayasundar
-	 * @param classNameValue
+	 * @param classNameValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1611,36 +1805,17 @@ public class GenericWrappers {
 		return bReturn;
 	}
 
-
-	/**
-	 * This method is used to switch the frame with index value
-	 * 
-	 * @author Udhayasundar
-	 * @param indexValue
-	 * @return
-	 * @throws Throwable
-	 */
-	public boolean switchToFrameByIndex(int indexValue) throws Throwable {
-		boolean bReturn = false;
-		try {
-			driver.switchTo().frame(indexValue);
-			bReturn = true;
-		} catch (Exception e) {
-			Reporter.reportStep("Frame not switched successfully", "FAIL");
-		}
-		return bReturn;
-	}
-
 	/**
 	 * This method is used to compare the value between the element and input data
-	 * if new line exist it replace with space
+	 * if new line exist then it replace with space
 	 * 
 	 * @author Udhayasundar
-	 * @param xpathValue, data
+	 * @param xpathValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean verifyValueWithNewLinebyXpath(String xpathValue, String data) throws Throwable {
+	public boolean verifyValueWithNewLineByXpath(String xpathValue, String data) throws Throwable {
 		boolean bReturn = false;
 		try {
 			String lblValue = getTextByXpath(xpathValue).trim()
@@ -1661,14 +1836,15 @@ public class GenericWrappers {
 
 	/**
 	 * This method is used to compare the value between the element and input data
-	 * if new line exist it replace with space
+	 * if new line exist then it replace with space
 	 * 
 	 * @author Udhayasundar
-	 * @param xpathValue, data
+	 * @param xpathValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean verifyValuebyXpath(String xpathValue, String data) throws Throwable {
+	public boolean verifyValueByXpath(String xpathValue, String data) throws Throwable {
 		boolean bReturn = false;
 		try {
 			String lblValue = getTextByXpath(xpathValue).trim();
@@ -1685,11 +1861,12 @@ public class GenericWrappers {
 		}
 		return bReturn;
 	}
+	
 	/**
 	 * This method will check the element is displaying or not using xpath
 	 * 
 	 * @author Udhayasundar
-	 * @param xpathValue
+	 * @param xpathValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1710,7 +1887,7 @@ public class GenericWrappers {
 	 * This method will return the web element Text using xpath
 	 * 
 	 * @author Udhayasundar
-	 * @param xpathValue
+	 * @param xpathValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1731,7 +1908,7 @@ public class GenericWrappers {
 	 * This method will return the web element Text using ID
 	 * 
 	 * @author Balajih
-	 * @param idValue
+	 * @param idValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -1747,11 +1924,11 @@ public class GenericWrappers {
 
 	/** This method is used to click the element using Java script
 	 * @author udhayasundar
-	 * @param xpathValue
+	 * @param xpathValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
-	public void clickbyJavaScript(String xpathValue) throws Throwable{
+	public void clickByJavaScript(String xpathValue) throws Throwable{
 
 		WebElement element = driver.findElement(By.xpath(xpathValue));
 		JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -1762,11 +1939,12 @@ public class GenericWrappers {
 
 	/** This method is used to compare the value between the element and input data
 	 * @author udhayasundar
-	 * @param idValue, data
+	 * @param idValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean verifyMessagebyId(String idValue, String data) throws Throwable {
+	public boolean verifyMessageById(String idValue, String data) throws Throwable {
 		boolean bReturn = false;
 		try {
 			String lblValue = getTextByID(idValue).trim();
@@ -1785,7 +1963,8 @@ public class GenericWrappers {
 
 
 	/** This method is used to get text value using LinkText
-	 * @author Sivaprakash
+	 * @author Balajih & Sivaprakash
+	 * @param linkText - name of the webelement
 	 * @throws Throwable
 	 */
 	public String getTextUsingLinkText(String linkText) throws Throwable {
@@ -1805,13 +1984,13 @@ public class GenericWrappers {
 
 	/** This method is used to view the element using scrollbar
 	 * @author Sivaprakash
+	 * @param idValue - name of the webelement
 	 * @throws Throwable
 	 */
-
-	public void scrollIntoViewbyId(String id) throws Throwable {
+	public void scrollIntoViewById(String idValue) throws Throwable {
 		try {
 
-			WebElement element = driver.findElement(By.id(id));
+			WebElement element = driver.findElement(By.id(idValue));
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("arguments[0].scrollIntoView(true);", element);
 			Reporter.reportStep("The text value is received", "PASS");
@@ -1824,14 +2003,13 @@ public class GenericWrappers {
 
 	/** This method is used to view the element using scrollbar
 	 * @author Sivaprakash
+	 * @param xpathValue - name of the webelement
 	 * @throws Throwable
 	 */
-
-
-	public void scrollIntoViewbyXpath(String xpath) throws Throwable {
+	public void scrollIntoViewByXpath(String xpathValue) throws Throwable {
 		try {
 
-			WebElement element = driver.findElement(By.xpath(xpath));
+			WebElement element = driver.findElement(By.xpath(xpathValue));
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("arguments[0].scrollIntoView(true);", element);
 		} catch (Throwable e) {

@@ -17,14 +17,14 @@ public class ImageSubPortalPage_TC01 extends ESRIWrappers {
 	@Parameters({"browser"})
 	@BeforeClass
 	public void startTestCase() {
-		// browserName="chrome";
 		dataSheetName="ImageSubPortal";
-		testCaseName="TC02 Image submission Portal Page1 (POM)";
-		testDescription="The Image Submission portal is working good";
+		testCaseName="Image submission Portal Page_TC01";
+		testDescription="This is the Image Submission Portal module - Positive Test scenario";
 	}
 
 	@Test(dataProvider="fetchdata")
-	public void imageSubmissionPortal(String pagetitle, String sectionTitle,String imgLabel, String secEvent, String rblbl, String rblbl2, String p2Title, String p3Title) throws Throwable{
+	public void imageSubmissionPortal(String ISPUrl, String pagetitle, String sectionTitle,String imgLabel, String secEvent, String rblbl, String rblbl2, String p2Title, String p3Title) throws Throwable{
+		openbrowser(ISPUrl);
 		new ImageSubPortalPage()
 		.verifyPageTitle(pagetitle)
 		.verifySectionTitle(sectionTitle)
