@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<<<<<<< HEAD
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Suite]" parallel="tests">
   <parameter name="browser" value="firefox"/>
   <test name="ImageSubmissionPortal(failed)" parallel="tests">
     <parameter name="browser" value="firefox"/>
+=======
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
+  <test name="Default test(failed)">
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
     <classes>
-      <class name="imageSubmissionPortalTestcases.ImageSubmissionDropdown">
+      <class name="com.esri.test.auto.testcases.Sample1">
         <methods>
+<<<<<<< HEAD
           <include name="beforeClass"/>
           <include name="ImageSubmissionPortaltest"/>
           <include name="beforeSuite"/>
+=======
+          <include name="beforeSuite"/>
+          <include name="search"/>
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
         </methods>
-      </class> <!-- imageSubmissionPortalTestcases.ImageSubmissionDropdown -->
+      </class> <!-- com.esri.test.auto.testcases.Sample1 -->
     </classes>
-  </test> <!-- ImageSubmissionPortal(failed) -->
-</suite> <!-- Failed suite [Suite] -->
+  </test> <!-- Default test(failed) -->
+</suite> <!-- Failed suite [Default suite] -->

@@ -1,17 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<<<<<<< HEAD
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Suite]" parallel="tests">
   <parameter name="browser" value="firefox"/>
   <test name="ImageSubmissionPortal(failed)" parallel="tests">
+=======
+<suite thread-count="2" guice-stage="DEVELOPMENT" name="Failed suite [Suite]" parallel="classes" data-provider-thread-count="5">
+  <parameter name="browser" value="internet explorer"/>
+  <test name="ImageSubmissionPortal_Firefox(failed)" parallel="classes">
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
     <parameter name="browser" value="firefox"/>
     <classes>
-      <class name="imageSubmissionPortalTestcases.ImageSubmissionDropdown">
+      <class name="com.esri.test.auto.testcases.Sample1">
         <methods>
+<<<<<<< HEAD
           <include name="beforeClass"/>
           <include name="ImageSubmissionPortaltest"/>
           <include name="beforeSuite"/>
+=======
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="imageSubmissionPortal"/>
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
         </methods>
-      </class> <!-- imageSubmissionPortalTestcases.ImageSubmissionDropdown -->
+      </class> <!-- com.esri.test.auto.testcases.Sample1 -->
+      <class name="com.esri.test.auto.testcases.ImageSubPortalPage_TC01">
+        <methods>
+          <include name="beforeSuite"/>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="imageSubmissionPortal"/>
+          <include name="afterSuite"/>
+        </methods>
+      </class> <!-- com.esri.test.auto.testcases.ImageSubPortalPage_TC01 -->
     </classes>
-  </test> <!-- ImageSubmissionPortal(failed) -->
+  </test> <!-- ImageSubmissionPortal_Firefox(failed) -->
+  <test name="ImageSubmissionPortal_Chrome(failed)" parallel="classes">
+    <parameter name="browser" value="chrome"/>
+    <classes>
+      <class name="com.esri.test.auto.testcases.Sample1">
+        <methods>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="imageSubmissionPortal"/>
+        </methods>
+      </class> <!-- com.esri.test.auto.testcases.Sample1 -->
+      <class name="com.esri.test.auto.testcases.ImageSubPortalPage_TC01">
+        <methods>
+          <include name="beforeSuite"/>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="imageSubmissionPortal"/>
+          <include name="afterSuite"/>
+        </methods>
+      </class> <!-- com.esri.test.auto.testcases.ImageSubPortalPage_TC01 -->
+    </classes>
+  </test> <!-- ImageSubmissionPortal_Chrome(failed) -->
+  <test name="ImageSubmissionPortal_InternetExplorer(failed)" parallel="classes">
+    <parameter name="browser" value="internet explorer"/>
+    <classes>
+      <class name="com.esri.test.auto.testcases.Sample1">
+        <methods>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="imageSubmissionPortal"/>
+        </methods>
+      </class> <!-- com.esri.test.auto.testcases.Sample1 -->
+      <class name="com.esri.test.auto.testcases.ImageSubPortalPage_TC01">
+        <methods>
+          <include name="beforeSuite"/>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="startTestCase"/>
+          <include name="imageSubmissionPortal"/>
+          <include name="afterSuite"/>
+        </methods>
+      </class> <!-- com.esri.test.auto.testcases.ImageSubPortalPage_TC01 -->
+    </classes>
+  </test> <!-- ImageSubmissionPortal_InternetExplorer(failed) -->
 </suite> <!-- Failed suite [Suite] -->

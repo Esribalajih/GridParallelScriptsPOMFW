@@ -13,7 +13,11 @@ import com.esri.test.auto.wrappers.ESRIWrappers;
  */
 public class TC01_SigninPage extends ESRIWrappers{
 	 @BeforeClass
+<<<<<<< HEAD
 	  public void TestCase() {
+=======
+	  public void startTestCase() {
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		 dataSheetName="TC01_Signin";
 		 testCaseName="TC01 Signin (POM)";
 		 testDescription="Login to ESRI Application using POM";

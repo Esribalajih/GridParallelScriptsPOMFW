@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite" parallel="classes" verbose="1" thread-count="2">
+    
+    <test name='IAM_Firefox_TC01'>
+    <parameter name="browser" value="firefox"/>
+    <classes>
+   	 		<class name="com.esri.test.auto.testcases.IAM_SignInESRI_TC01" />  
+    </classes>
+    </test>
+   <test name='IAM_Firefox_TC02'>
+    <parameter name="browser" value="firefox"/>
+    <classes>
+			<class name="com.esri.test.auto.testcases.IAM_SigninFaceBook_TC02"/> 
+    </classes>
+    </test>
+     <test name='IAM_Firefox_TC03'>
+    <parameter name="browser" value="firefox"/>
+    <classes>
+			<class name="com.esri.test.auto.testcases.IAM_SigninGoogle_TC03" /> 
+    </classes>
+    </test>
+    <!-- <test name='IAM_Firefox_TC04'>
+    <parameter name="browser" value="firefox"/>
+    <classes>
+			<class name="com.esri.test.auto.testcases.IAM_DeniedParties_Sus_Den_Clr_TC04" /> 
+    </classes>
+    </test>  -->
+    
+    
+</suite> <!-- Suite -->

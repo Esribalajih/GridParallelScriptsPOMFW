@@ -16,31 +16,55 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+<<<<<<< HEAD
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
+=======
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 import org.openqa.selenium.Platform;
+<<<<<<< HEAD
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriverException;
+=======
+import org.openqa.selenium.WebElement;
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.esri.test.auto.utils.Reporter;
 
-/**This method is to call the Grid Configurations
+/**This is the Generic Wrapper Methods called with in Pages and Test cases for Handling WebElements from the WebBrowser.
  * @author balajih
  *
  */
+<<<<<<< HEAD
 public class GenericWrappers extends Reporter{
 
 	protected RemoteWebDriver driver;
+=======
+public class GenericWrappers implements WrappersInterface{
+
+	protected static RemoteWebDriver driver;
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 	protected static Properties prop;
 	public String sUrl,primaryWindowHandles,sHubUrl,sHubPort;
 	private String primaryWindowHandle;
 	private String ANY;
+<<<<<<< HEAD
 
+=======
+	/**This Constructor is used to load the configuration properties for Selenium Grid 2.0 
+	 * 
+	 */
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 	public GenericWrappers(){
 		Properties prop = new Properties();
 		try {
@@ -59,7 +83,12 @@ public class GenericWrappers extends Reporter{
 
 	/**This method is to Invoke the Browser
 	 * @author balajih
+<<<<<<< HEAD
 	 * @param browser
+=======
+	 * @param browser - name of the webelement
+	 * 
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 	 */
 	public void invokeApp(String browser){
 		boolean bReturn=false;
@@ -67,9 +96,14 @@ public class GenericWrappers extends Reporter{
 		DesiredCapabilities dc = new DesiredCapabilities();
 		dc.setBrowserName(browser);
 		dc.setPlatform(Platform.WINDOWS);
+<<<<<<< HEAD
 		//dc.setVersion(ANY);
 
 		try {
+=======
+		try {
+			killAllDrivers();
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			driver = new RemoteWebDriver(new URL("http://"+ sHubUrl +":"+ sHubPort +"/wd/hub"),dc);
 			driver.manage().window().maximize();
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -78,11 +112,21 @@ public class GenericWrappers extends Reporter{
 			primaryWindowHandle = driver.getWindowHandle();
 
 			try {
+<<<<<<< HEAD
 				reportStep("The Browser"+ browser +" launched Successfully", "PASS");
+=======
+				Reporter.reportStep("The Browser  "+ browser +" launched Successfully.", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 				bReturn=true;
 			} catch (Exception e) {
 				e.printStackTrace();
+<<<<<<< HEAD
 				reportStep("The Browser"+ browser +" could not be launched Successfully", "FAIL");
+=======
+
+
+				Reporter.reportStep("The Browser  "+ browser +" could not be launched Successfully.", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 				bReturn=false;
 			}
 		} catch (MalformedURLException e) {
@@ -90,7 +134,10 @@ public class GenericWrappers extends Reporter{
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 	}
 
 	/**This Method is to load Objects from the Object Property file
@@ -98,113 +145,198 @@ public class GenericWrappers extends Reporter{
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public void loadObjects() throws FileNotFoundException, IOException{
+	public void loadObjects() {
 		prop =new Properties();
+<<<<<<< HEAD
 		prop.load(new FileInputStream(new File("D:/Working_on_LT/Working_on_LT/com.esri.test.automation/src/test/resources/object.properties")));
+=======
+		try {
+			prop.load(new FileInputStream(new File("./src/test/resources/object.properties")));
+		} catch (FileNotFoundException e) {
+				e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 	}
 
 	/**This method will enter the value as text field using Id attribute to locate
 	 * @author Balajih & udayasundar
-	 * @param idValue
-	 * @param data
+	 * @param idValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable 
 	 */
-	public boolean enterbyId(String idValue,String data) throws Throwable {
+	public boolean enterById(String idValue,String data) throws Throwable{
 		boolean bReturn = false;
 		try{
 			driver.findElement(By.id(idValue)).clear();
 			driver.findElement(By.id(idValue)).sendKeys(data);
+<<<<<<< HEAD
 			reportStep("The data"+ data +" is entered successfully in the field:" + idValue, "PASS");
 			bReturn = true;
 		} catch (Exception e) {
 			reportStep("The data"+ data +" is not entered successfully in the field:" + idValue, "FAIL");
+=======
+			Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
+			bReturn = true;
+		} catch (NoSuchElementException e) {
+			Reporter.reportStep("The data "+ data +" couldn't be entered successfully.", "FAIL");
+		} catch (Exception e) {
+			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}
 		return bReturn;
 	}
 
 	/**This method will enter the value as text field using Name attribute to locate
 	 * @author Balajih & udayasundar
-	 * @param idValue
-	 * @param data
+	 * @param nameValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable 
 	 */
-	public boolean enterbyName(String nameValue,String data) throws Throwable{
+	public boolean enterByName(String nameValue,String data) throws Throwable{
 		boolean bReturn = false;
 		try {
 			driver.findElement(By.name(nameValue)).clear();
 			driver.findElement(By.name(nameValue)).sendKeys(data);
+<<<<<<< HEAD
 			reportStep("The data"+ data +" is entered successfully in the field:" + nameValue, "PASS");
+=======
+			Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
+<<<<<<< HEAD
 		} catch (Exception e) {
 			reportStep("The data"+ data +" is not entered successfully in the field:" + nameValue, "FAIL");
+=======
+		}  catch (NoSuchElementException e){
+			Reporter.reportStep("The data "+ data +" couldn't be entered successfully.", "FAIL");
+		}  catch (Exception e) {
+			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}
 		return bReturn;
 	}
 
 	/**This method will enter the value as text field using ClassName attribute to locate
 	 * @author Balajih & udayasundar
-	 * @param idValue
-	 * @param data
+	 * @param cnameValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable 
 	 */
-	public boolean enterbyClassName(String cnameValue,String data) throws Throwable{
+	public boolean enterByClassName(String cnameValue,String data) throws Throwable{
 		boolean bReturn = false;
 		try {
 			driver.findElement(By.className(cnameValue)).clear();
 			driver.findElement(By.className(cnameValue)).sendKeys(data);
+<<<<<<< HEAD
 			reportStep("The data"+ data +" is entered successfully in the field:" + cnameValue, "PASS");
+=======
+			Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
+		}  catch (NoSuchElementException e){
+			Reporter.reportStep("The data "+ data +" couldn't be entered successfully.", "FAIL");
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The data"+ data +" is not entered successfully in the field:" + cnameValue, "FAIL");
+=======
+			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}
 		return bReturn;
 	}
 	/**This method will enter the value as text field using CssSelector attribute to locate
-	 * @author Balajih & udayasundar
-	 * @param cssValue
-	 * @param data
+	 * @author Balajih
+	 * @param cssValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean enterbyCssSelector(String cssValue,String data) throws Throwable{
+	public boolean enterByCssSelector(String cssValue,String data) throws Throwable{
 		boolean bReturn = false;
 		try {
 			driver.findElement(By.cssSelector(cssValue)).clear();
 			driver.findElement(By.cssSelector(cssValue)).sendKeys(data);
+<<<<<<< HEAD
 			reportStep("The data"+ data +" is entered successfully in the field:" + cssValue, "PASS");
+=======
+			Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
+		} catch (NoSuchElementException e){
+			Reporter.reportStep("The data "+ data +" couldn't be entered successfully.", "FAIL");
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The data"+ data +" is not entered successfully in the field:" + cssValue, "FAIL");
+=======
+			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}
 		return bReturn;
 	}
 
 	/**This method will enter the value as text field using Xpath attribute to locate
 	 * @author Balajih & udayasundar
-	 * @param xpathValue
-	 * @param data
+	 * @param xpathValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable 
 	 */
-	public boolean enterbyXpath(String xpathValue,String data) throws Throwable{
+	public boolean enterByXpath(String xpathValue,String data) throws Throwable{
 		boolean bReturn = false;
 		try {
 			driver.findElement(By.xpath(xpathValue)).clear();
 			driver.findElement(By.xpath(xpathValue)).sendKeys(data);
+<<<<<<< HEAD
 			reportStep("The data"+ data +" is entered successfully in the field:" + xpathValue, "PASS");
+=======
+			Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
+		} catch (NoSuchElementException e){
+			Reporter.reportStep("The data "+ data +" couldn't be entered successfully.", "FAIL");
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The data"+ data +" is not entered successfully in the field:" + xpathValue, "FAIL");
+=======
+			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}
 		return bReturn;
 	}
+<<<<<<< HEAD
+=======
+	
+	/**This method will enter the value as text field using tagname attribute to locate
+	 * @author Balajih 
+	 * @param tagValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable 
+	 */
+	public boolean enterByTagname(String tagValue,String data) throws Throwable{
+		boolean bReturn = false;
+		try {
+			driver.findElement(By.tagName(tagValue)).clear();
+			driver.findElement(By.tagName(tagValue)).sendKeys(data);
+			Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
+			bReturn = true;
+		} catch (NoSuchElementException e){
+			Reporter.reportStep("The data "+ data +" couldn't be entered successfully.", "FAIL");
+		} catch (Exception e) {
+			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
+		}
+		return bReturn;
+	}
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 
 	/**This method will verify the fetched title is matching or not.
 	 * @author balajih
-	 * @param title
+	 * @param title - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -213,11 +345,19 @@ public class GenericWrappers extends Reporter{
 		System.out.println(driver.getTitle());
 		if(driver.getTitle().equalsIgnoreCase(title)){
 			try {
+<<<<<<< HEAD
 				reportStep("The title of the page"+ title+" is matching successfully", "PASS");
+=======
+				Reporter.reportStep("The title of the page "+ title+" is matching successfully.", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 				bReturn=true;
 
 			} catch (Exception e) {
+<<<<<<< HEAD
 				reportStep("The title of the page"+ title+" is not matching successfully", "FAIL");
+=======
+				Reporter.reportStep("The title of the page "+ title+" is not matching successfully.", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 				bReturn=false;
 			}
 		}
@@ -226,43 +366,83 @@ public class GenericWrappers extends Reporter{
 
 	/**This method will verify the entered value in text field using Id attribute to locate
 	 * @author balajih
-	 * @param idValue
-	 * @param data
+	 * @param idValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable 
 	 */
-	public boolean VerifyTextbyId(String idValue,String data) throws Throwable{
+	public boolean VerifyTextById(String idValue,String data) throws Throwable{
 		boolean bReturn = false;
 		try {
 			if(driver.findElement(By.id(idValue)).getText().equalsIgnoreCase(data)){
+<<<<<<< HEAD
 				reportStep("The data"+ data +" is entered successfully in the field:" + idValue, "PASS");
+=======
+				Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 				bReturn = true;
 			}
+		}  catch (NoSuchElementException e){
+			Reporter.reportStep("The data "+ data +" is not available to verify.", "FAIL");
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The data"+ data +" is not entered successfully in the field:" + idValue, "FAIL");
+=======
+			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}	
 		return bReturn;
 	}
 
 	/**This method will verify the entered value in text field using Name attribute to locate
 	 * @author balajih
-	 * @param nameValue
-	 * @param data
+	 * @param nameValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable 
 	 */
-	public boolean VerifyTextbyName(String nameValue,String data) throws Throwable{
+	public boolean VerifyTextByName(String nameValue,String data) throws Throwable{
 		boolean bReturn = false;
 		try {
 			if(driver.findElement(By.name(nameValue)).getText().equalsIgnoreCase(data)){
+<<<<<<< HEAD
 				reportStep("The data"+ data +" is entered successfully in the field:" + nameValue, "PASS");
+=======
+				Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 				bReturn = true;
 			}
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The data"+ data +" is not entered successfully in the field:" + nameValue, "FAIL");
+=======
+			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
 		}	
 		return bReturn;
 	}
+
+	/**This method will verify the entered value in text field using Class Name attribute to locate
+	 * @author balajih
+	 * @param cnameValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable 
+	 */
+	public boolean VerifyTextByClassName(String cnameValue,String data) throws Throwable{
+		boolean bReturn = false;
+		try {
+			if(driver.findElement(By.className(cnameValue)).getText().equalsIgnoreCase(data)){
+				Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
+				bReturn = true;
+			}
+		} catch (Exception e) {
+			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
+
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
+		}	
+		return bReturn;
+	}
+<<<<<<< HEAD
 
 	/**This method will verify the entered value in text field using Class Name attribute to locate
 	 * @author balajih
@@ -284,83 +464,167 @@ public class GenericWrappers extends Reporter{
 		}	
 		return bReturn;
 	}
+=======
+	
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 	/**This method will verify the entered value in text field using CSS Selector attribute to locate
 	 * @author balajih
-	 * @param cssValue
-	 * @param data
+	 * @param cssValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable 
 	 */
-	public boolean VerifyTextbyCssSelector(String cssValue,String data) throws Throwable{
+	public boolean VerifyTextByCssSelector(String cssValue,String data) throws Throwable{
 		boolean bReturn = false;
 		try {
 			if(driver.findElement(By.cssSelector(cssValue)).getText().equalsIgnoreCase(data)){
+<<<<<<< HEAD
 				reportStep("The data"+ data +" is entered successfully in the field:" + cssValue, "PASS");
+=======
+				Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 				bReturn = true;
 			}
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The data"+ data +" is not entered successfully in the field:" + cssValue, "FAIL");
+=======
+			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 
 		}	
 		return bReturn;
 	}
+	
 	/**This method will verify the entered value in text field using Xpath Value attribute to locate
 	 * @author balajih
-	 * @param xpathValue
-	 * @param data
+	 * @param xpathValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean VerifyTextbyXpath(String xpathValue,String data) throws Throwable{
+	public boolean VerifyTextByXpath(String xpathValue,String data) throws Throwable{
 		boolean bReturn = false;
 		try {
+<<<<<<< HEAD
 			String text=driver.findElement(By.xpath(xpathValue)).getText();
 			System.out.println(driver.findElement(By.xpath(xpathValue)).getText());
 			if(data.trim().contains(text.trim())){
 				reportStep("The data"+ data +" is entered successfully in the field:" + xpathValue, "PASS");
+=======
+			if(driver.findElement(By.xpath(xpathValue)).getText().equalsIgnoreCase(data)){
+				Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 				bReturn = true;
 			}
+<<<<<<< HEAD
 			else reportStep("The data"+ data +" is not entered successfully in the field:" + xpathValue, "FAIL");
+=======
+			else Reporter.reportStep("The data "+ data +" which is not matching correctly.", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The data"+ data +" is not entered successfully in the field:" + xpathValue, "FAIL");
+=======
+			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}	
 		return bReturn;
 	}
+	
+	/**This method will verify the entered value in text field using tagName attribute to locate
+	 * @author balajih
+	 * @param tagValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean VerifyTextBytagName(String tagValue,String data) throws Throwable{
+		boolean bReturn = false;
+		try {
+			if(driver.findElement(By.tagName(tagValue)).getText().equalsIgnoreCase(data)){
+				Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
+				bReturn = true;
+			}
+			else Reporter.reportStep("The data "+ data +" which is not matching correctly.", "FAIL");
+		} catch (Exception e) {
+			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
+		}	
+		return bReturn;
+	}	
+	
 	/**This method will check the click of the buttons or links using the Id attribute to locate
 	 * @author balajih
-	 * @param idValue
+	 * @param idValue - name of the webelement
 	 * @return
 	 * @throws Throwable 
 	 */
 	public boolean clickById(String idValue) throws Throwable{
 		boolean bReturn = false;
 		try {
+<<<<<<< HEAD
 			driver.findElement(By.id(idValue)).click();
 			reportStep("The button "+ idValue +" is clicked successfuly", "PASS");
+=======
+			Reporter.reportStep("The Button is clicked successfully", "PASS");
+			driver.findElement(By.id(idValue)).click();
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The button "+ idValue +" is not clicked successfuly", "FAIL");
+=======
+			Reporter.reportStep("The Button is not clicked successfully", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}	
 		return bReturn;
 	}
 
 	/**This method will check the click of the buttons or links using the Name attribute to locate
 	 * @author balajih
-	 * @param nameValue
+	 * @param nameValue - name of the webelement
 	 * @return
 	 * @throws Throwable 
 	 */
 	public boolean clickByName(String nameValue) throws Throwable{
 		boolean bReturn = false;
 		try {
+<<<<<<< HEAD
 			driver.findElement(By.name(nameValue)).click();
 			reportStep("The button"+ nameValue +" is clicked successfuly", "PASS");
+=======
+			Reporter.reportStep("The Button is clicked successfully", "PASS");
+			driver.findElement(By.name(nameValue)).click();
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The button"+ nameValue +" is not clicked successfuly", "FAIL");
+=======
+			Reporter.reportStep("The Button is not clicked successfully", "FAIL");
 		}	
 		return bReturn;
 	}
+
+	/**This method will check the click of the buttons or links using the Class Name attribute to locate
+	 * @author balajih
+	 * @param cnameValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean clickByClassName(String cnameValue) throws Throwable{
+		boolean bReturn = false;
+		try {
+			Reporter.reportStep("The Button is clicked successfully", "PASS");
+			driver.findElement(By.className(cnameValue)).click();
+			bReturn = true;
+		} catch (Exception e) {
+			Reporter.reportStep("The Button is not clicked successfully", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
+		}	
+		return bReturn;
+	}
+<<<<<<< HEAD
 
 	/**This method will check the click of the buttons or links using the Class Name attribute to locate
 	 * @author balajih
@@ -379,79 +643,174 @@ public class GenericWrappers extends Reporter{
 		}	
 		return bReturn;
 	}
+=======
+	
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 	/**This method will check the click of the buttons or links using the CSS Selector attribute to locate
 	 * @author balajih
-	 * @param cssValue
+	 * @param cssValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean clickbyCssSelector(String cssValue) throws Throwable{
+	public boolean clickByCssSelector(String cssValue) throws Throwable{
 		boolean bReturn = false;
 		try {
+<<<<<<< HEAD
 			driver.findElement(By.cssSelector(cssValue)).click();
 			reportStep("The button"+ cssValue +" is clicked successfuly", "PASS");
+=======
+			Reporter.reportStep("The Button is clicked successfully", "PASS");
+			driver.findElement(By.cssSelector(cssValue)).click();
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The button"+ cssValue +" is not clicked successfuly", "FAIL");
+=======
+			Reporter.reportStep("The Button is not clicked successfully", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}	
 		return bReturn;
 	}
+	
 	/**This method will check the click of the buttons or links using the Xpath attribute to locate
 	 * @author balajih
-	 * @param xpathValue
+	 * @param xpathValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean clickbyXpath(String xpathValue) throws Throwable{
+	public boolean clickByXpath(String xpathValue) throws Throwable{
 		boolean bReturn = false;
 		try {
+<<<<<<< HEAD
 			driver.findElement(By.xpath(xpathValue)).click();
 			reportStep("The button"+ xpathValue +" is clicked successfuly", "PASS");
+=======
+			Reporter.reportStep("The Button is clicked successfully", "PASS");
+			driver.findElement(By.xpath(xpathValue)).click();
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The button"+ xpathValue +" is not clicked successfuly", "FAIL");
+=======
+			Reporter.reportStep("The Button is not clicked successfully", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}	
 		return bReturn;
 	}
+	
 	/**This method will check the click of the link text attribute to locate
 	 * @author balajih
-	 * @param linkTextValue
+	 * @param linkTextValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean clickbyLinkText(String linkTextValue) throws Throwable{
+	public boolean clickByLinkText(String linkTextValue) throws Throwable{
 		boolean bReturn = false;
 		try {
 			driver.findElement(By.linkText(linkTextValue)).click();
+<<<<<<< HEAD
 			reportStep("The element"+ linkTextValue +" is clicked successfuly", "PASS");
+=======
+			Reporter.reportStep("The Link is clicked successfully", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The element"+ linkTextValue +" is not clicked successfuly", "FAIL");
+=======
+			Reporter.reportStep("The Link is not clicked successfully", "FAIL");
 		}	
 		return bReturn;
 	}
 
 	/**This method will check the click of the partial link text attribute to locate
 	 * @author balajih
-	 * @param partLinkTextValue
+	 * @param partLinkTextValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean clickbyPartialLinkText(String partLinkTextValue) throws Throwable{
+	public boolean clickByPartialLinkText(String partLinkTextValue) throws Throwable{
 		boolean bReturn = false;
 		try {
 			driver.findElement(By.partialLinkText(partLinkTextValue)).click();
-			reportStep("The element"+ partLinkTextValue +" is clicked successfuly", "PASS");
+			Reporter.reportStep("The Link is clicked successfully", "PASS");
 			bReturn = true;
 		} catch (Exception e) {
-			reportStep("The element"+ partLinkTextValue +" is not clicked successfuly", "FAIL");
+			Reporter.reportStep("The Link is not clicked successfully", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}	
 		return bReturn;
 	}
-	/**This method is used to fetch the data from dropdown using select by Id attribute to locate
+
+	/**This method will check the click of the partial link text attribute to locate
 	 * @author balajih
-	 * @param idValue
-	 * @param data
+	 * @param tagNameValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean clickBytagName(String tagNameValue) throws Throwable{
+		boolean bReturn = false;
+		try {
+<<<<<<< HEAD
+			driver.findElement(By.partialLinkText(partLinkTextValue)).click();
+			reportStep("The element"+ partLinkTextValue +" is clicked successfuly", "PASS");
+=======
+			driver.findElement(By.tagName(tagNameValue)).click();
+			Reporter.reportStep("The Link is clicked successfully", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
+			bReturn = true;
+		} catch (Exception e) {
+<<<<<<< HEAD
+			reportStep("The element"+ partLinkTextValue +" is not clicked successfuly", "FAIL");
+=======
+			Reporter.reportStep("The Link is not clicked successfully", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
+		}	
+		return bReturn;
+	}
+	
+	/**This method will check the click of the check box using the Xpath attribute to locate
+	 * @author balajih
+	 * @param xpathValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean clickChkBoxByXpath(String xpathValue) throws Throwable{
+		boolean bReturn = false;
+		try {
+			Reporter.reportStep("The Checkbox is clicked successfully", "PASS");
+			driver.findElement(By.xpath(xpathValue)).click();
+			bReturn = true;
+		} catch (Exception e) {
+			Reporter.reportStep("The Checkbox is not clicked successfully", "FAIL");
+		}	
+		return bReturn;
+	}
+	
+	/**This method will check the click of the check box using the Xpath attribute to locate
+	 * @author balajih
+	 * @param xpathValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean clickRadioBtnByXpath(String xpathValue) throws Throwable{
+		boolean bReturn = false;
+		try {
+			Reporter.reportStep("The Radio Button is clicked successfully", "PASS");
+			driver.findElement(By.xpath(xpathValue)).click();
+			bReturn = true;
+		} catch (Exception e) {
+			Reporter.reportStep("The Radio Button is not clicked successfully", "FAIL");
+		}	
+		return bReturn;
+	}
+	
+	/**This method is used to fetch the data from dropdown using select By Id attribute to locate
+	 * @author balajih
+	 * @param idValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable 
 	 */
@@ -460,17 +819,33 @@ public class GenericWrappers extends Reporter{
 		try {
 			Select dropdown = new Select(driver.findElement(By.id(idValue)));
 			dropdown.selectByValue(data);
+<<<<<<< HEAD
 			reportStep("The element with "+ idValue +"is selected with value"+ data+" successfuly", "PASS");
+=======
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The value "+ data +"is not selected", "FAIL");
+=======
+			Reporter.reportStep("The value "+ data +"is not selected", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}
 		return bReturn;
 	}
+<<<<<<< HEAD
 	/**This method is used to fetch the data from dropdown using select by Name attribute to locate
 	 * @author balajih
 	 * @param nameValue
 	 * @param data
+=======
+	
+	/**This method is used to fetch the data from dropdown using select By Name attribute to locate
+	 * @author balajih
+	 * @param nameValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 	 * @return
 	 * @throws Throwable
 	 */
@@ -479,13 +854,22 @@ public class GenericWrappers extends Reporter{
 		try {
 			Select dropdown = new Select(driver.findElement(By.name(nameValue)));
 			dropdown.selectByValue(data);
+<<<<<<< HEAD
 			reportStep("The element with "+ nameValue +"is selected with value"+ data+" successfuly", "PASS");
+=======
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The value "+ data +"is not selected", "FAIL");
+=======
+			Reporter.reportStep("The value "+ data +"is not selected", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}
 		return bReturn;
 	}
+<<<<<<< HEAD
 	/**This method is used to fetch the data from dropdown using select by Class Name attribute to locate
 	 * @author balajih
 	 * @param cnameValue
@@ -494,59 +878,97 @@ public class GenericWrappers extends Reporter{
 	 * @throws Throwable
 	 */
 	public boolean selectbyClassNamewithValue(String cnameValue, String data) throws Throwable {
+=======
+	
+	/**This method is used to fetch the data from dropdown using select By Class Name attribute to locate
+	 * @author balajih
+	 * @param cnameValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean selectByClassNamewithValue(String cnameValue, String data) throws Throwable {
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		boolean bReturn = false;
 		try {
 			Select dropdown = new Select(driver.findElement(By.className(cnameValue)));
 			dropdown.selectByValue(data);
+<<<<<<< HEAD
 			reportStep("The element with "+ cnameValue +" is selected with value"+ data+" successfuly", "PASS");
+=======
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The value "+ data +" is not selected", "FAIL");
+=======
+			Reporter.reportStep("The value "+ data +" is not selected", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}
 		return bReturn;
 	}
-	/**This method is used to fetch the data from dropdown using select by CSS Selector attribute to locate
+	
+	/**This method is used to fetch the data from dropdown using select By CSS Selector attribute to locate
 	 * @author balajih
-	 * @param idValue
-	 * @param data
+	 * @param idValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable 
 	 */
-	public boolean selectbyCssSelectorWithValue(String cssValue, String data) throws Throwable {
+	public boolean selectByCssSelectorWithValue(String cssValue, String data) throws Throwable {
 		boolean bReturn = false;
 		try {
 			Select dropdown = new Select(driver.findElement(By.cssSelector(cssValue)));
 			dropdown.selectByValue(data);
+<<<<<<< HEAD
 			reportStep("The element with "+ cssValue +" is selected with value"+ data+" successfuly", "PASS");
+=======
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The value "+ data +" is not selected", "FAIL");
+=======
+			Reporter.reportStep("The value "+ data +" is not selected", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}
 		return bReturn;
 	}
-	/**This method is used to fetch the data from dropdown using select by Xpath attribute to locate
+	
+	/**This method is used to fetch the data from dropdown using select By Xpath attribute to locate
 	 * @author balajih
-	 * @param xpathValue
-	 * @param data
+	 * @param xpathValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean selectbyXpathWithValue(String xpathValue, String data) throws Throwable {
+	public boolean selectByXpathWithValue(String xpathValue, String data) throws Throwable {
 		boolean bReturn = false;
 		try {
 			Select dropdown = new Select(driver.findElement(By.xpath(xpathValue)));
 			dropdown.selectByValue(data);
+<<<<<<< HEAD
 			reportStep("The element with "+ xpathValue +" is selected with value"+ data+" successfuly", "PASS");
+=======
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The value "+ data +" is not selected", "FAIL");
+=======
+			Reporter.reportStep("The value "+ data +" is not selected", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}
 		return bReturn;
-	}		
-	/**This method is used to fetch the data from dropdown using select by visible text with Id attribute to locate
+	}	
+	
+	/**This method is used to fetch the data from dropdown using select By visible text with Id attribute to locate
 	 * @author balajih
-	 * @param idValue
-	 * @param data
+	 * @param idValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -555,17 +977,26 @@ public class GenericWrappers extends Reporter{
 		try {
 			Select dropdown = new Select(driver.findElement(By.id(idValue)));
 			dropdown.selectByVisibleText(data);
+<<<<<<< HEAD
 			reportStep("The element with "+ idValue +" is selected with value"+ data+" successfuly", "PASS");
+=======
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The value "+ data +" is not selected", "FAIL");
+=======
+			Reporter.reportStep("The value "+ data +" is not selected", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}
 		return bReturn;
 	}
-	/**This method is used to fetch the data from dropdown using select by visible text with Name attribute to locate
+	
+	/**This method is used to fetch the data from dropdown using select By visible text with Name attribute to locate
 	 * @author balajih
-	 * @param nameValue
-	 * @param data
+	 * @param nameValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -574,70 +1005,126 @@ public class GenericWrappers extends Reporter{
 		try {
 			Select dropdown = new Select(driver.findElement(By.name(nameValue)));
 			dropdown.selectByVisibleText(data);
+<<<<<<< HEAD
 			reportStep("The element with "+ nameValue +" is selected with value"+ data+" successfuly", "PASS");
+=======
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The value "+ data +" is not selected", "FAIL");
+=======
+			Reporter.reportStep("The value "+ data +" is not selected", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}
 		return bReturn;
 	}
-	/**This method is used to fetch the data from dropdown using select by visible text with Class Name attribute to locate
+	
+	/**This method is used to fetch the data from dropdown using select By visible text with Class Name attribute to locate
 	 * @author balajih
-	 * @param cnameValue
-	 * @param data
+	 * @param cnameValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean selectbyClassNamewithText(String cnameValue, String data) throws Throwable {
+	public boolean selectByClassNamewithText(String cnameValue, String data) throws Throwable {
 		boolean bReturn = false;
 		try {
 			Select dropdown = new Select(driver.findElement(By.className(cnameValue)));
 			dropdown.selectByVisibleText(data);
+<<<<<<< HEAD
 			reportStep("The element with "+ cnameValue +" is selected with value"+ data+" successfuly", "PASS");
+=======
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The value "+ data +" is not selected", "FAIL");
+=======
+			Reporter.reportStep("The value "+ data +" is not selected", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}
 		return bReturn;
 	}
-	/**This method is used to fetch the data from dropdown using select by visible text with CSS Selector attribute to locate
+	
+	/**This method is used to fetch the data from dropdown using select By visible text with CSS Selector attribute to locate
 	 * @author balajih
-	 * @param cssValue
-	 * @param data
+	 * @param cssValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
-	public boolean selectbyCssSelectorWithText(String cssValue, String data) throws Throwable {
+	public boolean selectByCssSelectorWithText(String cssValue, String data) throws Throwable {
 		boolean bReturn = false;
 		try {
 			Select dropdown = new Select(driver.findElement(By.cssSelector(cssValue)));
 			dropdown.selectByVisibleText(data);
+<<<<<<< HEAD
 			reportStep("The element with "+ cssValue +" is selected with value"+ data+" successfuly", "PASS");
+=======
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The value "+ data +" is not selected", "FAIL");
+=======
+			Reporter.reportStep("The value "+ data +" is not selected", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}
 		return bReturn;
 	}
-	/**This method is used to fetch the data from dropdown using select by visible text with Xpath attribute to locate
+	
+	/**This method is used to fetch the data from dropdown using select By visible text with Xpath attribute to locate
 	 * @author balajih
-	 * @param idValue
-	 * @param data
+	 * @param idValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable 
 	 */
-	public boolean selectbyXpathWithText(String xpathValue, String data) throws Throwable {
+	public boolean selectByXpathWithText(String xpathValue, String data) throws Throwable {
 		boolean bReturn = false;
 		try {
 			Select dropdown = new Select(driver.findElement(By.xpath(xpathValue)));
 			dropdown.selectByVisibleText(data);
+<<<<<<< HEAD
 			reportStep("The element with "+ xpathValue +" is selected with value"+ data+" successfuly", "PASS");
+=======
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The value "+ data +" is not selected", "FAIL");
+=======
+			Reporter.reportStep("The value "+ data +" is not selected", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}
 		return bReturn;
 	}
+	
+	/**This method is used to fetch the data from dropdown using select By visible text with tagName attribute to locate
+	 * @author balajih
+	 * @param tagNameValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable 
+	 */
+	public boolean selectBytagName(String tagNameValue, String data) throws Throwable {
+		boolean bReturn = false;
+		try {
+			Select dropdown = new Select(driver.findElement(By.tagName(tagNameValue)));
+			dropdown.selectByVisibleText(data);
+			Reporter.reportStep("The element is selected with value"+ data+" successfully", "PASS");
+			bReturn = true;
+		} catch (Exception e) {
+			Reporter.reportStep("The value "+ data +" is not selected", "FAIL");
+		}
+		return bReturn;
+	}
+	
 	/**This method is used to click OK button in Alert box
 	 * @author balajih
 	 * @return
@@ -648,13 +1135,18 @@ public class GenericWrappers extends Reporter{
 		try {
 			Alert alert = driver.switchTo().alert();
 			alert.accept();
+<<<<<<< HEAD
 			reportStep("The Alert ok button is clicked successfuly", "PASS");
+=======
+			Reporter.reportStep("The Alert ok button is clicked successfully", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
 		} catch (Exception e) {
 			reportStep("The Alert ok button has not been clicked", "FAIL");
 		}
 		return bReturn;
 	}
+	
 	/**This method is used to click CANCEL button in Alert box
 	 * @author balajih
 	 * @return
@@ -665,16 +1157,21 @@ public class GenericWrappers extends Reporter{
 		try {
 			Alert alert = driver.switchTo().alert();
 			alert.dismiss();
+<<<<<<< HEAD
 			reportStep("The Alert Cancel button is clicked successfuly", "PASS");
+=======
+			Reporter.reportStep("The Alert Cancel button is clicked successfully", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
 		} catch (Exception e) {
 			reportStep("The Alert Cancel button has not been clicked", "FAIL");
 		}
 		return bReturn;
 	}
+	
 	/**This method is used to enter the value in the Alert box
 	 * @author balajih
-	 * @param data
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -683,16 +1180,25 @@ public class GenericWrappers extends Reporter{
 		try {
 			Alert alert = driver.switchTo().alert();
 			alert.sendKeys(data);
+<<<<<<< HEAD
 			reportStep("The value in the Alert box"+ data +" has been entered successfuly", "PASS");
+=======
+			Reporter.reportStep("The value in the Alert box "+ data +" has been entered successfully", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The value in the Alert box"+ data +" has not been entered successfuly", "FAIL");
+=======
+			Reporter.reportStep("The value in the Alert box "+ data +" has not been entered successfully", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}
 		return bReturn;
 	}
+	
 	/**This method is used to verify the text in the Alert box
 	 * @author balajih
-	 * @param data
+	 * @param data - The Data to be sent to the WebElement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -701,18 +1207,26 @@ public class GenericWrappers extends Reporter{
 		try {
 			Alert alert = driver.switchTo().alert();
 			if(alert.getText().equalsIgnoreCase(data)){
+<<<<<<< HEAD
 				reportStep("The text in the Alert box"+ data +" has been verified successfuly", "PASS");
+=======
+				Reporter.reportStep("The text in the Alert box "+ data +" has been verified successfully", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 				bReturn = true;
 			}
 		} catch (Exception e) {
+<<<<<<< HEAD
 			reportStep("The text in the Alert box"+ data +" has not been verified successfuly", "FAIL");
+=======
+			Reporter.reportStep("The text in the Alert box "+ data +" has not been verified successfully", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}	
 		return bReturn;
 	}
 
 	/**This method is used to Mouse hover on the element using ID element.
 	 * @author balajih
-	 * @param idValue
+	 * @param idValue - name of the webelement
 	 * @return
 	 * @throws Throwable
 	 */
@@ -720,16 +1234,25 @@ public class GenericWrappers extends Reporter{
 		boolean bReturn=false;
 		new Actions(driver).moveToElement(driver.findElement(By.id(idValue))).build().perform();
 		try {
+<<<<<<< HEAD
 			reportStep("The mouse hover to the"+ idValue +" element is successful", "PASS");
+=======
+			Reporter.reportStep("The mouse hover to the element is successful", "PASS");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			bReturn = true;
 
 		} catch (Throwable e) {
+<<<<<<< HEAD
 			reportStep("The mouse hover to the"+ idValue +" element is not successful", "FAIL");
+=======
+			Reporter.reportStep("The mouse hover to the element is not successful", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		}
 		return bReturn;
 	}
 
 	/**
+<<<<<<< HEAD
      * This method is used to switch the frame with id
      *
      * @author balajih & Udhay
@@ -763,7 +1286,797 @@ public class GenericWrappers extends Reporter{
             e.printStackTrace();
         }
     }
+=======
+	 * This method is used to switch the frame with id
+	 *
+	 * @author balajih & Udhay
+	 * @param data - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean switchToFrameByID(String data) throws Throwable{
+		boolean bReturn = false;
+		try {
+			driver.switchTo().frame(driver.findElement(By.id(data)));
+			Reporter.reportStep("Frame switched successfully", "PASS");
+			bReturn = true;
+		} catch (Exception e) {
+			Reporter.reportStep("Frame not switched successfully", "FAIL");
+		}
+		return bReturn;
+	}
+	
+	/**
+	 * This method is used to switch the frame with name
+	 *
+	 * @author balajih 
+	 * @param data - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean switchToFrameByName(String data) throws Throwable{
+		boolean bReturn = false;
+		try {
+			driver.switchTo().frame(driver.findElement(By.name(data)));
+			Reporter.reportStep("Frame switched successfully", "PASS");
+			bReturn = true;
+		} catch (Exception e) {
+			Reporter.reportStep("Frame not switched successfully", "FAIL");
+		}
+		return bReturn;
+	}
+	
+	/**
+	 * This method is used to switch the frame with index value
+	 * 
+	 * @author Udhayasundar
+	 * @param indexValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean switchToFrameByIndex(int indexValue) throws Throwable {
+		boolean bReturn = false;
+		try {
+			driver.switchTo().frame(indexValue);
+			bReturn = true;
+		} catch (Exception e) {
+			Reporter.reportStep("Frame not switched successfully", "FAIL");
+		}
+		return bReturn;
+	}
+	
+	/**This method is to Switch to Default Content from nested windows
+	 * @author balajih
+	 * @return
+	 */
+	public boolean switchToDefaultContent(){
+		boolean bReturn = false;
+		try{
+			driver.switchTo().defaultContent();
+			bReturn = true;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bReturn;
+	}
 
+	/**
+	 * This method is used to sleep for the given seconds
+	 *
+	 * @author balajih
+	 * @param data - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable
+	 */
+	public void waitForPageLoad(long seconds) {
+		try {
+			Thread.sleep(seconds * 1000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * This method is used to switch the frame with id
+	 *
+	 * @author balajih
+	 * @param data - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable
+	 */
+	public String switchToWindow() throws Throwable {
+		// boolean bReturn = false;
+		String currentWin = null;
+		try {
+			currentWin = driver.getWindowHandle();
+			for (String newWindow : driver.getWindowHandles()) {
+				driver.switchTo().window(newWindow);
+			}
+			// bReturn = true;
+		} catch (Exception e) {
+			Reporter.reportStep("Winodw not switched successfully", "FAIL");
+		}
+		return currentWin;
+	}
+
+	/**
+	 * This method is used to open a new URL
+	 * @author balajih
+	 * @param data - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean openbrowser(String URL) throws Throwable {
+		boolean bReturn = false;
+		try {
+			driver.get(URL);
+			waitForPageLoad(10);
+			bReturn = true;
+		} catch (Exception e) {
+			Reporter.reportStep(URL+" : not launched successfully", "FAIL");
+		}
+		return bReturn;
+	}
+
+	/**
+	 * This method will verify the fetched title is matching or not using the partial title.
+	 *
+	 * @author balajih
+	 * @param title - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean VerifyTitleEndsWith(String title) throws Throwable {
+		boolean bReturn = false;
+		if (driver.getTitle().trim().endsWith(title)) {
+			try {
+				Reporter.reportStep("The title of the page" + title + " is matching successfully", "PASS");
+				bReturn = true;
+
+			} catch (Exception e) {
+				Reporter.reportStep("The title of the page" + title + " is not matching successfully", "FAIL");
+				bReturn = false;
+			}
+		}
+		return bReturn;
+	}
+
+	/**
+	 * This method will enter the value using ClassName attribute in I/O device
+	 * @author Balajih & udayasundar
+	 * @param cnameValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean enterkeysByClassName(String cnameValue, String data) throws Throwable {
+		boolean bReturn = false;
+		try {
+			driver.findElement(By.className(cnameValue)).sendKeys(Keys.ENTER);
+			Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
+			bReturn = true;
+		} catch (Exception e) {
+			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
+		}
+		return bReturn;
+	}
+
+	/**
+	 * This method will enter the value using Xpath attribute in I/O device
+	 * @author Balajih
+	 * @param xpathValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean enterkeysByXpath(String xpathValue, String data) throws Throwable {
+		boolean bReturn = false;
+		try {
+			driver.findElement(By.className(xpathValue)).sendKeys(Keys.ENTER);
+			Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
+			bReturn = true;
+		} catch (Exception e) {
+			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
+		}
+		return bReturn;
+	}
+
+	/**
+	 * This method will enter the value using ID attribute in I/O device
+	 * @author Balajih
+	 * @param idValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean enterkeysByID(String idValue, String data) throws Throwable {
+		boolean bReturn = false;
+		try {
+			driver.findElement(By.className(idValue)).sendKeys(Keys.ENTER);
+			Reporter.reportStep("The data "+ data +" is entered successfully.", "PASS");
+			bReturn = true;
+		} catch (Exception e) {
+			Reporter.reportStep("The data "+ data +" is not entered successfully.", "FAIL");
+		}
+		return bReturn;
+	}
+	
+	/**
+	 * This method will enter the value By handling Browser Authentication using I/O device
+	 *
+	 * @author Balajih & udayasundar
+	 * @param uName - The Data to be sent to the WebElement
+	 * @param pwd - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable
+	 */
+	public void handlingBAuthUsingRobo(String uName, String pwd) {
+		try{
+			//wait - increase this wait period if required
+			waitForPageLoad(5);
+
+			//create robot for keyboard operations
+			Robot rb = new Robot();
+
+			//Enter user name By ctrl-v
+			StringSelection username = new StringSelection(uName);
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(username, null);
+			rb.keyPress(KeyEvent.VK_CONTROL);
+			rb.keyPress(KeyEvent.VK_V);
+			rb.keyRelease(KeyEvent.VK_V);
+			rb.keyRelease(KeyEvent.VK_CONTROL);
+
+			//tab to password entry field
+			rb.keyPress(KeyEvent.VK_TAB);
+			rb.keyRelease(KeyEvent.VK_TAB);
+			waitForPageLoad(2);
+
+			//Enter password By ctrl-v
+			StringSelection passwd = new StringSelection(pwd);
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(passwd, null);
+			rb.keyPress(KeyEvent.VK_CONTROL);
+			rb.keyPress(KeyEvent.VK_V);
+			rb.keyRelease(KeyEvent.VK_V);
+			rb.keyRelease(KeyEvent.VK_CONTROL);
+
+			//press enter
+			rb.keyPress(KeyEvent.VK_ENTER);
+			rb.keyRelease(KeyEvent.VK_ENTER);
+
+			//wait
+			waitForPageLoad(2);
+
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+
+	/**
+	 * This method will verify the Web Table using Xpath
+	 * @author balajih
+	 * @param xpathValue - name of the webelement
+	 * @param rowNum - The Data to be sent to the WebElement
+	 * @param colNum - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable
+	 */
+	public String verifyTablecellValueByXpath(String xpathValue, int rowNum, int colNum) throws Throwable {
+		String value = null;
+		try {
+			value = driver.findElement(By.xpath(xpathValue+"/tr["+rowNum+"]/td["+colNum+"]")).getText();
+		} catch (Exception e) {
+		}
+		return value;
+	}
+	
+	/**This Method will fetch the Table row Count by Xpath WebElement
+	 * 
+	 * @param xpathValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public int getTableRowcountByXpath(String xpathValue) throws Throwable {
+		int rowCount=0;
+		try {
+			rowCount = (int) driver.findElements(By.xpath(xpathValue+"/tr")).size();
+		} catch (Exception e) {
+		}
+		return rowCount;
+	}
+
+	public int getTableColcountByXpath(String xpathValue) throws Throwable {
+		int colCount=0;
+		try {
+			colCount = (int) driver.findElements(By.xpath(xpathValue+"/tr[1]/td")).size();
+		} catch (Exception e) {
+		}
+		return colCount;
+	}
+
+	/**This Method is used to Kill the Browser drivers from task manager
+	 * @author balajih
+	 */
+	public void killAllDrivers() {
+		try {
+			Process p =
+					Runtime.getRuntime().exec("taskkill /F /IM IEDriverServer.exe");
+			try {
+				p.waitFor();
+				Thread.sleep(3000);
+			} catch (InterruptedException e2) {
+				e2.printStackTrace();
+			}
+			p = Runtime.getRuntime().exec("taskkill /F /IM chromedriver.exe*");
+			try {
+				p.waitFor();
+				Thread.sleep(3000);
+			} catch (InterruptedException e1) {
+
+				e1.printStackTrace();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**This method is to clear Cache & Cookies in a browser
+	 * @author balajih & Udhaysundar
+	 * @param browserName - name of the webelement
+	 * @param capabilities
+	 */
+	//
+	public void clearCookies(String browserName, DesiredCapabilities capabilities){
+		if(browserName.equalsIgnoreCase("firefox")||browserName.equalsIgnoreCase("Firefox")){
+			driver.manage().deleteAllCookies();
+		}
+		else if(browserName.equalsIgnoreCase("IE")||browserName.equalsIgnoreCase("internet explorer")){
+			capabilities = DesiredCapabilities.internetExplorer();
+			capabilities.setCapability(InternetExplorerDriver.IE_ENSURE_CLEAN_SESSION, true);
+		}
+		else if(browserName.equalsIgnoreCase("chrome")||browserName.equalsIgnoreCase("Chrome")){
+			driver.manage().deleteAllCookies();
+		}
+	}
+	
+	/**
+	 * This method will Upload the File from windows into Browser.
+	 * @author Mohamed
+	 * @param location - The Data to be sent to the WebElement
+	 * @param 
+	 * @return
+	 */
+	public void uploadFile(String location) throws Throwable{
+		try{
+			//wait - increase this wait period if required
+			waitForPageLoad(3);
+			StringSelection stringSelection = new StringSelection(location);
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
+			Robot ro = new Robot();
+			ro.keyPress(KeyEvent.VK_CONTROL);
+			ro.keyPress(KeyEvent.VK_V);
+			ro.keyRelease(KeyEvent.VK_V);
+			ro.keyRelease(KeyEvent.VK_CONTROL);
+			ro.keyPress(KeyEvent.VK_ENTER);
+			ro.keyRelease(KeyEvent.VK_ENTER);
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	/**
+	 * This method is used to Mouse hover on the element using xpath element.
+	 * 
+	 * @author Udhayasundar
+	 * @param xpathValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean mouseHoverByXpath(String xpathValue) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).moveToElement(driver.findElement(By.xpath(xpathValue))).build().perform();
+			Reporter.reportStep("The mouse hover to the" + xpathValue + " element is successful", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The mouse hover to the" + xpathValue + " element is not successful", "FAIL");
+		}
+		return bReturn;
+	}
+
+	/**
+	 * This method is used to Mouse hover on the element using CSS element.
+	 * 
+	 * @author Udhayasundar
+	 * @param cssValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean mouseHoverByCSS(String cssValue) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).moveToElement(driver.findElement(By.cssSelector(cssValue))).build().perform();
+			Reporter.reportStep("The mouse hover to the" + cssValue + " element is successful", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The mouse hover to the" + cssValue + " element is not successful", "FAIL");
+		}
+		return bReturn;
+	}
+
+	/**
+	 * This method is used to Mouse hover on the element using class name element.
+	 * 
+	 * @author Udhayasundar
+	 * @param classNameValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean mouseHoverByClassName(String classNameValue) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).moveToElement(driver.findElement(By.className(classNameValue))).build().perform();
+			Reporter.reportStep("The mouse hover to the" + classNameValue + " element is successful", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The mouse hover to the" + classNameValue + " element is not successful", "FAIL");
+		}
+		return bReturn;
+	}
+
+	/**
+	 * This method is used to Mouse hover on the element using name element.
+	 * 
+	 * @author Udhayasundar
+	 * @param nameValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean mouseHoverByName(String nameValue) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).moveToElement(driver.findElement(By.name(nameValue))).build().perform();
+			Reporter.reportStep("The mouse hover to the" + nameValue + " element is successful", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The mouse hover to the" + nameValue + " element is not successful", "FAIL");
+		}
+		return bReturn;
+	}
+
+	/**
+	 * This method is used to Mouse hover on the element using LinkText element.
+	 * 
+	 * @author Udhayasundar
+	 * @param linkTextValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean mouseHoverByLinkText(String linkTextValue) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).moveToElement(driver.findElement(By.linkText(linkTextValue))).build().perform();
+			Reporter.reportStep("The mouse hover to the" + linkTextValue + " element is successful", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The mouse hover to the" + linkTextValue + " element is not successful", "FAIL");
+		}
+		return bReturn;
+	}
+
+	/**
+	 * This method is used to Mouse hover on the element using Partial Link Text element.
+	 * 
+	 * @author Udhayasundar
+	 * @param pLinkTextValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean mouseHoverByPLinkText(String pLinkTextValue) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).moveToElement(driver.findElement(By.partialLinkText(pLinkTextValue))).build().perform();
+			Reporter.reportStep("The mouse hover to the" + pLinkTextValue + " element is successful", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The mouse hover to the" + pLinkTextValue + " element is not successful", "FAIL");
+		}
+		return bReturn;
+	}
+
+
+	/**
+	 * This method is used to fetch the data from dropdown using select By Id
+	 * attribute to locate 
+	 * @author Udhayasundar
+	 * @param idValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean selectByIdWithindex(String idValue, int data) throws Throwable {
+		boolean bReturn = false;
+		try {
+			Select dropdown = new Select(driver.findElement(By.id(idValue)));
+			dropdown.selectByIndex(data);
+			Reporter.reportStep("The element with " + idValue + " is selected with value" + data + " successfully",
+					"PASS");
+			bReturn = true;
+		} catch (Exception e) {
+			Reporter.reportStep("The value " + data + " is not selected", "FAIL");
+		}
+		return bReturn;
+	}
+
+
+	/**
+	 * This method is used to click the element By mouse hover using ID element.
+	 * 
+	 * @author Udhayasundar
+	 * @param idValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean mouseClickByID(String idValue) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).moveToElement(driver.findElement(By.id(idValue))).click();
+			Reporter.reportStep("The element clicked successfully", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The element click was not successful", "FAIL");
+		}
+		return bReturn;
+	}
+
+
+	/**
+	 * This method is used to click the element By mouse hover using className element.
+	 * 
+	 * @author Udhayasundar
+	 * @param classNameValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean mouseClickByClass(String classNameValue) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).moveToElement(driver.findElement(By.className(classNameValue))).click();
+			Reporter.reportStep("The element clicked successfully", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The element clicked was not successful", "FAIL");
+		}
+		return bReturn;
+	}
+
+	/**
+	 * This method is used to click the element By mouse hover using ID element.
+	 * 
+	 * @author Udhayasundar 
+	 * @param idValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean actionClickByID(String idValue) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).click(driver.findElement(By.id(idValue)));
+			Reporter.reportStep("The element clicked successfully", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The element clicked was not successful", "FAIL");
+		}
+		return bReturn;
+	}
+
+	/**
+	 * This method is used to click the element By mouse hover using className element.
+	 * 
+	 * @author Udhayasundar
+	 * @param classNameValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean actionClickByClass(String classNameValue) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).click(driver.findElement(By.className(classNameValue)));
+			Reporter.reportStep("The element clicked successfully", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The element clicked was not successful", "FAIL");
+		}
+		return bReturn;
+	}
+
+
+	/**
+	 * This method is used to context click the element By mouse hover using ID element.
+	 * 
+	 * @author Udhayasundar
+	 * @param idValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean mouseCntxtClickById(String idValue) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).moveToElement(driver.findElement(By.id(idValue))).contextClick();
+			Reporter.reportStep("The element Context clicked successfully", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The element Context clicked was not successful", "FAIL");
+		}
+		return bReturn;
+	}
+
+	/**
+	 * This method is used to context click the element By mouse hover using ClassName element.
+	 * 
+	 * @author Udhayasundar
+	 * @param classNameValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean mouseCntxtClickByClass(String classNameValue) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).moveToElement(driver.findElement(By.className(classNameValue))).contextClick();
+			Reporter.reportStep("The element Context clicked successfully", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The element Context clicked was not successful", "FAIL");
+		}
+		return bReturn;
+	}
+
+	/**
+	 * This method is used to context click the element By mouse hover using id element.
+	 * 
+	 * @author Udhayasundar
+	 * @param idValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean actioncnxtClickById(String idValue) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).contextClick(driver.findElement(By.id(idValue)));
+			Reporter.reportStep("The element Context clicked successfully", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The element Context clicked was not successful", "FAIL");
+		}
+		return bReturn;
+	}
+
+
+	/**
+	 * This method is used to context click the element By mouse hover using class element.
+	 * 
+	 * @author Udhayasundar
+	 * @param classNameValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean actioncnxtClickByClass(String classNameValue) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).contextClick(driver.findElement(By.className(classNameValue)));
+			Reporter.reportStep("The element Context clicked successfully", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The element Context clicked was not successful", "FAIL");
+		}
+		return bReturn;
+	}
+
+
+	/**
+	 * This method is used to double click the element By mouse hover using id element.
+	 * 
+	 * @author Udhayasundar
+	 * @param idValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean actiondbleClickById(String idValue) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).doubleClick(driver.findElement(By.id(idValue)));
+			Reporter.reportStep("The element double clicked successfully", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The element double clicked was not successful", "FAIL");
+		}
+		return bReturn;
+	}
+
+
+	/**
+	 * This method is used to double click the element By mouse hover using class name element.
+	 * 
+	 * @author Udhayasundar
+	 * @param classNameValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean actiondbleClickByClass(String classNameValue) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).doubleClick(driver.findElement(By.className(classNameValue)));
+			Reporter.reportStep("The element double clicked successfully", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The element double clicked was not successful", "FAIL");
+		}
+		return bReturn;
+	}
+
+
+	/**
+	 * This method is used to double click the element By mouse hover using id element.
+	 * 
+	 * @author Udhayasundar
+	 * @param idValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean mousedbleClickById(String idValue) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).moveToElement(driver.findElement(By.id(idValue))).doubleClick();
+			Reporter.reportStep("The element double clicked successfully", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The element double clicked was not successful", "FAIL");
+		}
+		return bReturn;
+	}
+
+	/**
+	 * This method is used to double click the element By mouse hover using class name element.
+	 * 
+	 * @author Udhayasundar
+	 * @param classNameValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean mousedbleClickByclass(String classNameValue) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).moveToElement(driver.findElement(By.className(classNameValue))).doubleClick();
+			Reporter.reportStep("The element double clicked successfully", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The element double clicked was not successful", "FAIL");
+		}
+		return bReturn;
+	}
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
+
+<<<<<<< HEAD
     /**
      * This method is used to switch the frame with id
      *
@@ -786,6 +2099,52 @@ public class GenericWrappers extends Reporter{
         }
         return currentWin;
     }
+=======
+
+
+	/**
+	 * This method is used to drag and drop the element By Mouse hover using ID element.
+	 * 
+	 * @author Udhayasundar
+	 * @param idValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean DragAndDropById(String source, String target) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).dragAndDrop(driver.findElement(By.id(source)), driver.findElement(By.id(target)));
+			Reporter.reportStep("Drag and dropped successfully", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("Drag and dropped was not performed successfully", "FAIL");
+		}
+		return bReturn;
+	}
+
+
+	/**
+	 * This method is used to drag and drop the element By Mouse hover using classname element.
+	 * 
+	 * @author Udhayasundar
+	 * @param idValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean DragAndDropByclass(String source, String target) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).dragAndDrop(driver.findElement(By.className(source)), driver.findElement(By.className(target)));
+			Reporter.reportStep("Drag and dropped successfully", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("Drag and dropped was not performed successfully", "FAIL");
+		}
+		return bReturn;
+	}
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 
     /**
      * This method is used to open a new URL
@@ -807,6 +2166,7 @@ public class GenericWrappers extends Reporter{
         return bReturn;
     }
 
+<<<<<<< HEAD
     /**
      * This method will verify the fetched title is matching or not.
      *
@@ -994,6 +2354,318 @@ capabilities.setCapability(InternetExplorerDriver.IE_ENSURE_CLEAN_SESSION, true)
         }
         return bReturn;
     }
+=======
+	/**
+	 * This method is used to send the keys By Mouse hover on the element using ID element.
+	 * 
+	 * @author Udhayasundar
+	 * @param idValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean actionMseSendKeysById(String idValue,String data) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).moveToElement(driver.findElement(By.id(idValue))).sendKeys(data);
+			Reporter.reportStep("The "+data+" entered successfully", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The "+data+" not entered successfully", "FAIL");
+		}
+		return bReturn;
+	}
+
+	/**
+	 * This method is used to send the keys By Mouse hover on the element using className element.
+	 * 
+	 * @author Udhayasundar
+	 * @param classNameValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean actionMseSendKeysByclass(String classNameValue,String data) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).moveToElement(driver.findElement(By.className(classNameValue))).sendKeys(data);
+			Reporter.reportStep("The "+data+" entered successfully", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The "+data+" not entered successfully", "FAIL");
+		}
+		return bReturn;
+	}
+
+	/**
+	 * This method is used to send the keys By Mouse hover on the element using ID element.
+	 * 
+	 * @author Udhayasundar
+	 * @param idValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean actionSendKeysById(String idValue,String data) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).sendKeys(driver.findElement(By.id(idValue)),data);
+			Reporter.reportStep("The "+data+" entered successfully", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The "+data+" not entered successfully", "FAIL");
+		}
+		return bReturn;
+	}
+
+	/**
+	 * This method is used to send the keys By Mouse hover on the element using className element.
+	 * 
+	 * @author Udhayasundar
+	 * @param classNameValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean actionSendKeysByclass(String classNameValue,String data) throws Throwable {
+		boolean bReturn = false;
+		try {
+			new Actions(driver).sendKeys(driver.findElement(By.className(classNameValue)),data);
+			Reporter.reportStep("The "+data+" entered successfully", "PASS");
+			bReturn = true;
+
+		} catch (Throwable e) {
+			Reporter.reportStep("The "+data+" not entered successfully", "FAIL");
+		}
+		return bReturn;
+	}
+
+	/**
+	 * This method is used to compare the value between the element and input data
+	 * if new line exist then it replace with space
+	 * 
+	 * @author Udhayasundar
+	 * @param xpathValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean verifyValueWithNewLineByXpath(String xpathValue, String data) throws Throwable {
+		boolean bReturn = false;
+		try {
+			String lblValue = getTextByXpath(xpathValue).trim()
+					.replace("\n", " ");
+			if (lblValue.equalsIgnoreCase(data)) {
+				Reporter.reportStep(lblValue + " label displaying successfully", "PASS");
+				bReturn=true;
+			} else {
+				Reporter.reportStep(data + " label is not displayed", "FAIL");
+				bReturn = false;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bReturn;
+	}
+
+	/**
+	 * This method is used to compare the value between the element and input data
+	 * if new line exist then it replace with space
+	 * 
+	 * @author Udhayasundar
+	 * @param xpathValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean verifyValueByXpath(String xpathValue, String data) throws Throwable {
+		boolean bReturn = false;
+		try {
+			String lblValue = getTextByXpath(xpathValue).trim();
+			if (lblValue.equalsIgnoreCase(data)) {
+				Reporter.reportStep(lblValue + " label displaying successfully", "PASS");
+				bReturn=true;
+			} else {
+				Reporter.reportStep(data + " label is not displayed", "FAIL");
+				bReturn = false;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bReturn;
+	}
+	
+	/**
+	 * This method will check the element is displaying or not using xpath
+	 * 
+	 * @author Udhayasundar
+	 * @param xpathValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean checkElementIsDisplayed(String xpathValue) throws Throwable {
+		boolean bReturn = false;
+		try {
+			driver.findElement(By.xpath(xpathValue)).isDisplayed();
+			Reporter.reportStep("Element is present/ displayed on the screen", "PASS");
+			bReturn = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			Reporter.reportStep("Element is not present/ displayed on the screen", "FAIL");
+		}
+		return bReturn;
+	}
+
+	/**
+	 * This method will return the web element Text using xpath
+	 * 
+	 * @author Udhayasundar
+	 * @param xpathValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public String getTextByXpath(String xpathValue) throws Throwable {
+		String textValue = null;
+		try {
+			textValue = driver.findElement(By.xpath(xpathValue)).getText();
+			Reporter.reportStep("The Captured text is :"+ textValue, "PASS");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			Reporter.reportStep("The text is not captured", "FAIL");
+		}
+		return textValue;
+	}
+
+	/**
+	 * This method will return the web element Text using ID
+	 * 
+	 * @author Balajih
+	 * @param idValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public String getTextByID(String idValue) throws Throwable {
+		String textValue = null;
+		try {
+			textValue = driver.findElement(By.id(idValue)).getText();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return textValue;
+	}
+
+	/** This method is used to click the element using Java script
+	 * @author udhayasundar
+	 * @param xpathValue - name of the webelement
+	 * @return
+	 * @throws Throwable
+	 */
+	public void clickByJavaScript(String xpathValue) throws Throwable{
+
+		WebElement element = driver.findElement(By.xpath(xpathValue));
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].click();", element);
+
+	}
+
+
+	/** This method is used to compare the value between the element and input data
+	 * @author udhayasundar
+	 * @param idValue - name of the webelement
+	 * @param data - The Data to be sent to the WebElement
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean verifyMessageById(String idValue, String data) throws Throwable {
+		boolean bReturn = false;
+		try {
+			String lblValue = getTextByID(idValue).trim();
+			if (lblValue.equalsIgnoreCase(data)) {
+				Reporter.reportStep(lblValue + " message displaying successfully", "PASS");
+				bReturn = true;
+			} else {
+				Reporter.reportStep(data + " message is not displayed", "FAIL");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bReturn;
+	}
+
+
+	/** This method is used to get text value using LinkText
+	 * @author Balajih & Sivaprakash
+	 * @param linkText - name of the webelement
+	 * @throws Throwable
+	 */
+	public String getTextUsingLinkText(String linkText) throws Throwable {
+		String textvalue = null;
+		try {
+
+			WebDriverWait wait = new WebDriverWait(driver, 30);
+			WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText(linkText)));
+			textvalue = element.getText();
+			Reporter.reportStep("received text value ", "PASS");
+		} catch (Throwable e) {
+			e.printStackTrace();
+			Reporter.reportStep("text value is not received", "FAIL");
+		}
+		return textvalue;
+	}
+
+	/** This method is used to view the element using scrollbar
+	 * @author Sivaprakash
+	 * @param idValue - name of the webelement
+	 * @throws Throwable
+	 */
+	public void scrollIntoViewById(String idValue) throws Throwable {
+		try {
+
+			WebElement element = driver.findElement(By.id(idValue));
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript("arguments[0].scrollIntoView(true);", element);
+			Reporter.reportStep("The text value is received", "PASS");
+		} catch (Throwable e) {
+			e.printStackTrace();
+			Reporter.reportStep("The text value is not received", "FAIL");
+		}
+	}
+
+
+	/** This method is used to view the element using scrollbar
+	 * @author Sivaprakash
+	 * @param xpathValue - name of the webelement
+	 * @throws Throwable
+	 */
+	public void scrollIntoViewByXpath(String xpathValue) throws Throwable {
+		try {
+
+			WebElement element = driver.findElement(By.xpath(xpathValue));
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript("arguments[0].scrollIntoView(true);", element);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			Reporter.reportStep("text value is not received", "FAIL");
+		}
+	}
+
+	/**This method is to click on the Browser Back button
+	 * @author balajih
+	 * @throws Throwable
+	 */
+	public void clickBrowserBackButton() throws Throwable{
+		try {
+			driver.navigate().back();
+			Reporter.reportStep("Clicked Browser Back button successfully", "PASS");
+		} catch (Exception e) {
+			e.printStackTrace();
+			Reporter.reportStep("Clicked Browser Back button un-successfully", "FAIL");
+		}
+	} 
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 
 	/**This method is to quit the current Browser opened for testing
 	 * @author balajih
@@ -1005,7 +2677,11 @@ capabilities.setCapability(InternetExplorerDriver.IE_ENSURE_CLEAN_SESSION, true)
 			driver.quit();
 
 		} catch (Throwable e) {
+<<<<<<< HEAD
 			//reportStep("The Browser" + driver.getCapabilities().getBrowserName()+ "could not be closed", "FAIL");
+=======
+			Reporter.reportStep("The Browser" + driver.getCapabilities().getBrowserName()+ "could not be closed", "FAIL");
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 			e.printStackTrace();
 		}
 	}

@@ -2,15 +2,26 @@
 <testng-results skipped="1" failed="0" total="1" passed="0">
   <reporter-output>
   </reporter-output>
+<<<<<<< HEAD
   <suite name="Suite" duration-ms="26" started-at="2016-09-01T20:34:37Z" finished-at="2016-09-01T20:34:37Z">
+=======
+  <suite name="Default suite" duration-ms="22" started-at="2016-10-11T13:08:18Z" finished-at="2016-10-11T13:08:18Z">
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
     <groups>
     </groups>
+<<<<<<< HEAD
     <test name="ImageSubmissionPortal" duration-ms="26" started-at="2016-09-01T20:34:37Z" finished-at="2016-09-01T20:34:37Z">
       <class name="imageSubmissionPortalTestcases.ImageSubmissionDropdown">
         <test-method status="PASS" signature="beforeSuite()[pri:0, instance:imageSubmissionPortalTestcases.ImageSubmissionDropdown@32be31]" name="beforeSuite" is-config="true" duration-ms="466" started-at="2016-09-02T02:04:37Z" finished-at="2016-09-02T02:04:37Z">
+=======
+    <test name="Default test" duration-ms="22" started-at="2016-10-11T13:08:18Z" finished-at="2016-10-11T13:08:18Z">
+      <class name="com.esri.test.auto.testcases.Sample1">
+        <test-method status="PASS" signature="beforeSuite()[pri:0, instance:com.esri.test.auto.testcases.Sample1@57536d79]" name="beforeSuite" is-config="true" duration-ms="172" started-at="2016-10-11T18:38:18Z" finished-at="2016-10-11T18:38:18Z">
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
           <reporter-output>
           </reporter-output>
         </test-method> <!-- beforeSuite -->
+<<<<<<< HEAD
         <test-method status="FAIL" signature="beforeClass()[pri:0, instance:imageSubmissionPortalTestcases.ImageSubmissionDropdown@32be31]" name="beforeClass" is-config="true" duration-ms="0" started-at="2016-09-02T02:04:37Z" finished-at="2016-09-02T02:04:37Z">
           <exception class="java.lang.NullPointerException">
             <full-stacktrace>
@@ -44,14 +55,74 @@
           </reporter-output>
         </test-method> <!-- beforeClass -->
         <test-method status="SKIP" signature="ImageSubmissionPortaltest()[pri:0, instance:imageSubmissionPortalTestcases.ImageSubmissionDropdown@32be31]" name="ImageSubmissionPortaltest" duration-ms="3" started-at="2016-09-02T02:04:37Z" finished-at="2016-09-02T02:04:37Z">
+=======
+        <test-method status="FAIL" signature="beforeMethod(java.lang.String)[pri:0, instance:com.esri.test.auto.testcases.Sample1@57536d79]" name="beforeMethod" is-config="true" duration-ms="0" started-at="2016-10-11T18:38:18Z" finished-at="2016-10-11T18:38:18Z">
+          <exception class="org.testng.TestNGException">
+            <message>
+              <![CDATA[
+Parameter 'browser' is required by @Configuration on method beforeMethod but has not been marked @Optional or defined
+in C:\Users\balajih\AppData\Local\Temp\testng-eclipse--1489803977\testng-customsuite.xml]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[org.testng.TestNGException: 
+Parameter 'browser' is required by @Configuration on method beforeMethod but has not been marked @Optional or defined
+in C:\Users\balajih\AppData\Local\Temp\testng-eclipse--1489803977\testng-customsuite.xml
+	at org.testng.internal.Parameters.createParameters(Parameters.java:156)
+	at org.testng.internal.Parameters.createParameters(Parameters.java:363)
+	at org.testng.internal.Parameters.createConfigurationParameters(Parameters.java:86)
+	at org.testng.internal.Invoker.invokeConfigurations(Invoker.java:202)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:590)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:811)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1129)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:129)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:112)
+	at org.testng.TestRunner.privateRun(TestRunner.java:746)
+	at org.testng.TestRunner.run(TestRunner.java:600)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:366)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:361)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:319)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:268)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1264)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1189)
+	at org.testng.TestNG.runSuites(TestNG.java:1104)
+	at org.testng.TestNG.run(TestNG.java:1076)
+	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:126)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:152)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:57)
+]]>
+            </full-stacktrace>
+          </exception> <!-- org.testng.TestNGException -->
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
           <reporter-output>
           </reporter-output>
+<<<<<<< HEAD
         </test-method> <!-- ImageSubmissionPortaltest -->
         <test-method status="SKIP" signature="afterSuite()[pri:0, instance:imageSubmissionPortalTestcases.ImageSubmissionDropdown@32be31]" name="afterSuite" is-config="true" duration-ms="0" started-at="2016-09-02T02:04:37Z" finished-at="2016-09-02T02:04:37Z">
+=======
+        </test-method> <!-- beforeMethod -->
+        <test-method status="SKIP" signature="search()[pri:0, instance:com.esri.test.auto.testcases.Sample1@57536d79]" name="search" duration-ms="1" started-at="2016-10-11T18:38:18Z" finished-at="2016-10-11T18:38:18Z">
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
           <reporter-output>
           </reporter-output>
+<<<<<<< HEAD
         </test-method> <!-- afterSuite -->
       </class> <!-- imageSubmissionPortalTestcases.ImageSubmissionDropdown -->
     </test> <!-- ImageSubmissionPortal -->
   </suite> <!-- Suite -->
+=======
+        </test-method> <!-- search -->
+        <test-method status="SKIP" signature="afterMethod()[pri:0, instance:com.esri.test.auto.testcases.Sample1@57536d79]" name="afterMethod" is-config="true" duration-ms="0" started-at="2016-10-11T18:38:18Z" finished-at="2016-10-11T18:38:18Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method status="SKIP" signature="afterSuite()[pri:0, instance:com.esri.test.auto.testcases.Sample1@57536d79]" name="afterSuite" is-config="true" duration-ms="0" started-at="2016-10-11T18:38:18Z" finished-at="2016-10-11T18:38:18Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterSuite -->
+      </class> <!-- com.esri.test.auto.testcases.Sample1 -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 </testng-results>

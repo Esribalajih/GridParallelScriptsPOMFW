@@ -7,7 +7,11 @@
       <class name="imageSubmissionPortalTestcases.ImageSubmissionDropdown"/>
     </classes>
     </test> <!-- ImageSubmissionPortal -->
+<<<<<<< HEAD
    <!--  <test name='FW-ISP'>
+=======
+    <!-- <test name='FW-ISP'>
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
     <parameter name="browser" value="firefox"/>
     <classes>
     <class name="com.esri.test.auto.testcases.TC02_ImageSubPortalPage1"/>

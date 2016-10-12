@@ -16,13 +16,28 @@ public abstract class Reporter{
 	public static ExtentReports extent;
 	public String testCaseName, testDescription, category;
 	
+<<<<<<< HEAD
+=======
+	private static ExtentTest test;
+	private static ExtentReports extent;
 	
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
+	
+<<<<<<< HEAD
 	/*public static void reportStep(String desc, String status) {
 
 
 		long number = (long) Math.floor(Math.random() * 900000000L) + 10000000L;
 		try {
 			FileUtils.copyFile(bw.getScreenshotAs(OutputType.FILE) , new File("./reports/images/"+number+".jpg"));
+=======
+	public static void reportStep(String desc, String status) throws Throwable{
+		
+		 long number = (long) Math.floor(Math.random()* 900000000L) + 10000000L;
+		 try {
+			 File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+			FileUtils.copyFile(srcFile, new File("./reports/images/"+number+".jpg"));
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 		} catch (WebDriverException e) {
 			//			e.printStackTrace();
 		} catch (IOException e) {
@@ -50,6 +65,7 @@ public abstract class Reporter{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+<<<<<<< HEAD
 		System.out.println(desc);
 		// Write if it is successful or failure or information
 		if(status.toUpperCase().equals("PASS")){
@@ -61,7 +77,18 @@ public abstract class Reporter{
 		}else if(status.toUpperCase().equals("INFO")){
 			test.log(LogStatus.INFO, desc);
 		}
+=======
+			if(status.toUpperCase().equals("PASS")){
+				test.log(LogStatus.PASS, desc+test.addScreenCapture("./images/"+number+".jpg"));
+			}else if(status.toUpperCase().equals("FAIL")){
+				test.log(LogStatus.FAIL, desc+test.addScreenCapture("./images/"+number+".jpg"));
+				//throw new RuntimeException("FAILED");
+			}else if(status.toUpperCase().equals("INFO")){
+				test.log(LogStatus.INFO, desc);
+			}
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 	}
+<<<<<<< HEAD
 
 	public abstract long takeSnap();
 
@@ -87,4 +114,25 @@ public abstract class Reporter{
 	}
 
 
+=======
+		 
+		 public static void startResult(){
+			 extent = new ExtentReports("./reports/results.html",true);
+			// extent.loadConfig(new File("./extent-config.xml"));
+			 }
+		 
+		 public static void startTestCase(){
+			 test = extent.startTest(testCaseName);
+		 }
+		 
+		 public static void endResult(){
+			 extent.endTest(test);
+		}
+		 
+		 public static void endSuite(){
+			 extent.flush();
+			 extent.close();
+		 }
+		 
+>>>>>>> branch 'master' of https://github.com/Esribalajih/ESRI-SEL-Auto
 }
